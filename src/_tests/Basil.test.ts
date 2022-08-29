@@ -62,7 +62,7 @@ describe("Basil", () => {
 
     await dapper.useDatabase(async (db) => {
       const col = db.collection(Hoge.collectionName);
-      const document = await col.findOne<{ name: string }>({ _id: id });
+      const document = await col.findOne({ _id: id }, {});
       expect(document?.name).toBe("Taro");
     });
   });

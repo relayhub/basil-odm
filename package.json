@@ -9,7 +9,6 @@
     "@babel/preset-typescript": "^7.16.7",
     "@shelf/jest-mongodb": "^1.2.3",
     "@types/jest": "^28.1.8",
-    "@types/mongodb": "3.6",
     "@types/pluralize": "^0.0.29",
     "@types/prettier": "^2.1.6",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
@@ -55,6 +54,7 @@
     ]
   },
   "peerDependencies": {
-    "mongodb": "^3.6.5"
+    "mongodb": "3.6.5",
+    "@types/mongodb": "3.6.5"
   }
 }
