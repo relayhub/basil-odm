@@ -25,7 +25,7 @@ import {
   CountOptions,
   FindByIdOptions,
   FindManyOptions,
-  MongoDapperSettings,
+  BasilSettings,
   TargetCollection,
   UpdateQuery,
 } from "./types";
@@ -33,14 +33,14 @@ import { loadConfig } from "./Config";
 
 type ClientCallbackQueue = ((client: MongoClient) => void)[];
 
-export class MongoDapper {
+export class Basil {
   _client?: MongoClient;
-  _settings?: MongoDapperSettings;
+  _settings?: BasilSettings;
 
   _queue: ClientCallbackQueue = [];
   _timeoutId: any = undefined;
 
-  configure(settings: MongoDapperSettings) {
+  configure(settings: BasilSettings) {
     if (this._settings) {
       throw Error("This instance is already configured.");
     }
@@ -67,7 +67,7 @@ export class MongoDapper {
     return !!this._settings;
   }
 
-  get settings(): MongoDapperSettings {
+  get settings(): BasilSettings {
     if (!this._settings) {
       throw Error("Not configured. Call configure() or loadConfig().");
     }
@@ -125,7 +125,7 @@ export class MongoDapper {
       if (this._queue.length === 0) {
         this._timeoutId = setTimeout(() => {
           throw Error(
-            "TIMEOUT: Maybe MongoDapper is not initialized. Call MongoDapper.connect().",
+            "TIMEOUT: Maybe Basil is not initialized. Call Basil.connect().",
           );
         }, 3000);
       }
@@ -395,7 +395,7 @@ export class MongoDapper {
     });
   }
 
-  run<Result>(fn: (dapper: MongoDapper) => Result): Result {
+  run<Result>(fn: (dapper: Basil) => Result): Result {
     return fn(this);
   }
 
@@ -416,4 +416,4 @@ export class MongoDapper {
   }
 }
 
-const dapper: MongoDapper = new MongoDapper();
+const dapper: Basil = new Basil();

@@ -15,7 +15,7 @@ export interface CollectionSettings {
   indexes: Index[];
 }
 
-export interface MongoDapperSettings {
+export interface BasilSettings {
   connectionUri: string;
   databaseName: string;
   clientOptions: MongoClientOptions;

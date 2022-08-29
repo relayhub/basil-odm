@@ -1,10 +1,10 @@
-import { MongoDapper } from "../MongoDapper";
+import { Basil } from "../Basil";
 import { CollectionSchema, objectId, string } from "..";
 import { ObjectId } from "mongodb";
 
 jest.setTimeout(15000);
 
-const dapper: MongoDapper = new MongoDapper();
+const dapper: Basil = new Basil();
 
 beforeAll(async () => {
   const uri = process.env.MONGO_URL as string;
@@ -24,7 +24,7 @@ afterAll(async () => {
   await dapper.close();
 });
 
-describe("MongoDapper", () => {
+describe("Basil", () => {
   test("useDatabase()", async () => {
     await dapper.useDatabase((db) => {
       expect(typeof db.databaseName).toBe("string");

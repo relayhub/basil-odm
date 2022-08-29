@@ -1,11 +1,11 @@
-import { MongoDapper } from "../MongoDapper";
+import { Basil } from "../Basil";
 import { createFieldsSchema, objectId, string } from "..";
 import { ObjectId } from "mongodb";
 import { Base } from "../Base";
 
 jest.setTimeout(15000);
 
-const dapper = MongoDapper.getInstance();
+const dapper = Basil.getInstance();
 
 beforeAll(async () => {
   const uri = process.env.MONGO_URL as string;

@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import { MongoDapperSettings } from "./types";
+import { BasilSettings } from "./types";
 
 const findConfig = require("find-config");
 const { validate } = require("jsonschema");
@@ -40,7 +40,7 @@ export function validateConfig(config: unknown): asserts config is Config {
 
 export async function loadConfig(
   configPath: string = findConfig("basil.config.js"),
-): Promise<MongoDapperSettings> {
+): Promise<BasilSettings> {
   invariant(configPath, 'Couldn\'t find "basil.config.js" file.');
 
   const config = require(configPath);
@@ -52,7 +52,7 @@ export async function loadConfig(
 export async function createSettings(
   config: Config,
   { configPath }: { configPath: string },
-): Promise<MongoDapperSettings> {
+): Promise<BasilSettings> {
   return {
     connectionUri: config.connectionUri,
     databaseName: config.database,

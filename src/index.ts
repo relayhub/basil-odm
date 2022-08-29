@@ -1,4 +1,4 @@
-export * from "./MongoDapper";
+export * from "./Basil";
 export * from "./utils";
 export * from "./Config";
 export * from "./Base";

@@ -1,4 +1,4 @@
-import { MongoDapper } from "./MongoDapper";
+import { Basil } from "./Basil";
 import { createFieldsSchema } from "./schema/FieldsSchema";
 import {
   CountOptions,
@@ -26,12 +26,12 @@ import {
 export interface EntitySource<T extends { [key: string]: any }> {
   new (): T;
   getCollection(): TargetCollection<T>;
-  getMongoDapper(): MongoDapper;
+  getBasil(): Basil;
 }
 
 export class Base {
-  static getMongoDapper() {
-    return MongoDapper.getInstance();
+  static getBasil() {
+    return Basil.getInstance();
   }
 
   static getCollection(): TargetCollection<any> {
@@ -47,7 +47,7 @@ export class Base {
     id: string | ObjectId,
     options?: FindByIdOptions<T>,
   ): Promise<T | null> {
-    return this.getMongoDapper()
+    return this.getBasil()
       .findOne(
         this.getCollection(),
         { ...(options?.filter ?? {}), _id: new ObjectId(id) } as any,
@@ -65,7 +65,7 @@ export class Base {
       ...(options?.filter ?? {}),
     };
 
-    return this.getMongoDapper()
+    return this.getBasil()
       .findMany(this.getCollection(), filter as any)
       .then((result) => result.map((doc) => Object.assign(new this(), doc)));
   }
@@ -75,7 +75,7 @@ export class Base {
     filter: FilterQuery<T>,
     options?: FindOneOptions<T>,
   ): Promise<T | null> {
-    return this.getMongoDapper()
+    return this.getBasil()
       .findOne(this.getCollection(), filter, options)
       .then((result) => {
         return result ? Object.assign(new this(), result) : result;
@@ -87,7 +87,7 @@ export class Base {
     filter: FilterQuery<T>,
     options?: FindManyOptions,
   ): Promise<T[]> {
-    return this.getMongoDapper()
+    return this.getBasil()
       .findMany(this.getCollection(), filter, options)
       .then((result) => {
         return result.map((entity) => Object.assign(new this(), entity));
@@ -99,7 +99,7 @@ export class Base {
     entity: T,
     options?: ReplaceOneOptions,
   ): Promise<ReplaceWriteOpResult> {
-    return this.getMongoDapper().save(this.getCollection(), entity, options);
+    return this.getBasil().save(this.getCollection(), entity, options);
   }
 
   static deleteOne<T extends { [key: string]: any }>(
@@ -107,7 +107,7 @@ export class Base {
     filter: FilterQuery<T>,
     options?: CommonOptions,
   ): Promise<DeleteWriteOpResultObject> {
-    return this.getMongoDapper().deleteOne(
+    return this.getBasil().deleteOne(
       this.getCollection(),
       filter,
       options,
@@ -119,7 +119,7 @@ export class Base {
     entity: T,
     options?: CollectionInsertOneOptions,
   ): Promise<InsertOneWriteOpResult<WithId<T>>> {
-    return this.getMongoDapper().insertOne(
+    return this.getBasil().insertOne(
       this.getCollection(),
       entity,
       options,
@@ -130,7 +130,7 @@ export class Base {
     this: EntitySource<T>,
     options?: CountOptions<T>,
   ): Promise<number> {
-    return this.getMongoDapper().count(this.getCollection(), options);
+    return this.getBasil().count(this.getCollection(), options);
   }
 
   static updateMany<T extends { [key: string]: any }>(
@@ -139,7 +139,7 @@ export class Base {
     update: UpdateQuery,
     options?: UpdateManyOptions,
   ): Promise<UpdateWriteOpResult> {
-    return this.getMongoDapper().updateMany(
+    return this.getBasil().updateMany(
       this.getCollection(),
       filter,
       update,
@@ -153,7 +153,7 @@ export class Base {
     update: UpdateQuery,
     options?: UpdateOneOptions,
   ): Promise<UpdateWriteOpResult> {
-    return this.getMongoDapper().updateOne(
+    return this.getBasil().updateOne(
       this.getCollection(),
       filter,
       update,

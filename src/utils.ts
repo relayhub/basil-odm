@@ -1,6 +1,6 @@
 import { Db, IndexOptions } from "mongodb";
 import { format } from "prettier";
-import { MongoDapper } from "./MongoDapper";
+import { Basil } from "./Basil";
 import { Index, IndexFields, TargetCollection } from "./types";
 
 // コレクションとスキーマとインデックスを設定
@@ -53,13 +53,13 @@ export async function collectionExists(db: Db, collectionName: string) {
 export const prepareCollections = async (
   collections: TargetCollection<any>[],
 ) => {
-  const mongoDapper = await MongoDapper.connect();
+  const basil = await Basil.connect();
 
   await Promise.all(
     collections.map(async (collection) => {
       const bsonSchema = collection.schema.generateBsonSchema();
 
-      await mongoDapper.useDatabase(async (db) => {
+      await basil.useDatabase(async (db) => {
         await ensureCollection(db, collection.collectionName, {
           $jsonSchema: bsonSchema,
           indexes: collection.indexes,

@@ -6,7 +6,7 @@ test("createParams()", async () => {
       connectionUri: "",
       database: "foo",
     },
-    { configPath: __dirname + "/../../mdapper.config.js" },
+    { configPath: __dirname + "/../../basil.config.js" },
   );
   expect(params.connectionUri).toBe("");
 });
