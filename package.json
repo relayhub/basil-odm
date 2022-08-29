@@ -55,6 +55,6 @@
     ]
   },
   "peerDependencies": {
-    "mongodb": "3.6.10"
+    "mongodb": "^3.6.5"
   }
 }
