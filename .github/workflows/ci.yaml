@@ -22,23 +22,8 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
-      - name: Build
-        run: yarn build --force --no-cache
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-
       - name: Test
         run: yarn test
+
+      - name: Build
+        run: yarn build
