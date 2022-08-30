@@ -1,4 +1,4 @@
-name: "CI/CD"
+name: "CI"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  build:
+  default:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
