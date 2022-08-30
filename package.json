@@ -30,14 +30,12 @@
     "tiny-invariant": "^1.1.0"
   },
   "scripts": {
-    "prepublish": "yarn build",
-    "test": "yarn lint && yarn test:jest",
-    "test:jest": "yarn jest",
+    "test": "yarn jest",
     "build": "tsc --project .",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit --watch",
+    "typecheck": "tsc --noEmit",
     "clean": "rm -rf build dist"
   },
   "prettier": {
