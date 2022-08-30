@@ -133,7 +133,7 @@ export function generateType(node: SchemaNode): string {
       throw Error("Not implemented");
 
     default: {
-      const _: never = node; // eslint-disable-line  
+      const _: never = node;
       throw Error();
     }
   }

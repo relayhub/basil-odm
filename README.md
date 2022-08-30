@@ -1,1 +1,1 @@
-# basil-odm
+# Basil ODM [![CI](https://github.com/anatoo/basil-odm/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/anatoo/basil-odm/actions/workflows/ci.yaml)
