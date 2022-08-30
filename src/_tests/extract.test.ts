@@ -1,17 +1,17 @@
-import { createDocument } from "../extract";
-import { SchemaRoot } from "../schema/astTypes";
+import {createDocument} from '../extract';
+import {SchemaRoot} from '../schema/astTypes';
 
 type Case = [SchemaRoot, Record<string, unknown>, Record<string, unknown>];
 
 const successCases: Case[] = [
   [
     {
-      kind: "object",
+      kind: 'object',
       props: {
         name: {
-          kind: "field",
+          kind: 'field',
           node: {
-            kind: "string",
+            kind: 'string',
           },
           isOptional: false,
         },
@@ -19,10 +19,10 @@ const successCases: Case[] = [
       allowAdditionalProps: false,
     },
     {
-      name: "foobar",
+      name: 'foobar',
     },
     {
-      name: "foobar",
+      name: 'foobar',
     },
   ],
 ];
@@ -30,12 +30,12 @@ const successCases: Case[] = [
 const failCases: Case[] = [
   [
     {
-      kind: "object",
+      kind: 'object',
       props: {
         name: {
-          kind: "field",
+          kind: 'field',
           node: {
-            kind: "string",
+            kind: 'string',
           },
           isOptional: false,
         },
@@ -43,25 +43,22 @@ const failCases: Case[] = [
       allowAdditionalProps: false,
     },
     {
-      name: "foobar",
-      _id: "string",
+      name: 'foobar',
+      _id: 'string',
     },
     {
-      name: "foobar",
-      _id: "string",
+      name: 'foobar',
+      _id: 'string',
     },
   ],
 ];
 
-test.each(successCases)("createDocument() #%#", (root, target, expected) => {
+test.each(successCases)('createDocument() #%#', (root, target, expected) => {
   const document = createDocument(target, root);
   expect(document).toEqual(expected);
 });
 
-test.each(failCases)(
-  "createDocument() should fail #%#",
-  (root, target, expected) => {
-    const document = createDocument(target, root);
-    expect(document).not.toEqual(expected);
-  },
-);
+test.each(failCases)('createDocument() should fail #%#', (root, target, expected) => {
+  const document = createDocument(target, root);
+  expect(document).not.toEqual(expected);
+});

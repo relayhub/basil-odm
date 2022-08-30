@@ -1,12 +1,5 @@
-import {
-  Db,
-  FilterQuery,
-  FindOneOptions,
-  MongoClientOptions,
-  UpdateManyOptions,
-  UpdateOneOptions,
-} from "mongodb";
-import { FieldsSchema } from "./schema/FieldsSchema";
+import {Db, FilterQuery, FindOneOptions, MongoClientOptions, UpdateManyOptions, UpdateOneOptions} from 'mongodb';
+import {FieldsSchema} from './schema/FieldsSchema';
 
 export interface CollectionSettings {
   source?: string;
@@ -29,7 +22,7 @@ export type Options = {
   database?: Db;
 };
 
-export type IndexFields = { [key: string]: -1 | 1 };
+export type IndexFields = {[key: string]: -1 | 1};
 
 export type IndexOptions = {
   unique?: boolean;
@@ -44,7 +37,7 @@ export type Index = {
 export type FindManyOptions = {
   limit?: number;
   skip?: number;
-  sort?: { [key: string]: number };
+  sort?: {[key: string]: number};
 };
 
 export interface UpdateManyParams<E> {
@@ -84,7 +77,7 @@ export type CollectionDef = {
   entityName: string | null;
 };
 
-export type TargetCollection<T extends { [key: string]: any }> = {
+export type TargetCollection<T extends {[key: string]: any}> = {
   _type?: T;
   schema: FieldsSchema;
   collectionName: string;

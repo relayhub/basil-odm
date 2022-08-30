@@ -1,34 +1,34 @@
-import { createSettings, validateConfig } from "../Config";
+import {createSettings, validateConfig} from '../Config';
 
-test("createParams()", async () => {
+test('createParams()', async () => {
   const params = await createSettings(
     {
-      connectionUri: "",
-      database: "foo",
+      connectionUri: '',
+      database: 'foo',
     },
-    { configPath: __dirname + "/../../basil.config.js" },
+    {configPath: __dirname + '/../../basil.config.js'}
   );
-  expect(params.connectionUri).toBe("");
+  expect(params.connectionUri).toBe('');
 });
 
-test("validateConfig()", () => {
+test('validateConfig()', () => {
   expect(() =>
     validateConfig({
-      connection: "",
+      connection: '',
     })
   ).toThrowError();
 
   expect(() =>
     validateConfig({
-      connectionUri: "",
-      databaseName: "",
+      connectionUri: '',
+      databaseName: '',
     })
   ).toThrowError();
 
   expect(
     validateConfig({
-      connectionUri: "mongodb://127.0.0.1:12702/",
-      database: "foo",
-    }),
+      connectionUri: 'mongodb://127.0.0.1:12702/',
+      database: 'foo',
+    })
   ).toBe(undefined);
 });

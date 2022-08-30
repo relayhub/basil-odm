@@ -1,11 +1,11 @@
-import { enums } from "../../schema/enums";
-import { generateDocumentTypes } from "../codeGenerator";
-import { CollectionSchema } from "../../schema/CollectionSchema";
-import { format } from "../../_tests/testUtils";
-import { objectId } from "../../schema/objectId";
-import { date } from "../../schema/date";
-import { boolean } from "../../schema/boolean";
-import { string } from "../../schema/string";
+import {enums} from '../../schema/enums';
+import {generateDocumentTypes} from '../codeGenerator';
+import {CollectionSchema} from '../../schema/CollectionSchema';
+import {format} from '../../_tests/testUtils';
+import {objectId} from '../../schema/objectId';
+import {date} from '../../schema/date';
+import {boolean} from '../../schema/boolean';
+import {string} from '../../schema/string';
 
 const table = [
   [
@@ -14,13 +14,13 @@ const table = [
         _id: objectId(),
         createdAt: date(),
         flag: boolean(),
-        status: enums({ values: ["created", "deleted"] }),
+        status: enums({values: ['created', 'deleted']}),
         name: string(),
         sub: {
           name: string(),
         },
       },
-      collectionName: "docs",
+      collectionName: 'docs',
     }),
     `export class Doc extends basil.Base {
       constructor(params?: Partial<Doc>) {
@@ -46,7 +46,7 @@ const table = [
   ],
 ] as const;
 
-test.each(table)("generateDocumentTypes() #%#", (collection, expected) => {
+test.each(table)('generateDocumentTypes() #%#', (collection, expected) => {
   const code = generateDocumentTypes([collection]);
   expect(format(code)).toBe(format(expected));
 });

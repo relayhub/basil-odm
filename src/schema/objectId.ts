@@ -1,5 +1,5 @@
-import { SchemaFragment } from "./types";
-import { schemaFragmentFrag } from "./symbols";
+import {SchemaFragment} from './types';
+import {schemaFragmentFrag} from './symbols';
 
 function originalObjectId(): SchemaFragment {
   return {
@@ -7,13 +7,10 @@ function originalObjectId(): SchemaFragment {
 
     buildASTNode() {
       return {
-        kind: "objectId",
+        kind: 'objectId',
       };
     },
   };
 }
 
-export const objectId: typeof originalObjectId & SchemaFragment = Object.assign(
-  originalObjectId,
-  originalObjectId(),
-);
+export const objectId: typeof originalObjectId & SchemaFragment = Object.assign(originalObjectId, originalObjectId());

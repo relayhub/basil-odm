@@ -1,6 +1,6 @@
-import { SchemaFragment, SchemaLike } from "./types";
-import { getSchemaFragment } from "./utils";
-import { optionalPropertyFlag, schemaFragmentFrag } from "./symbols";
+import {SchemaFragment, SchemaLike} from './types';
+import {getSchemaFragment} from './utils';
+import {optionalPropertyFlag, schemaFragmentFrag} from './symbols';
 
 export function nullable<T extends SchemaLike>(schemaLike: T): SchemaFragment {
   const fragment = getSchemaFragment(schemaLike);
@@ -10,8 +10,8 @@ export function nullable<T extends SchemaLike>(schemaLike: T): SchemaFragment {
 
     buildASTNode() {
       return {
-        kind: "union",
-        items: [{ kind: "null" }, fragment.buildASTNode()],
+        kind: 'union',
+        items: [{kind: 'null'}, fragment.buildASTNode()],
       };
     },
 

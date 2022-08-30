@@ -1,5 +1,5 @@
-import { SchemaFragment } from "./types";
-import { schemaFragmentFrag } from "./symbols";
+import {SchemaFragment} from './types';
+import {schemaFragmentFrag} from './symbols';
 
 export function object(): SchemaFragment {
   return {
@@ -7,7 +7,7 @@ export function object(): SchemaFragment {
 
     buildASTNode() {
       return {
-        kind: "object",
+        kind: 'object',
         props: {},
         allowAdditionalProps: true,
       };

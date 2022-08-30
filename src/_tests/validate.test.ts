@@ -1,55 +1,52 @@
-import { SchemaNode } from "../schema/astTypes";
-import { validate } from "../validate";
+import {SchemaNode} from '../schema/astTypes';
+import {validate} from '../validate';
 
 type Case = [SchemaNode, unknown];
 
 const successCases: Case[] = [
   [
     {
-      kind: "string",
+      kind: 'string',
     },
-    "foobar",
+    'foobar',
   ],
   [
     {
-      kind: "string",
+      kind: 'string',
       maxLength: 3,
     },
-    "foo",
+    'foo',
   ],
 ];
 
 const failCases: Case[] = [
   [
     {
-      kind: "string",
+      kind: 'string',
     },
     1,
   ],
   [
     {
-      kind: "string",
+      kind: 'string',
       maxLength: 2,
     },
-    "foo",
+    'foo',
   ],
 ];
 
-test.each(successCases)("validate() #%#", (node, target) => {
+test.each(successCases)('validate() #%#', (node, target) => {
   const messages = validate(target, node, []);
   expect(messages.length).toEqual(0);
 });
 
-test.each(failCases)(
-  "validate() should generate error messages #%#",
-  (node, target) => {
-    const messages = validate(target, node, []);
-    expect(messages.length).toBeGreaterThan(0);
-  },
-);
+test.each(failCases)('validate() should generate error messages #%#', (node, target) => {
+  const messages = validate(target, node, []);
+  expect(messages.length).toBeGreaterThan(0);
+});
 
-test("validate(string)", () => {
-  const target = "hoge";
-  const errors = validate(target, { kind: "string", maxLength: 3 }, []);
+test('validate(string)', () => {
+  const target = 'hoge';
+  const errors = validate(target, {kind: 'string', maxLength: 3}, []);
   expect(errors[0].message).toBe('String length exceeds "maxLength"');
 });

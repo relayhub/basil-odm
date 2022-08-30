@@ -1,7 +1,7 @@
-import { Basil } from "../Basil";
-import { createFieldsSchema, objectId, string } from "..";
-import { ObjectId } from "mongodb";
-import { Base } from "../Base";
+import {Basil} from '../Basil';
+import {createFieldsSchema, objectId, string} from '..';
+import {ObjectId} from 'mongodb';
+import {Base} from '../Base';
 
 jest.setTimeout(15000);
 
@@ -12,7 +12,7 @@ beforeAll(async () => {
 
   basil.configure({
     connectionUri: uri,
-    databaseName: "db",
+    databaseName: 'db',
     clientOptions: {
       useUnifiedTopology: true,
       useNewUrlParser: true,
@@ -25,15 +25,15 @@ afterAll(async () => {
   await basil.close();
 });
 
-describe("Base", () => {
-  test("findById(), findOne()", async () => {
+describe('Base', () => {
+  test('findById(), findOne()', async () => {
     class User extends Base {
       _id = new ObjectId();
-      name = "Mitsunori Kubota";
+      name = 'Mitsunori Kubota';
 
       static getCollection() {
         return {
-          collectionName: "users",
+          collectionName: 'users',
           indexes: [],
           schema: createFieldsSchema({
             _id: objectId(),
@@ -54,7 +54,7 @@ describe("Base", () => {
     }
 
     {
-      const result = await User.findOne({ _id: user._id });
+      const result = await User.findOne({_id: user._id});
       expect(result?.name).toBe(user.name);
       expect(result instanceof User).toBe(true);
     }

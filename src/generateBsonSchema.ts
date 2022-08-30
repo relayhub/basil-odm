@@ -1,31 +1,31 @@
-import { SchemaNode } from "./schema/astTypes";
-import { inspect } from "util";
+import {SchemaNode} from './schema/astTypes';
+import {inspect} from 'util';
 
 export function generateBsonSchema(node: SchemaNode): Record<string, any> {
   switch (node.kind) {
-    case "union":
+    case 'union':
       return {
         anyOf: node.items.map((item) => generateBsonSchema(item)),
       };
 
-    case "timestamp":
-      throw error("Not implemented");
+    case 'timestamp':
+      throw error('Not implemented');
 
-    case "string":
+    case 'string':
       return {
-        bsonType: "string",
+        bsonType: 'string',
       };
 
-    case "reference":
-      throw error("Not implemented");
+    case 'reference':
+      throw error('Not implemented');
 
-    case "objectId":
+    case 'objectId':
       return {
-        bsonType: "objectId",
+        bsonType: 'objectId',
       };
 
-    case "object":
-      const properties: { [key: string]: any } = {};
+    case 'object':
+      const properties: {[key: string]: any} = {};
       const required: string[] = [];
 
       Object.keys(node.props).forEach((key) => {
@@ -38,44 +38,44 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
       });
 
       return {
-        bsonType: "object",
-        ...(Object.keys(node.props).length === 0 ? {} : { properties }),
+        bsonType: 'object',
+        ...(Object.keys(node.props).length === 0 ? {} : {properties}),
         additionalProperties: Object.keys(node.props).length === 0,
-        ...(required.length > 0 ? { required } : {}),
+        ...(required.length > 0 ? {required} : {}),
       };
 
-    case "number":
+    case 'number':
       return {
-        bsonType: "number",
+        bsonType: 'number',
       };
 
-    case "null":
-      return { bsonType: "null" };
+    case 'null':
+      return {bsonType: 'null'};
 
-    case "boolean":
-      return { bsonType: "bool" };
+    case 'boolean':
+      return {bsonType: 'bool'};
 
-    case "literal":
-      return { enum: [node.value] };
+    case 'literal':
+      return {enum: [node.value]};
 
-    case "enum":
-      return { enum: Object.values(node.values) };
+    case 'enum':
+      return {enum: Object.values(node.values)};
 
-    case "date":
-      return { bsonType: "date" };
+    case 'date':
+      return {bsonType: 'date'};
 
-    case "binary":
-      throw error("Not implemented");
+    case 'binary':
+      throw error('Not implemented');
 
-    case "array":
-      return { bsonType: "array", items: generateBsonSchema(node.item) };
+    case 'array':
+      return {bsonType: 'array', items: generateBsonSchema(node.item)};
 
     default:
       const _: never = node;
       throw Error();
   }
 
-  function error(message: string = "") {
+  function error(message: string = '') {
     return Error(`${message}\nschema = ${inspect(node)}`);
   }
 }

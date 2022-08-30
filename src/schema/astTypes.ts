@@ -10,17 +10,10 @@
 
 export type SchemaRoot = ObjectNode;
 
-export type SchemaNode =
-  | ObjectNode
-  | ArrayNode
-  | Union
-  | Value
-  | Literal
-  | Enum
-  | Reference;
+export type SchemaNode = ObjectNode | ArrayNode | Union | Value | Literal | Enum | Reference;
 
 export type ObjectNode = {
-  kind: "object";
+  kind: 'object';
   props: {
     [key: string]: Field;
   };
@@ -28,38 +21,38 @@ export type ObjectNode = {
 };
 
 export type Field = {
-  kind: "field";
+  kind: 'field';
   isOptional: boolean;
   node: SchemaNode;
 };
 
 // 他のドキュメントを参照する
 export type Reference = {
-  kind: "reference";
+  kind: 'reference';
   node: StringValue | ObjectIdValue;
   collectionName?: string; // 省略された場合には、自身のコレクションを参照する
   path: string; // field名をdotで繋げたもの。 例: 'workspace.id'
 };
 
 export type ArrayNode = {
-  kind: "array";
+  kind: 'array';
   item: SchemaNode;
 };
 
 export type Union = {
-  kind: "union";
+  kind: 'union';
   items: SchemaNode[];
 };
 
 export type LiteralValue = string | boolean | null | number;
 
 export type Literal = {
-  kind: "literal";
+  kind: 'literal';
   value: LiteralValue;
 };
 
 export type Enum = {
-  kind: "enum";
+  kind: 'enum';
   values: Record<string, LiteralValue>;
 };
 
@@ -74,36 +67,36 @@ export type Value =
   | BinaryValue;
 
 export type StringValue = {
-  kind: "string";
+  kind: 'string';
   maxLength?: number;
 };
 
 export type NumberValue = {
-  kind: "number";
+  kind: 'number';
 };
 
 export type ObjectIdValue = {
-  kind: "objectId";
+  kind: 'objectId';
 };
 
 export type NullValue = {
-  kind: "null";
+  kind: 'null';
 };
 
 export type BooleanValue = {
-  kind: "boolean";
+  kind: 'boolean';
 };
 
 export type DateValue = {
-  kind: "date";
+  kind: 'date';
 };
 
 export type TimestampValue = {
-  kind: "timestamp";
+  kind: 'timestamp';
 };
 
 export type BinaryValue = {
-  kind: "binary";
+  kind: 'binary';
 };
 
 // TODO decimal, int, doubleあたりのデータ型を追加する

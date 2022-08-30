@@ -1,5 +1,5 @@
-import { SchemaFragment } from "./types";
-import { schemaFragmentFrag } from "./symbols";
+import {SchemaFragment} from './types';
+import {schemaFragmentFrag} from './symbols';
 
 function originalBoolean(): SchemaFragment {
   return {
@@ -7,13 +7,10 @@ function originalBoolean(): SchemaFragment {
 
     buildASTNode() {
       return {
-        kind: "boolean",
+        kind: 'boolean',
       };
     },
   };
 }
 
-export const boolean: typeof originalBoolean & SchemaFragment = Object.assign(
-  originalBoolean,
-  originalBoolean(),
-);
+export const boolean: typeof originalBoolean & SchemaFragment = Object.assign(originalBoolean, originalBoolean());

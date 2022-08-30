@@ -1,8 +1,8 @@
-import { literal } from "../literal";
+import {literal} from '../literal';
 
-test("literal()", () => {
-  expect(literal("foobar").buildASTNode()).toEqual({
-    kind: "literal",
-    value: "foobar",
+test('literal()', () => {
+  expect(literal('foobar').buildASTNode()).toEqual({
+    kind: 'literal',
+    value: 'foobar',
   });
 });
