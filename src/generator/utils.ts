@@ -69,9 +69,10 @@ export function generateDefaultValue(node: SchemaNode): string {
     case "reference":
       throw Error("Not implemented");
 
-    default:
+    default: {
       const _: never = node;
       throw Error();
+    }
   }
 }
 
@@ -131,9 +132,10 @@ export function generateType(node: SchemaNode): string {
     case "reference":
       throw Error("Not implemented");
 
-    default:
-      const _: never = node;
+    default: {
+      const _: never = node; // eslint-disable-line  
       throw Error();
+    }
   }
 }
 
