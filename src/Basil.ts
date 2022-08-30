@@ -395,25 +395,25 @@ export class Basil {
     });
   }
 
-  run<Result>(fn: (dapper: Basil) => Result): Result {
+  run<Result>(fn: (basil: Basil) => Result): Result {
     return fn(this);
   }
 
   static getInstance() {
-    return dapper;
+    return basil;
   }
 
   static async connect(configPath?: string) {
-    if (!dapper.isConfigured()) {
-      await dapper.loadConfig(configPath);
+    if (!basil.isConfigured()) {
+      await basil.loadConfig(configPath);
     }
 
-    if (!dapper.isConnected()) {
-      await dapper.connect();
+    if (!basil.isConnected()) {
+      await basil.connect();
     }
 
-    return dapper;
+    return basil;
   }
 }
 
-const dapper: Basil = new Basil();
+const basil: Basil = new Basil();

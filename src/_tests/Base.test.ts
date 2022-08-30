@@ -5,12 +5,12 @@ import { Base } from "../Base";
 
 jest.setTimeout(15000);
 
-const dapper = Basil.getInstance();
+const basil = Basil.getInstance();
 
 beforeAll(async () => {
   const uri = process.env.MONGO_URL as string;
 
-  dapper.configure({
+  basil.configure({
     connectionUri: uri,
     databaseName: "db",
     clientOptions: {
@@ -18,11 +18,11 @@ beforeAll(async () => {
       useNewUrlParser: true,
     },
   });
-  await dapper.connect();
+  await basil.connect();
 });
 
 afterAll(async () => {
-  await dapper.close();
+  await basil.close();
 });
 
 describe("Base", () => {
@@ -45,7 +45,7 @@ describe("Base", () => {
 
     const user = new User();
     expect(await User.findById(user._id)).toBe(null);
-    await dapper.insertOne(User.getCollection(), user);
+    await basil.insertOne(User.getCollection(), user);
 
     {
       const result = await User.findById(user._id);
