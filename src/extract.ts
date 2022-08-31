@@ -1,6 +1,6 @@
-import {SchemaNode, SchemaRoot} from './schema/astTypes';
-import {ObjectId} from 'mongodb';
-import {inspect} from 'util';
+import { SchemaNode, SchemaRoot } from './schema/astTypes';
+import { ObjectId } from 'mongodb';
+import { inspect } from 'util';
 
 export function createDocument(entity: Record<string, unknown>, rootNode: SchemaRoot): Record<string, any> {
   return extract(entity, rootNode, []);

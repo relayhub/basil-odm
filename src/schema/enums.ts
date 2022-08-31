@@ -1,9 +1,9 @@
-import {schemaFragmentFrag} from './symbols';
-import {SchemaFragment} from './types';
-import {inspect} from 'util';
+import { schemaFragmentFrag } from './symbols';
+import { SchemaFragment } from './types';
+import { inspect } from 'util';
 
-export function enums(props: {values: Record<string, Value> | Record<number, Value>}): SchemaFragment {
-  const {values} = props;
+export function enums(props: { values: Record<string, Value> | Record<number, Value> }): SchemaFragment {
+  const { values } = props;
 
   return new Enum({
     values: Array.isArray(values)
@@ -27,7 +27,7 @@ class Enum implements SchemaFragment {
   [schemaFragmentFrag]: true = true as const;
 
   constructor(props: Props) {
-    const {values} = props;
+    const { values } = props;
 
     Object.values(values).forEach((value) => {
       if (typeof value !== 'string' && typeof value !== 'boolean' && typeof value !== 'number' && value !== null) {

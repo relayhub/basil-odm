@@ -1,6 +1,6 @@
-import {SchemaFragment} from './types';
-import {inspect} from 'util';
-import {schemaFragmentFrag} from './symbols';
+import { SchemaFragment } from './types';
+import { inspect } from 'util';
+import { schemaFragmentFrag } from './symbols';
 
 export function literal(value: string | boolean | number | null): SchemaFragment {
   if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean' && value !== null) {

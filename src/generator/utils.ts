@@ -1,5 +1,5 @@
-import {ObjectNode, SchemaNode} from '../schema/astTypes';
-import {singular} from 'pluralize';
+import { ObjectNode, SchemaNode } from '../schema/astTypes';
+import { singular } from 'pluralize';
 
 export function generateLiteralType(value: null | string | number | boolean): string {
   return generateLiteralValue(value);

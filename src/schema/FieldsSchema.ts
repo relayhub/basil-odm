@@ -1,10 +1,10 @@
-import {getSchemaFragment} from './utils';
-import {literal} from './literal';
-import {Document, Entity, ObjectSchemaSource, SchemaFragment, SchemaFragmentAggregate, SchemaLike} from './types';
-import {Field, SchemaRoot} from './astTypes';
-import {createDocument, createEntity} from '../extract';
-import {generateBsonSchema} from '../generateBsonSchema';
-import {getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag} from './symbols';
+import { getSchemaFragment } from './utils';
+import { literal } from './literal';
+import { Document, Entity, ObjectSchemaSource, SchemaFragment, SchemaFragmentAggregate, SchemaLike } from './types';
+import { Field, SchemaRoot } from './astTypes';
+import { createDocument, createEntity } from '../extract';
+import { generateBsonSchema } from '../generateBsonSchema';
+import { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './symbols';
 
 (String.prototype as unknown as SchemaFragmentAggregate)[getSchemaFragmentSymbol] = function (this: string) {
   return literal(this);

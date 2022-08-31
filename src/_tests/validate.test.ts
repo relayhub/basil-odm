@@ -1,5 +1,5 @@
-import {SchemaNode} from '../schema/astTypes';
-import {validate} from '../validate';
+import { SchemaNode } from '../schema/astTypes';
+import { validate } from '../validate';
 
 type Case = [SchemaNode, unknown];
 
@@ -47,6 +47,6 @@ test.each(failCases)('validate() should generate error messages #%#', (node, tar
 
 test('validate(string)', () => {
   const target = 'hoge';
-  const errors = validate(target, {kind: 'string', maxLength: 3}, []);
+  const errors = validate(target, { kind: 'string', maxLength: 3 }, []);
   expect(errors[0].message).toBe('String length exceeds "maxLength"');
 });

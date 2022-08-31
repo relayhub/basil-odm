@@ -1,8 +1,8 @@
 import invariant from 'tiny-invariant';
-import {BasilSettings} from './types';
+import { BasilSettings } from './types';
 
 const findConfig = require('find-config');
-const {validate} = require('jsonschema');
+const { validate } = require('jsonschema');
 
 /*
 Example config file:
@@ -27,14 +27,14 @@ export function validateConfig(config: unknown): asserts config is Config {
     {
       type: 'object',
       properties: {
-        connectionUri: {type: 'string'},
-        database: {type: 'string'},
-        mongoClientOptions: {type: 'object', additionalProperties: true},
+        connectionUri: { type: 'string' },
+        database: { type: 'string' },
+        mongoClientOptions: { type: 'object', additionalProperties: true },
       },
       additionalProperties: false,
       required: ['connectionUri', 'database'],
     },
-    {throwError: true}
+    { throwError: true }
   );
 }
 
@@ -44,10 +44,10 @@ export async function loadConfig(configPath: string = findConfig('basil.config.j
   const config = require(configPath);
   validateConfig(config);
 
-  return await createSettings(config, {configPath});
+  return await createSettings(config, { configPath });
 }
 
-export async function createSettings(config: Config, {configPath}: {configPath: string}): Promise<BasilSettings> {
+export async function createSettings(config: Config, { configPath }: { configPath: string }): Promise<BasilSettings> {
   return {
     connectionUri: config.connectionUri,
     databaseName: config.database,

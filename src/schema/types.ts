@@ -1,8 +1,8 @@
-import {SchemaNode} from './astTypes';
-import {getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag} from './symbols';
+import { SchemaNode } from './astTypes';
+import { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './symbols';
 
-export type Entity = {[key: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
-export type Document = {[key: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
+export type Entity = { [key: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
+export type Document = { [key: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export type EntityFragment = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 export type DocumentFragment = any; // eslint-disable-line @typescript-eslint/no-explicit-any

@@ -56,15 +56,7 @@ export type Enum = {
   values: Record<string, LiteralValue>;
 };
 
-export type Value =
-  | StringValue
-  | NumberValue
-  | ObjectIdValue
-  | NullValue
-  | BooleanValue
-  | DateValue
-  | TimestampValue
-  | BinaryValue;
+export type Value = StringValue | NumberValue | ObjectIdValue | NullValue | BooleanValue | DateValue | TimestampValue | BinaryValue;
 
 export type StringValue = {
   kind: 'string';

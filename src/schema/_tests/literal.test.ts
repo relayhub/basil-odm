@@ -1,4 +1,4 @@
-import {literal} from '../literal';
+import { literal } from '../literal';
 
 test('literal()', () => {
   expect(literal('foobar').buildASTNode()).toEqual({

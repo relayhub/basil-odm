@@ -1,12 +1,12 @@
-import {SchemaFragment} from './types';
-import {schemaFragmentFrag} from './symbols';
+import { SchemaFragment } from './types';
+import { schemaFragmentFrag } from './symbols';
 
 function originalNumber(): SchemaFragment {
   return {
     [schemaFragmentFrag]: true,
 
     buildASTNode() {
-      return {kind: 'number'};
+      return { kind: 'number' };
     },
   };
 }

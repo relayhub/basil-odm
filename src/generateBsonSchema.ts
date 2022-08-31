@@ -1,5 +1,5 @@
-import {SchemaNode} from './schema/astTypes';
-import {inspect} from 'util';
+import { SchemaNode } from './schema/astTypes';
+import { inspect } from 'util';
 
 export function generateBsonSchema(node: SchemaNode): Record<string, any> {
   switch (node.kind) {
@@ -25,7 +25,7 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
       };
 
     case 'object':
-      const properties: {[key: string]: any} = {};
+      const properties: { [key: string]: any } = {};
       const required: string[] = [];
 
       Object.keys(node.props).forEach((key) => {
@@ -39,9 +39,9 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
 
       return {
         bsonType: 'object',
-        ...(Object.keys(node.props).length === 0 ? {} : {properties}),
+        ...(Object.keys(node.props).length === 0 ? {} : { properties }),
         additionalProperties: Object.keys(node.props).length === 0,
-        ...(required.length > 0 ? {required} : {}),
+        ...(required.length > 0 ? { required } : {}),
       };
 
     case 'number':
@@ -50,25 +50,25 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
       };
 
     case 'null':
-      return {bsonType: 'null'};
+      return { bsonType: 'null' };
 
     case 'boolean':
-      return {bsonType: 'bool'};
+      return { bsonType: 'bool' };
 
     case 'literal':
-      return {enum: [node.value]};
+      return { enum: [node.value] };
 
     case 'enum':
-      return {enum: Object.values(node.values)};
+      return { enum: Object.values(node.values) };
 
     case 'date':
-      return {bsonType: 'date'};
+      return { bsonType: 'date' };
 
     case 'binary':
       throw error('Not implemented');
 
     case 'array':
-      return {bsonType: 'array', items: generateBsonSchema(node.item)};
+      return { bsonType: 'array', items: generateBsonSchema(node.item) };
 
     default:
       const _: never = node;

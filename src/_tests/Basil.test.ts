@@ -1,6 +1,6 @@
-import {Basil} from '../Basil';
-import {CollectionSchema, objectId, string} from '..';
-import {ObjectId} from 'mongodb';
+import { Basil } from '../Basil';
+import { CollectionSchema, objectId, string } from '..';
+import { ObjectId } from 'mongodb';
 
 jest.setTimeout(15000);
 
@@ -34,10 +34,10 @@ describe('Basil', () => {
       const col = db.collection('hoge');
 
       await col.insertMany([
-        {_id: new ObjectId(), tag: 'apple'},
-        {_id: new ObjectId(), tag: 'pineapple'},
-        {_id: new ObjectId(), tag: 'pen'},
-        {_id: new ObjectId(), tag: 'apple'},
+        { _id: new ObjectId(), tag: 'apple' },
+        { _id: new ObjectId(), tag: 'pineapple' },
+        { _id: new ObjectId(), tag: 'pen' },
+        { _id: new ObjectId(), tag: 'apple' },
       ]);
 
       expect(await col.countDocuments()).toBe(4);
@@ -62,7 +62,7 @@ describe('Basil', () => {
 
     await basil.useDatabase(async (db) => {
       const col = db.collection(Hoge.collectionName);
-      const document = await col.findOne({_id: id}, {});
+      const document = await col.findOne({ _id: id }, {});
       expect(document?.name).toBe('Taro');
     });
   });
@@ -74,14 +74,14 @@ describe('Basil', () => {
 
     await basil.useCollection(hoge, async (col) => {
       await col.insertMany([
-        {_id: new ObjectId(), tag: 'apple'},
-        {_id: new ObjectId(), tag: 'pineapple'},
-        {_id: new ObjectId(), tag: 'pen'},
-        {_id: new ObjectId(), tag: 'apple'},
+        { _id: new ObjectId(), tag: 'apple' },
+        { _id: new ObjectId(), tag: 'pineapple' },
+        { _id: new ObjectId(), tag: 'pen' },
+        { _id: new ObjectId(), tag: 'apple' },
       ]);
     });
 
-    const result = await basil.aggregate<{count: number}>(hoge, [
+    const result = await basil.aggregate<{ count: number }>(hoge, [
       {
         $count: 'count',
       },
@@ -95,13 +95,13 @@ describe('Basil', () => {
 
   test('deleteOne()', () =>
     basil.useDatabase(async (db) => {
-      const hoge = new CollectionSchema({collectionName: 'hoge'});
+      const hoge = new CollectionSchema({ collectionName: 'hoge' });
 
       const col = db.collection(hoge.collectionName);
-      await col.insertOne({name: 'hoge'});
-      await col.insertOne({name: 'fuga'});
+      await col.insertOne({ name: 'hoge' });
+      await col.insertOne({ name: 'fuga' });
       expect(await col.countDocuments()).toBe(2);
-      await basil.deleteOne(hoge, {name: 'hoge'});
+      await basil.deleteOne(hoge, { name: 'hoge' });
       expect(await col.countDocuments()).toBe(1);
     }));
 

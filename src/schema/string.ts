@@ -1,7 +1,7 @@
-import {SchemaFragment} from './types';
-import {schemaFragmentFrag} from './symbols';
+import { SchemaFragment } from './types';
+import { schemaFragmentFrag } from './symbols';
 
-function originalString(options: {maxLength?: number} = {}): SchemaFragment {
+function originalString(options: { maxLength?: number } = {}): SchemaFragment {
   return {
     [schemaFragmentFrag]: true,
 

@@ -1,6 +1,6 @@
-import {CollectionDef, Index} from '../types';
-import {createFieldsSchema, FieldsSchema} from './FieldsSchema';
-import {ObjectSchemaSource} from './types';
+import { CollectionDef, Index } from '../types';
+import { createFieldsSchema, FieldsSchema } from './FieldsSchema';
+import { ObjectSchemaSource } from './types';
 
 interface Props {
   collectionName: string;
@@ -16,7 +16,7 @@ export class CollectionSchema implements CollectionDef {
   _entityName: string | null = null;
 
   constructor(props: Props) {
-    const {collectionName, fields = {}, indexes = [], entityName = null} = props;
+    const { collectionName, fields = {}, indexes = [], entityName = null } = props;
 
     this._collectionName = collectionName;
     this._fields = createFieldsSchema(fields);

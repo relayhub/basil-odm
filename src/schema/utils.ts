@@ -1,16 +1,8 @@
-import {inspect} from 'util';
-import {
-  DeserializationContext,
-  SchemaFragment,
-  SchemaFragmentAggregate,
-  SchemaLike,
-  SerializationContext,
-  TypeGeneratorContext,
-  ValidationContext,
-} from './types';
-import {literal} from './literal';
-import {getSchemaFragmentSymbol, schemaFragmentFrag} from './symbols';
-import {EOL} from 'os';
+import { inspect } from 'util';
+import { DeserializationContext, SchemaFragment, SchemaFragmentAggregate, SchemaLike, SerializationContext, TypeGeneratorContext, ValidationContext } from './types';
+import { literal } from './literal';
+import { getSchemaFragmentSymbol, schemaFragmentFrag } from './symbols';
+import { EOL } from 'os';
 
 export class TypeGeneratorContextImpl implements TypeGeneratorContext {
   importMap: Map<
@@ -25,7 +17,7 @@ export class TypeGeneratorContextImpl implements TypeGeneratorContext {
   import(name: string, from: string): void {
     const key = `${name}:${from}`;
     if (!this.importMap.has(key)) {
-      this.importMap.set(key, {name, from});
+      this.importMap.set(key, { name, from });
 
       if (this.nameSet.has(name)) {
         throw Error(`Duplicated import name: ${name}`);
@@ -37,7 +29,7 @@ export class TypeGeneratorContextImpl implements TypeGeneratorContext {
 
   generateHeaderCode(): string {
     const lines: string[] = [];
-    for (const {name, from} of this.importMap.values()) {
+    for (const { name, from } of this.importMap.values()) {
       lines.push(`import {${name}} from ${JSON.stringify(from)};`);
     }
     return lines.join(EOL);
@@ -50,13 +42,7 @@ export function isSchemaFragment(schemaFragment: unknown): schemaFragment is Sch
 
 export class SerializationError extends Error {
   constructor(message: string, context: SerializationContext) {
-    super(
-      `${message}\nentity: ${JSON.stringify(context.entity, null, '  ')}\npath: ${JSON.stringify(
-        context.path,
-        null,
-        '  '
-      )}`
-    );
+    super(`${message}\nentity: ${JSON.stringify(context.entity, null, '  ')}\npath: ${JSON.stringify(context.path, null, '  ')}`);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
   }
@@ -64,13 +50,7 @@ export class SerializationError extends Error {
 
 export class DeserializationError extends Error {
   constructor(message: string, context: DeserializationContext) {
-    super(
-      `${message}\ndocument: ${JSON.stringify(context.document, null, '  ')}\npath: ${JSON.stringify(
-        context.path,
-        null,
-        '  '
-      )}`
-    );
+    super(`${message}\ndocument: ${JSON.stringify(context.document, null, '  ')}\npath: ${JSON.stringify(context.path, null, '  ')}`);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
   }
@@ -78,13 +58,7 @@ export class DeserializationError extends Error {
 
 export class ValidationError extends Error {
   constructor(message: string, context: ValidationContext) {
-    super(
-      `${message}\nentity: ${JSON.stringify(context.entity, null, '  ')}\npath: ${JSON.stringify(
-        context.path,
-        null,
-        '  '
-      )}`
-    );
+    super(`${message}\nentity: ${JSON.stringify(context.entity, null, '  ')}\npath: ${JSON.stringify(context.path, null, '  ')}`);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
   }

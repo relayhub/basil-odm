@@ -1,4 +1,4 @@
-import {createSettings, validateConfig} from '../Config';
+import { createSettings, validateConfig } from '../Config';
 
 test('createParams()', async () => {
   const params = await createSettings(
@@ -6,7 +6,7 @@ test('createParams()', async () => {
       connectionUri: '',
       database: 'foo',
     },
-    {configPath: __dirname + '/../../basil.config.js'}
+    { configPath: __dirname + '/../../basil.config.js' }
   );
   expect(params.connectionUri).toBe('');
 });

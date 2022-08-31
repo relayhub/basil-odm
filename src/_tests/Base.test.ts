@@ -1,7 +1,7 @@
-import {Basil} from '../Basil';
-import {createFieldsSchema, objectId, string} from '..';
-import {ObjectId} from 'mongodb';
-import {Base} from '../Base';
+import { Basil } from '../Basil';
+import { createFieldsSchema, objectId, string } from '..';
+import { ObjectId } from 'mongodb';
+import { Base } from '../Base';
 
 jest.setTimeout(15000);
 
@@ -54,7 +54,7 @@ describe('Base', () => {
     }
 
     {
-      const result = await User.findOne({_id: user._id});
+      const result = await User.findOne({ _id: user._id });
       expect(result?.name).toBe(user.name);
       expect(result instanceof User).toBe(true);
     }

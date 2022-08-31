@@ -1,5 +1,5 @@
-import {SchemaFragment} from './types';
-import {schemaFragmentFrag} from './symbols';
+import { SchemaFragment } from './types';
+import { schemaFragmentFrag } from './symbols';
 
 function originalBoolean(): SchemaFragment {
   return {

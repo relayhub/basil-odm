@@ -1,5 +1,5 @@
-import {SchemaNode} from './schema/astTypes';
-import {ObjectId} from 'mongodb';
+import { SchemaNode } from './schema/astTypes';
+import { ObjectId } from 'mongodb';
 
 export interface ValidationMessage {
   target: unknown;

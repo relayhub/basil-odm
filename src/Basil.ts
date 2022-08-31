@@ -21,8 +21,8 @@ import {
   UpdateWriteOpResult,
   WithId,
 } from 'mongodb';
-import {CountOptions, FindByIdOptions, FindManyOptions, BasilSettings, TargetCollection, UpdateQuery} from './types';
-import {loadConfig} from './Config';
+import { CountOptions, FindByIdOptions, FindManyOptions, BasilSettings, TargetCollection, UpdateQuery } from './types';
+import { loadConfig } from './Config';
 
 type ClientCallbackQueue = ((client: MongoClient) => void)[];
 
@@ -163,10 +163,7 @@ export class Basil {
     });
   }
 
-  useCollection<T>(
-    target: TargetCollection<any>,
-    callback: (collection: MongoCollection) => T | Promise<T>
-  ): Promise<T> {
+  useCollection<T>(target: TargetCollection<any>, callback: (collection: MongoCollection) => T | Promise<T>): Promise<T> {
     const name = typeof target === 'string' ? target : target.collectionName;
 
     return new Promise((resolve, reject) => {
@@ -188,63 +185,43 @@ export class Basil {
     });
   }
 
-  findById<T extends {_id: any}>(
-    target: TargetCollection<T>,
-    id: string | ObjectId,
-    options?: FindByIdOptions<T>
-  ): Promise<T | null> {
+  findById<T extends { _id: any }>(target: TargetCollection<T>, id: string | ObjectId, options?: FindByIdOptions<T>): Promise<T | null> {
     return this.findOne(target, {
       ...(((options && options.filter) || {}) as any),
       _id: new ObjectId(id),
     });
   }
 
-  findByIds<T extends {_id: any}>(
-    target: TargetCollection<T>,
-    ids: (string | ObjectId)[],
-    baseQuery?: FilterQuery<T>
-  ): Promise<T[]> {
+  findByIds<T extends { _id: any }>(target: TargetCollection<T>, ids: (string | ObjectId)[], baseQuery?: FilterQuery<T>): Promise<T[]> {
     const objectIds = ids.map((id) => (id instanceof ObjectId ? id : new ObjectId(id)));
     const query = {
       ...((baseQuery || {}) as any), // FIXME
-      _id: {$in: objectIds},
+      _id: { $in: objectIds },
     };
 
     return this.findMany(target, query);
   }
 
-  async count<T extends {[key: string]: any}>(target: TargetCollection<T>, options?: CountOptions<T>): Promise<number> {
+  async count<T extends { [key: string]: any }>(target: TargetCollection<T>, options?: CountOptions<T>): Promise<number> {
     return this.useCollection(target, (collection) => {
       return collection.countDocuments(options && options.filter);
     });
   }
 
-  aggregate<T extends {[key: string]: any}>(
-    target: TargetCollection<any>,
-    pipeline: object[],
-    options?: CollectionAggregationOptions
-  ): Promise<T[]> {
+  aggregate<T extends { [key: string]: any }>(target: TargetCollection<any>, pipeline: object[], options?: CollectionAggregationOptions): Promise<T[]> {
     return this.useCollection(target, (collection) => {
       const cursor = collection.aggregate(pipeline, options);
       return cursor.toArray() as Promise<T[]>;
     });
   }
 
-  save<T extends {_id: any}>(
-    target: TargetCollection<T>,
-    document: T,
-    options?: ReplaceOneOptions
-  ): Promise<ReplaceWriteOpResult> {
+  save<T extends { _id: any }>(target: TargetCollection<T>, document: T, options?: ReplaceOneOptions): Promise<ReplaceWriteOpResult> {
     return this.useCollection(target, async (collection) => {
       const payload = {
-        query: {_id: document._id},
+        query: { _id: document._id },
         entity: document,
       };
-      const result = await collection.replaceOne(
-        payload.query as FilterQuery<T>,
-        target.schema.decode(payload.entity) as T,
-        options
-      );
+      const result = await collection.replaceOne(payload.query as FilterQuery<T>, target.schema.decode(payload.entity) as T, options);
 
       if (result.matchedCount === 0) {
         throw Error('"save()" failed. Matched count is zero.');
@@ -254,50 +231,34 @@ export class Basil {
     });
   }
 
-  delete<T extends {_id: any}>(
-    target: TargetCollection<T>,
-    document: T,
-    options?: CommonOptions
-  ): Promise<DeleteWriteOpResultObject> {
-    return this.deleteOne(target, {_id: document._id}, options);
+  delete<T extends { _id: any }>(target: TargetCollection<T>, document: T, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
+    return this.deleteOne(target, { _id: document._id }, options);
   }
 
-  deleteOne<T extends {[key: string]: any}>(
+  deleteOne<T extends { [key: string]: any }>(
     target: TargetCollection<T>,
     filter: FilterQuery<T>,
-    options?: CommonOptions & {bypassDocumentValidation?: boolean}
+    options?: CommonOptions & { bypassDocumentValidation?: boolean }
   ): Promise<DeleteWriteOpResultObject> {
     return this.useCollection(target, (collection) => {
       return collection.deleteOne(filter, options);
     });
   }
 
-  deleteMany<T extends {[key: string]: any}>(
-    target: TargetCollection<T>,
-    filter: FilterQuery<T>,
-    options?: CommonOptions
-  ): Promise<DeleteWriteOpResultObject> {
+  deleteMany<T extends { [key: string]: any }>(target: TargetCollection<T>, filter: FilterQuery<T>, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
     return this.useCollection(target, (collection) => {
       return collection.deleteMany(filter, options);
     });
   }
 
-  insertOne<T extends {[key: string]: any}>(
-    target: TargetCollection<T>,
-    document: T,
-    options?: CollectionInsertOneOptions
-  ): Promise<InsertOneWriteOpResult<WithId<T>>> {
+  insertOne<T extends { [key: string]: any }>(target: TargetCollection<T>, document: T, options?: CollectionInsertOneOptions): Promise<InsertOneWriteOpResult<WithId<T>>> {
     return this.useCollection(target, (collection) => {
       const serializedDocument = target.schema.decode(document) as OptionalId<T>;
-      return collection.insertOne(serializedDocument, {...options});
+      return collection.insertOne(serializedDocument, { ...options });
     });
   }
 
-  insertMany<T extends {[key: string]: any}>(
-    target: TargetCollection<T>,
-    documents: T[],
-    options?: CollectionInsertManyOptions
-  ): Promise<InsertWriteOpResult<WithId<T>>> {
+  insertMany<T extends { [key: string]: any }>(target: TargetCollection<T>, documents: T[], options?: CollectionInsertManyOptions): Promise<InsertWriteOpResult<WithId<T>>> {
     return this.useCollection(target, (collection) => {
       return collection.insertMany(
         documents.map<OptionalId<T>>((document) => target.schema.decode(document) as OptionalId<T>),
@@ -306,18 +267,13 @@ export class Basil {
     });
   }
 
-  updateOne<T extends {[key: string]: any}>(
-    target: TargetCollection<T>,
-    filter: FilterQuery<T>,
-    update: UpdateQuery,
-    options?: UpdateOneOptions
-  ): Promise<UpdateWriteOpResult> {
+  updateOne<T extends { [key: string]: any }>(target: TargetCollection<T>, filter: FilterQuery<T>, update: UpdateQuery, options?: UpdateOneOptions): Promise<UpdateWriteOpResult> {
     return this.useCollection(target, (collection) => {
       return collection.updateOne(filter, update, options);
     });
   }
 
-  updateMany<T extends {[key: string]: any}>(
+  updateMany<T extends { [key: string]: any }>(
     target: TargetCollection<T>,
     filter: FilterQuery<T>,
     update: UpdateQuery,
@@ -328,22 +284,14 @@ export class Basil {
     });
   }
 
-  findOne<T extends {[key: string]: any}>(
-    target: TargetCollection<T>,
-    filter: FilterQuery<T>,
-    options?: FindOneOptions<T>
-  ): Promise<T | null> {
+  findOne<T extends { [key: string]: any }>(target: TargetCollection<T>, filter: FilterQuery<T>, options?: FindOneOptions<T>): Promise<T | null> {
     return this.useCollection(target, async (collection) => {
       const result = await collection.findOne<T>(filter, Object.assign({}, options) as any); // FIXME
       return result ? (target.schema.encode(result, {}) as T) : null;
     });
   }
 
-  findMany<T extends {[key: string]: any}>(
-    target: TargetCollection<T>,
-    filter: FilterQuery<T>,
-    options?: FindManyOptions
-  ): Promise<T[]> {
+  findMany<T extends { [key: string]: any }>(target: TargetCollection<T>, filter: FilterQuery<T>, options?: FindManyOptions): Promise<T[]> {
     return this.useCollection(target, async (collection) => {
       let cursor = await collection.find(filter, options);
 
