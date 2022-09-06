@@ -54,6 +54,7 @@ export type Literal = {
 export type Enum = {
   kind: 'enum';
   values: Record<string, LiteralValue>;
+  name?: string;
 };
 
 export type Value = StringValue | NumberValue | ObjectIdValue | NullValue | BooleanValue | DateValue | TimestampValue | BinaryValue;

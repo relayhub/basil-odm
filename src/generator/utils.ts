@@ -1,5 +1,6 @@
-import { ObjectNode, SchemaNode } from '../schema/astTypes';
+import { Enum, ObjectNode, SchemaNode } from '../schema/astTypes';
 import { singular } from 'pluralize';
+import {CollectionDef} from '../types';
 
 export function generateLiteralType(value: null | string | number | boolean): string {
   return generateLiteralValue(value);
@@ -145,4 +146,51 @@ function generateObjectType(object: ObjectNode) {
   lines.push('}');
 
   return lines.join('\n');
+}
+
+export function aggregateEnums(node: SchemaNode): Enum[] {
+  const enums: Enum[] = [];
+  _aggregateEnums(node, enums);
+  return enums;
+}
+
+function _aggregateEnums(node: SchemaNode, enums: Enum[] = []) {
+  switch (node.kind) {
+    case "enum":
+      enums.push(node);
+      return;
+
+    case "union":
+      for (const item of node.items) {
+        _aggregateEnums(item, enums);
+      }
+      return;
+
+    case "array":
+      _aggregateEnums(node.item, enums);
+      return;
+
+    case "object":
+      for (const prop of Object.values(node.props)) {
+        _aggregateEnums(prop.node, enums);
+      }
+      return;
+
+    case "binary":
+    case "boolean":
+    case "date":
+    case "literal":
+    case "null":
+    case "number":
+    case "objectId":
+    case "string":
+    case "reference":
+    case "timestamp":
+      return;
+
+    default: {
+      const _: never = node;
+      throw Error();
+    }
+  }
 }
