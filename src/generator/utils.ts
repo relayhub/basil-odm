@@ -1,6 +1,5 @@
 import { Enum, ObjectNode, SchemaNode } from '../schema/astTypes';
 import { singular } from 'pluralize';
-import { CollectionDef } from '../types';
 
 export function generateLiteralType(value: null | string | number | boolean): string {
   return generateLiteralValue(value);
