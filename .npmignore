@@ -1,6 +1,8 @@
 src
 test
 node_modules
+.github
+.husky
 
 npm-debug.log*
 yarn-debug.log*
