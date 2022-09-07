@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateEnums() normal 1`] = `"export const UserType = {  "0": "member",  "1": "admin",} as const;"`;
+
+exports[`generateEnums() without name 1`] = `""`;
