@@ -5,6 +5,9 @@
   "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "bin": {
+    "basil": "bin/cli.js"
+  },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
     "@types/jest": "^29.0.0",
