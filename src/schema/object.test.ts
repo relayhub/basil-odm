@@ -1,5 +1,5 @@
-import { createFieldsSchema as s } from '../FieldsSchema';
-import { object } from '../object';
+import { createFieldsSchema as s } from './FieldsSchema';
+import { object } from './object';
 
 test('objectId()', () => {
   const schema = s({

@@ -1,6 +1,6 @@
-import { enums } from '../../schema/enums';
-import { createFieldsSchema, union } from '../../schema/FieldsSchema';
-import { aggregateEnums } from '../utils';
+import { enums } from '../schema/enums';
+import { createFieldsSchema, union } from '../schema/FieldsSchema';
+import { aggregateEnums } from './utils';
 
 describe('aggregateEnums()', () => {
   it('should works normally', () => {

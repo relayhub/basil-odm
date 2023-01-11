@@ -1,5 +1,5 @@
-import { Basil } from '../Basil';
-import { CollectionSchema, objectId, string } from '..';
+import { Basil } from './Basil';
+import { CollectionSchema, objectId, string } from './index';
 import { ObjectId } from 'mongodb';
 
 jest.setTimeout(15000);

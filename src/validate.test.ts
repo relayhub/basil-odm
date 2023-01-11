@@ -1,5 +1,5 @@
-import { SchemaNode } from '../schema/astTypes';
-import { validate } from '../validate';
+import { SchemaNode } from './schema/astTypes';
+import { validate } from './validate';
 
 type Case = [SchemaNode, unknown];
 

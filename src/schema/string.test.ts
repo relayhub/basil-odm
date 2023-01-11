@@ -1,5 +1,5 @@
-import { createFieldsSchema as s } from '../FieldsSchema';
-import { string } from '../string';
+import { createFieldsSchema as s } from './FieldsSchema';
+import { string } from './string';
 
 test('string', () => {
   const schema = s({

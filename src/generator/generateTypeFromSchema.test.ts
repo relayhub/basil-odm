@@ -1,14 +1,14 @@
-import { createFieldsSchema, FieldsSchema, union } from '../../schema/FieldsSchema';
-import { enums } from '../../schema/enums';
-import { generateTypeFromSchema } from '../codeGenerator';
-import { literal } from '../../schema/literal';
-import { format } from '../../_tests/testUtils';
-import { nullable } from '../../schema/nullable';
-import { objectId } from '../../schema/objectId';
-import { string } from '../../schema/string';
-import { number } from '../../schema/number';
-import { boolean } from '../../schema/boolean';
-import { date } from '../../schema/date';
+import { createFieldsSchema, FieldsSchema, union } from '../schema/FieldsSchema';
+import { enums } from '../schema/enums';
+import { generateTypeFromSchema } from './codeGenerator';
+import { literal } from '../schema/literal';
+import { format } from '../testUtils';
+import { nullable } from '../schema/nullable';
+import { objectId } from '../schema/objectId';
+import { string } from '../schema/string';
+import { number } from '../schema/number';
+import { boolean } from '../schema/boolean';
+import { date } from '../schema/date';
 
 type Case = [string, FieldsSchema, string];
 

@@ -1,4 +1,4 @@
-import { createSettings, validateConfig } from '../Config';
+import { createSettings, validateConfig } from './Config';
 
 test('createParams()', async () => {
   const params = await createSettings(

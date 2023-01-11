@@ -1,5 +1,5 @@
-import { createFieldsSchema as s } from '../FieldsSchema';
-import { boolean } from '../boolean';
+import { createFieldsSchema as s } from './FieldsSchema';
+import { boolean } from './boolean';
 
 test('boolean', () => {
   const schema = s({

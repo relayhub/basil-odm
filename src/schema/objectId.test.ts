@@ -1,5 +1,5 @@
-import { createFieldsSchema as s } from '../FieldsSchema';
-import { objectId } from '../objectId';
+import { createFieldsSchema as s } from './FieldsSchema';
+import { objectId } from './objectId';
 import { ObjectId } from 'mongodb';
 
 test('objectId', () => {

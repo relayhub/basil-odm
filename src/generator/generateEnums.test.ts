@@ -1,7 +1,7 @@
-import { enums } from '../../schema/enums';
-import { generateEnumsCode } from '../codeGenerator';
-import { CollectionSchema } from '../../schema/CollectionSchema';
-import { objectId } from '../../schema/objectId';
+import { enums } from '../schema/enums';
+import { generateEnumsCode } from './codeGenerator';
+import { CollectionSchema } from '../schema/CollectionSchema';
+import { objectId } from '../schema/objectId';
 
 describe('generateEnums()', () => {
   test('normal', () => {

@@ -1,7 +1,7 @@
-import { Basil } from '../Basil';
-import { createFieldsSchema, objectId, string } from '..';
+import { Basil } from './Basil';
+import { createFieldsSchema, objectId, string } from './index';
 import { ObjectId } from 'mongodb';
-import { Base } from '../Base';
+import { Base } from './Base';
 
 jest.setTimeout(15000);
 

@@ -1,11 +1,11 @@
-import { arrayOf, createFieldsSchema, union } from '../FieldsSchema';
+import { arrayOf, createFieldsSchema, union } from './FieldsSchema';
 import { ObjectId } from 'mongodb';
-import { literal } from '../literal';
-import { nullable } from '../nullable';
-import { string } from '../string';
-import { objectId } from '../objectId';
-import { object } from '../object';
-import { enums } from '../enums';
+import { literal } from './literal';
+import { nullable } from './nullable';
+import { string } from './string';
+import { objectId } from './objectId';
+import { object } from './object';
+import { enums } from './enums';
 
 test('schema()', () => {
   {
