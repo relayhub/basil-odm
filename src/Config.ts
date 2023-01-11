@@ -1,8 +1,9 @@
 import invariant from 'tiny-invariant';
 import { BasilSettings } from './types';
-
-const findConfig = require('find-config');
-const { validate } = require('jsonschema');
+import { validate } from 'jsonschema';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import findConfig from 'find-config';
 
 /*
 Example config file:
@@ -38,9 +39,20 @@ export function validateConfig(config: unknown): asserts config is Config {
   );
 }
 
-export async function loadConfig(configPath: string = findConfig('basil.config.js')): Promise<BasilSettings> {
+export async function loadConfig(
+  configPath: string = findConfig('basil.config.js'),
+  {
+    silent,
+  }: {
+    silent?: boolean;
+  } = {}
+): Promise<BasilSettings> {
   invariant(configPath, 'Couldn\'t find "basil.config.js" file.');
 
+  if (!silent) {
+    console.log('Load config file:', configPath);
+  }
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const config = require(configPath);
   validateConfig(config);
 

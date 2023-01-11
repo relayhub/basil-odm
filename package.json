@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
   "bin": {
     "basil": "bin/cli.js"
   },
@@ -27,6 +27,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "commander": "^9.5.0",
     "find-config": "^1.0.0",
     "glob": "^8.0.3",
     "jsonschema": "^1.2.5",
@@ -35,7 +36,10 @@
     "tiny-invariant": "^1.1.0"
   },
   "lint-staged": {
-    "*.ts": ["prettier --write", "yarn run lint:fix"]
+    "*.ts": [
+      "prettier --write",
+      "yarn run lint:fix"
+    ]
   },
   "scripts": {
     "test": "yarn jest",
