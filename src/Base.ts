@@ -18,7 +18,7 @@ import {
   UpdateFilter,
 } from 'mongodb';
 
-export interface EntitySource<T extends { [key: string]: any }> {
+export interface EntitySource<T> {
   new (): T;
   getCollection(): TargetCollection<T>;
   getBasil(): Basil;
@@ -138,23 +138,13 @@ export class Base {
     });
   }
 
-  static updateMany<T extends { [key: string]: unknown }>(
-    this: EntitySource<T>,
-    filter: Filter<T>,
-    update: UpdateFilter<T>,
-    options: UpdateOptions = {}
-  ): Promise<UpdateResult | Document> {
+  static updateMany<T>(this: EntitySource<T>, filter: Filter<T>, update: UpdateFilter<T>, options: UpdateOptions = {}): Promise<UpdateResult | Document> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
       return collection.updateMany(filter, update as any /* FIXME */, options);
     });
   }
 
-  static updateOne<T extends { [key: string]: unknown }>(
-    this: EntitySource<T>,
-    filter: Filter<T>,
-    update: UpdateFilter<T> | Partial<T>,
-    options: UpdateOptions = {}
-  ): Promise<UpdateResult> {
+  static updateOne<T>(this: EntitySource<T>, filter: Filter<T>, update: UpdateFilter<T> | Partial<T>, options: UpdateOptions = {}): Promise<UpdateResult> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
       return collection.updateOne(filter, update, options);
     });

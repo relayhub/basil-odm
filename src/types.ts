@@ -35,7 +35,7 @@ export type CollectionDef = {
   entityName: string | null;
 };
 
-export type TargetCollection<T extends { [key: string]: any }> = {
+export type TargetCollection<T> = {
   _type?: T;
   schema: FieldsSchema;
   collectionName: string;
