@@ -1,20 +1,19 @@
 import { Basil } from './Basil';
 import { createFieldsSchema } from './schema/FieldsSchema';
-import { CountOptions, FindByIdOptions, FindManyOptions, TargetCollection, UpdateQuery } from './types';
+import { CountOptions, FindByIdOptions, TargetCollection, UpdateQuery } from './types';
 import {
-  CollectionInsertOneOptions,
-  CommonOptions,
-  DeleteWriteOpResultObject,
-  FilterQuery,
-  FindOneOptions,
-  InsertOneWriteOpResult,
   ObjectId,
-  ReplaceOneOptions,
-  ReplaceWriteOpResult,
-  UpdateManyOptions,
-  UpdateOneOptions,
-  UpdateWriteOpResult,
   WithId,
+  InsertOneOptions,
+  InsertOneResult,
+  FindOptions,
+  DeleteOptions,
+  DeleteResult,
+  Filter,
+  ReplaceOptions,
+  UpdateResult,
+  Document,
+  UpdateOptions,
 } from 'mongodb';
 
 export interface EntitySource<T extends { [key: string]: any }> {
@@ -53,7 +52,7 @@ export class Base {
       .then((result) => result.map((doc) => Object.assign(new this(), doc)));
   }
 
-  static findOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: FilterQuery<T>, options?: FindOneOptions<T>): Promise<T | null> {
+  static findOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, options?: FindOptions<T>): Promise<T | null> {
     return this.getBasil()
       .findOne(this.getCollection(), filter, options)
       .then((result) => {
@@ -61,7 +60,7 @@ export class Base {
       });
   }
 
-  static findMany<T extends { [key: string]: any }>(this: EntitySource<T>, filter: FilterQuery<T>, options?: FindManyOptions): Promise<T[]> {
+  static findMany<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, options: FindOptions = {}): Promise<T[]> {
     return this.getBasil()
       .findMany(this.getCollection(), filter, options)
       .then((result) => {
@@ -69,15 +68,15 @@ export class Base {
       });
   }
 
-  static save<T extends { _id: any }>(this: EntitySource<T>, entity: T, options?: ReplaceOneOptions): Promise<ReplaceWriteOpResult> {
+  static save<T extends { _id: any }>(this: EntitySource<T>, entity: T, options?: ReplaceOptions): Promise<UpdateResult | Document> {
     return this.getBasil().save(this.getCollection(), entity, options);
   }
 
-  static deleteOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: FilterQuery<T>, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
+  static deleteOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
     return this.getBasil().deleteOne(this.getCollection(), filter, options);
   }
 
-  static insertOne<T extends { [key: string]: any }>(this: EntitySource<T>, entity: T, options?: CollectionInsertOneOptions): Promise<InsertOneWriteOpResult<WithId<T>>> {
+  static insertOne<T extends { [key: string]: any }>(this: EntitySource<T>, entity: T, options: InsertOneOptions = {}): Promise<InsertOneResult<WithId<T>>> {
     return this.getBasil().insertOne(this.getCollection(), entity, options);
   }
 
@@ -85,16 +84,11 @@ export class Base {
     return this.getBasil().count(this.getCollection(), options);
   }
 
-  static updateMany<T extends { [key: string]: any }>(
-    this: EntitySource<T>,
-    filter: FilterQuery<T>,
-    update: UpdateQuery,
-    options?: UpdateManyOptions
-  ): Promise<UpdateWriteOpResult> {
+  static updateMany<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, update: UpdateQuery, options?: UpdateOptions): Promise<UpdateResult | Document> {
     return this.getBasil().updateMany(this.getCollection(), filter, update, options);
   }
 
-  static updateOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: FilterQuery<T>, update: UpdateQuery, options?: UpdateOneOptions): Promise<UpdateWriteOpResult> {
+  static updateOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, update: UpdateQuery, options?: UpdateOptions): Promise<UpdateResult> {
     return this.getBasil().updateOne(this.getCollection(), filter, update, options);
   }
 }

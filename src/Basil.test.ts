@@ -12,10 +12,7 @@ beforeAll(async () => {
   basil.configure({
     connectionUri: uri,
     databaseName: 'db',
-    clientOptions: {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    },
+    clientOptions: {},
   });
   await basil.connect();
 });

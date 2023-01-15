@@ -6,7 +6,7 @@ export function createDocument(entity: Record<string, unknown>, rootNode: Schema
   return extract(entity, rootNode, []);
 }
 
-export function createEntity<T extends {}>(source: T, document: Record<string, any>, rootNode: SchemaRoot): T {
+export function createEntity<T extends Record<string, unknown>>(source: T, document: Record<string, any>, rootNode: SchemaRoot): T {
   const object = extract(document, rootNode, []);
   return Object.assign(source, object);
 }
@@ -39,12 +39,12 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
       throw error('Not implemented');
 
     case 'objectId':
-      if (!(target instanceof ObjectId)) {
+      if ((target as any)?._bsontype !== 'ObjectID') {
         throw error('Extracting ObjectId fail');
       }
       return target;
 
-    case 'object':
+    case 'object': {
       if (typeof target !== 'object' || target === null) {
         throw error('Extracting Object fail');
       }
@@ -70,6 +70,7 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
       }
 
       return record;
+    }
 
     case 'number':
       if (typeof target !== 'number') {
@@ -119,12 +120,13 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
         return extract(item, node.item, [...paths, index.toString()]);
       });
 
-    default:
+    default: {
       const _: never = node;
       throw Error();
+    }
   }
 
-  function error(message: string = 'ERROR: extractDocument() fail') {
+  function error(message = 'ERROR: extractDocument() fail') {
     return Error(`${message}\npath = ${JSON.stringify(paths)}\ntarget = ${inspect(target)}\nschema = ${inspect(node)}`);
   }
 }

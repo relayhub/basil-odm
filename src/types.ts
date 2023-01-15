@@ -1,12 +1,5 @@
-import { Db, FilterQuery, FindOneOptions, MongoClientOptions, UpdateManyOptions, UpdateOneOptions } from 'mongodb';
+import { Db, MongoClientOptions, Filter, FindOptions, UpdateOptions, CountDocumentsOptions } from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
-
-export interface CollectionSettings {
-  source?: string;
-  schema: FieldsSchema;
-  collectionName: string;
-  indexes: Index[];
-}
 
 export interface BasilSettings {
   connectionUri: string;
@@ -41,33 +34,34 @@ export type FindManyOptions = {
 };
 
 export interface UpdateManyParams<E> {
-  filter: FilterQuery<E>;
+  filter: Filter<E>;
   update: UpdateQuery;
-  options?: UpdateManyOptions;
+  options?: UpdateOptions;
 }
 
 export interface UpdateOneParams<E> {
-  filter: FilterQuery<E>;
+  filter: Filter<E>;
   update: UpdateQuery;
-  options?: UpdateOneOptions;
+  options?: UpdateOptions;
 }
 
 export interface FindManyParams<E> {
-  filter?: FilterQuery<E>;
+  filter?: Filter<E>;
   options?: FindManyOptions;
 }
 
 export interface FindOneParams<E> {
-  filter: FilterQuery<E>;
-  options?: FindOneOptions<E>;
+  filter: Filter<E>;
+  options?: FindOptions;
 }
 
 export interface FindByIdOptions<E> {
-  filter: FilterQuery<E>;
+  filter: Filter<E>;
 }
 
 export interface CountOptions<E> {
-  filter: FilterQuery<E>;
+  filter: Filter<E>;
+  countDocumentOption?: CountDocumentsOptions;
 }
 
 export type CollectionDef = {
