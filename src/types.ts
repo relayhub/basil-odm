@@ -1,4 +1,4 @@
-import { Db, MongoClientOptions, Filter, FindOptions, UpdateOptions, CountDocumentsOptions } from 'mongodb';
+import { Db, MongoClientOptions, Filter, CountDocumentsOptions } from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 
 export interface BasilSettings {
@@ -10,10 +10,6 @@ export interface BasilSettings {
 export interface UpdateQuery {
   [key: string]: any;
 }
-
-export type Options = {
-  database?: Db;
-};
 
 export type IndexFields = { [key: string]: -1 | 1 };
 
@@ -27,41 +23,9 @@ export type Index = {
   options?: IndexOptions;
 };
 
-export type FindManyOptions = {
-  limit?: number;
-  skip?: number;
-  sort?: { [key: string]: number };
-};
-
-export interface UpdateManyParams<E> {
-  filter: Filter<E>;
-  update: UpdateQuery;
-  options?: UpdateOptions;
-}
-
-export interface UpdateOneParams<E> {
-  filter: Filter<E>;
-  update: UpdateQuery;
-  options?: UpdateOptions;
-}
-
-export interface FindManyParams<E> {
+export interface CountParams<E> {
   filter?: Filter<E>;
-  options?: FindManyOptions;
-}
-
-export interface FindOneParams<E> {
-  filter: Filter<E>;
-  options?: FindOptions;
-}
-
-export interface FindByIdOptions<E> {
-  filter: Filter<E>;
-}
-
-export interface CountOptions<E> {
-  filter: Filter<E>;
-  countDocumentOption?: CountDocumentsOptions;
+  options?: CountDocumentsOptions;
 }
 
 export type CollectionDef = {
