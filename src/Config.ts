@@ -8,7 +8,7 @@ import findConfig from 'find-config';
 /*
 Example config file:
 ```
-// basil.config.js
+// basil.config.cjs
 module.exports = {
   connectionUri: 'mongodb://12.7.0.0.1:27017',
   database: 'foobar',
@@ -40,14 +40,14 @@ export function validateConfig(config: unknown): asserts config is Config {
 }
 
 export async function loadConfig(
-  configPath: string = findConfig('basil.config.js'),
+  configPath: string = findConfig('basil.config.cjs'),
   {
     silent,
   }: {
     silent?: boolean;
   } = {}
 ): Promise<BasilSettings> {
-  invariant(configPath, 'Couldn\'t find "basil.config.js" file.');
+  invariant(configPath, 'Couldn\'t find "basil.config.cjs" file.');
 
   if (!silent) {
     console.log('Load config file:', configPath);

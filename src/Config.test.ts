@@ -6,7 +6,7 @@ test('createParams()', async () => {
       connectionUri: '',
       database: 'foo',
     },
-    { configPath: __dirname + '/../../basil.config.js' }
+    { configPath: __dirname + '/../../basil.config.cjs' }
   );
   expect(params.connectionUri).toBe('');
 });

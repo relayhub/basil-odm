@@ -6,7 +6,7 @@ import * as util from 'util';
 const header = `Basil ODM v${pack.version}
 `;
 
-program.name('Basil ODM').option('--config <path>', 'specify config file name', 'basil.config.js').version(pack.version, '-v, --version');
+program.name('Basil ODM').option('--config <path>', 'specify config file name', 'basil.config.cjs').version(pack.version, '-v, --version');
 
 program
   .command('dump-config')
