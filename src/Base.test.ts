@@ -31,6 +31,11 @@ class User extends Base {
   _id = new ObjectId();
   name = 'Mitsunori Kubota';
 
+  constructor(source?: Partial<User>) {
+    super();
+    Object.assign(this, source);
+  }
+
   static getCollection() {
     return {
       collectionName: 'users',
@@ -115,6 +120,17 @@ describe('Base', () => {
     await User.insertOne(users[2]);
 
     expect((await User.findByIds([ids[0], ids[1]])).length).toBe(2);
+  });
+
+  test('findByIds() filter options', async () => {
+    const users = [new User({ name: 'John Doe' }), new User(), new User()];
+    const ids = users.map((user) => user._id);
+
+    await User.insertOne(users[0]);
+    await User.insertOne(users[1]);
+    await User.insertOne(users[2]);
+
+    expect((await User.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length).toBe(1);
   });
 
   test('deleteMany()', async () => {

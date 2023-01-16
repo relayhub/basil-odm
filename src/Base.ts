@@ -52,8 +52,13 @@ export class Base {
       });
   }
 
-  static findByIds<T extends { [key: string]: any }>(this: EntitySource<T>, ids: readonly (string | ObjectId)[], options: FindOptions<T> = {}): Promise<T[]> {
+  static findByIds<T extends { [key: string]: any }>(
+    this: EntitySource<T>,
+    ids: readonly (string | ObjectId)[],
+    options: FindOptions<T> & { filter?: Filter<T> } = {}
+  ): Promise<T[]> {
     const filter = {
+      ...options.filter,
       _id: { $in: ids.map((id) => new ObjectId(id)) },
     };
 
