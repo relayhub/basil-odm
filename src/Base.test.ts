@@ -133,13 +133,12 @@ describe('Base', () => {
     const user = new User();
     await User.insertOne(user);
 
-    const cursor = await User.aggregate([
+    const result = (await User.aggregate([
       {
         $match: { name: 'Mitsunori Kubota' },
       },
-    ]);
+    ])) as User[];
 
-    const result = (await cursor.toArray()) as User[];
     expect(result[0]._id.toString()).toBe(user._id.toString());
   });
 

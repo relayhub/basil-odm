@@ -70,10 +70,10 @@ export class Base {
     });
   }
 
-  static aggregate<T extends Document>(this: EntitySource<T>, pipeline: Document[], options: AggregateOptions = {}): Promise<AggregationCursor<unknown>> {
+  static aggregate<T extends Document>(this: EntitySource<T>, pipeline: Document[], options: AggregateOptions = {}): Promise<unknown[]> {
     const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
-      return collection.aggregate(pipeline, options);
+      return (await collection.aggregate(pipeline, options)).toArray();
     });
   }
 
