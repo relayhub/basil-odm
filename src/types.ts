@@ -7,10 +7,6 @@ export interface BasilSettings {
   clientOptions: MongoClientOptions;
 }
 
-export interface UpdateQuery {
-  [key: string]: any;
-}
-
 export type IndexFields = { [key: string]: -1 | 1 };
 
 export type IndexOptions = {

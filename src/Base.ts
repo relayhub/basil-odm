@@ -1,6 +1,6 @@
 import { Basil } from './Basil';
 import { createFieldsSchema } from './schema/FieldsSchema';
-import { CountParams, TargetCollection, UpdateQuery } from './types';
+import { CountParams, TargetCollection } from './types';
 import {
   ObjectId,
   WithId,
@@ -17,7 +17,6 @@ import {
   OptionalId,
   UpdateFilter,
   AggregateOptions,
-  AggregationCursor,
 } from 'mongodb';
 
 export interface EntitySource<T> {
@@ -25,6 +24,8 @@ export interface EntitySource<T> {
   getCollection(): TargetCollection<T>;
   getBasil(): Basil;
 }
+
+export type FindByIdsOptions<T extends Document> = FindOptions<T> & { filter?: Filter<T> };
 
 export class Base {
   static getBasil() {
@@ -52,11 +53,7 @@ export class Base {
       });
   }
 
-  static findByIds<T extends { [key: string]: any }>(
-    this: EntitySource<T>,
-    ids: readonly (string | ObjectId)[],
-    options: FindOptions<T> & { filter?: Filter<T> } = {}
-  ): Promise<T[]> {
+  static findByIds<T extends { [key: string]: any }>(this: EntitySource<T>, ids: readonly (string | ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
     const filter = {
       ...options.filter,
       _id: { $in: ids.map((id) => new ObjectId(id)) },
