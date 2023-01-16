@@ -17,6 +17,7 @@ beforeAll(async () => {
   });
   await basil.connect();
 });
+
 afterEach(async () => {
   const db = await basil.getDatabase();
   return Promise.all((await db.collections()).map((c) => c.deleteMany({})));
@@ -126,6 +127,20 @@ describe('Base', () => {
     await User.deleteMany({});
 
     expect(await User.count()).toBe(0);
+  });
+
+  test('aggregate()', async () => {
+    const user = new User();
+    await User.insertOne(user);
+
+    const cursor = await User.aggregate([
+      {
+        $match: { name: 'Mitsunori Kubota' },
+      },
+    ]);
+
+    const result = (await cursor.toArray()) as User[];
+    expect(result[0]._id.toString()).toBe(user._id.toString());
   });
 
   test.todo('deleteMany()');

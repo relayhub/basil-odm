@@ -16,6 +16,8 @@ import {
   UpdateOptions,
   OptionalId,
   UpdateFilter,
+  AggregateOptions,
+  AggregationCursor,
 } from 'mongodb';
 
 export interface EntitySource<T> {
@@ -37,7 +39,7 @@ export class Base {
     };
   }
 
-  static findById<T extends { [key: string]: any }>(this: EntitySource<T>, id: string | ObjectId, options: FindOptions = {}): Promise<T | null> {
+  static findById<T extends { [key: string]: any }>(this: EntitySource<T>, id: string | ObjectId, options: FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
 
     return this.getBasil()
@@ -50,7 +52,7 @@ export class Base {
       });
   }
 
-  static findByIds<T extends { [key: string]: any }>(this: EntitySource<T>, ids: readonly (string | ObjectId)[], options: FindOptions = {}): Promise<T[]> {
+  static findByIds<T extends { [key: string]: any }>(this: EntitySource<T>, ids: readonly (string | ObjectId)[], options: FindOptions<T> = {}): Promise<T[]> {
     const filter = {
       _id: { $in: ids.map((id) => new ObjectId(id)) },
     };
@@ -68,7 +70,14 @@ export class Base {
     });
   }
 
-  static findOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, options: FindOptions = {}): Promise<T | null> {
+  static aggregate<T extends Document>(this: EntitySource<T>, pipeline: Document[], options: AggregateOptions = {}): Promise<AggregationCursor<unknown>> {
+    const target = this.getCollection();
+    return this.getBasil().useCollection(target, async (collection) => {
+      return collection.aggregate(pipeline, options);
+    });
+  }
+
+  static findOne<T extends Document>(this: EntitySource<T>, filter: Filter<T>, options: FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
 
     return this.getBasil()
@@ -81,7 +90,7 @@ export class Base {
       });
   }
 
-  static findMany<T extends { [key: string]: any }>(this: EntitySource<T>, filter: Filter<T>, options: FindOptions = {}): Promise<T[]> {
+  static findMany<T extends Document>(this: EntitySource<T>, filter: Filter<T>, options: FindOptions<T> = {}): Promise<T[]> {
     const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
       const cursor = await collection.find(filter, options);
@@ -93,7 +102,7 @@ export class Base {
     });
   }
 
-  static save<T extends { _id: any }>(this: EntitySource<T>, entity: T, options: ReplaceOptions = {}): Promise<UpdateResult | Document> {
+  static save<T extends { _id: ObjectId | string }>(this: EntitySource<T>, entity: T, options: ReplaceOptions = {}): Promise<UpdateResult | Document> {
     const target = this.getCollection();
 
     return this.getBasil().useCollection(target, async (collection) => {
