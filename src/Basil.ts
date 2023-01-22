@@ -1,11 +1,11 @@
-import { Collection as MongoCollection, Db, MongoClient, MongoClientOptions } from 'mongodb';
+import mongodb from 'mongodb';
 import { BasilSettings, TargetCollection } from './types';
 import { loadConfig } from './Config';
 
-type ClientCallbackQueue = ((client: MongoClient) => void)[];
+type ClientCallbackQueue = ((client: mongodb.MongoClient) => void)[];
 
 export class Basil {
-  _client?: MongoClient;
+  _client?: mongodb.MongoClient;
   _settings?: BasilSettings;
 
   _queue: ClientCallbackQueue = [];
@@ -19,7 +19,7 @@ export class Basil {
     Object.freeze(settings);
     this._settings = settings;
 
-    this._client = new MongoClient(settings.connectionUri, settings.clientOptions);
+    this._client = new mongodb.MongoClient(settings.connectionUri, settings.clientOptions);
     this._client.addListener('close', this.handleClose);
   }
 
@@ -43,7 +43,7 @@ export class Basil {
     return this._settings;
   }
 
-  private get client(): MongoClient {
+  private get client(): mongodb.MongoClient {
     if (!this._client) {
       throw Error('Not configured. Call configure() or loadConfig().');
     }
@@ -55,7 +55,7 @@ export class Basil {
     return this.settings.connectionUri;
   }
 
-  get clientOptions(): MongoClientOptions {
+  get clientOptions(): mongodb.MongoClientOptions {
     return this.settings.clientOptions;
   }
 
@@ -76,7 +76,7 @@ export class Basil {
     await this.client.close();
   }
 
-  private queue(callback: (client: MongoClient) => void): void {
+  private queue(callback: (client: mongodb.MongoClient) => void): void {
     if (this._client) {
       callback(this._client);
     } else {
@@ -104,9 +104,9 @@ export class Basil {
     }
   }
 
-  useDatabase<T>(callback: (db: Db) => T | Promise<T>): Promise<T> {
+  useDatabase<T>(callback: (db: mongodb.Db) => T | Promise<T>): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.queue(async (client: MongoClient) => {
+      this.queue(async (client: mongodb.MongoClient) => {
         try {
           const db = client.db(this.settings.databaseName);
           const result = await callback(db);
@@ -118,9 +118,9 @@ export class Basil {
     });
   }
 
-  getDatabase(): Promise<Db> {
+  getDatabase(): Promise<mongodb.Db> {
     return new Promise((resolve, reject) => {
-      this.queue(async (client: MongoClient) => {
+      this.queue(async (client: mongodb.MongoClient) => {
         try {
           const db = client.db(this.settings.databaseName);
           resolve(db);
@@ -131,11 +131,11 @@ export class Basil {
     });
   }
 
-  useCollection<T extends { [key: string]: any }, R>(target: TargetCollection<any>, callback: (collection: MongoCollection<T>) => R | Promise<R>): Promise<R> {
+  useCollection<T extends { [key: string]: any }, R>(target: TargetCollection<any>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
     const name = typeof target === 'string' ? target : target.collectionName;
 
     return new Promise((resolve, reject) => {
-      this.queue((client: MongoClient) => {
+      this.queue((client: mongodb.MongoClient) => {
         try {
           const db = client.db(this.settings.databaseName);
           const collection = db.collection<T>(name);

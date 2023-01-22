@@ -1,6 +1,6 @@
 import { Basil } from './Basil';
 import { createFieldsSchema, objectId, string } from './index';
-import { ObjectId } from 'mongodb';
+import mongodb from 'mongodb';
 import { Base } from './Base';
 
 jest.setTimeout(15000);
@@ -28,7 +28,7 @@ afterAll(async () => {
 });
 
 class User extends Base {
-  _id = new ObjectId();
+  _id = new mongodb.ObjectId();
   name = 'Mitsunori Kubota';
 
   constructor(source?: Partial<User>) {

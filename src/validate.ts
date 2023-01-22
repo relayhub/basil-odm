@@ -1,5 +1,5 @@
 import { SchemaNode } from './schema/astTypes';
-import { ObjectId } from 'mongodb';
+import mongodb from 'mongodb';
 
 export interface ValidationMessage {
   target: unknown;
@@ -37,12 +37,12 @@ export function validate(target: any, node: SchemaNode, paths: string[]): Valida
       throw Error('Not implemented');
 
     case 'objectId':
-      if (!(target instanceof ObjectId)) {
+      if (!(target instanceof mongodb.ObjectId)) {
         return error('Target value is not ObjectId');
       }
       return [];
 
-    case 'object':
+    case 'object': {
       const errors: ValidationMessage[] = [];
 
       if (typeof target !== 'object' || target === null) {
@@ -61,6 +61,7 @@ export function validate(target: any, node: SchemaNode, paths: string[]): Valida
       // TODO: allowAdditionalPropsを見る
 
       return errors;
+    }
 
     case 'number':
       if (typeof target !== 'number') {
@@ -110,12 +111,13 @@ export function validate(target: any, node: SchemaNode, paths: string[]): Valida
         return validate(item, node.item, [...paths, index.toString()]);
       });
 
-    default:
+    default: {
       const _: never = node;
       return [];
+    }
   }
 
-  function error(message: string = 'Validation fail'): ValidationMessage[] {
+  function error(message = 'Validation fail'): ValidationMessage[] {
     return [
       {
         target,

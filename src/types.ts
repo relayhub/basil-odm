@@ -1,4 +1,4 @@
-import { Db, MongoClientOptions, Filter, CountDocumentsOptions } from 'mongodb';
+import type { Db, MongoClientOptions, Filter, CountDocumentsOptions } from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 
 export interface BasilSettings {

@@ -1,5 +1,6 @@
 import { Enum, ObjectNode, SchemaNode } from '../schema/astTypes';
-import { singular } from 'pluralize';
+import pluralize from 'pluralize';
+const { singular } = pluralize;
 
 export function generateLiteralType(value: null | string | number | boolean): string {
   return generateLiteralValue(value);

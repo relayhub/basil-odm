@@ -53,10 +53,10 @@ export async function loadConfig(
     console.log('Load config file:', configPath);
   }
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const config = require(configPath);
-  validateConfig(config);
+  const config = await import(configPath);
+  validateConfig(config.default);
 
-  return await createSettings(config, { configPath });
+  return await createSettings(config.default, { configPath });
 }
 
 export async function createSettings(config: Config, { configPath }: { configPath: string }): Promise<BasilSettings> {

@@ -1,11 +1,11 @@
-import { Db, CreateIndexesOptions } from 'mongodb';
+import mongodb from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
 import { Index, IndexFields, TargetCollection } from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(
-  db: Db,
+  db: mongodb.Db,
   collectionName: string,
   {
     $jsonSchema,
@@ -30,7 +30,7 @@ export async function ensureCollection(
   );
 }
 
-export async function setJsonSchemaValidator(db: Db, collectionName: string, jsonSchema: Record<string, unknown>) {
+export async function setJsonSchemaValidator(db: mongodb.Db, collectionName: string, jsonSchema: Record<string, unknown>) {
   // もしコレクションがすでにある場合にはschemaを変更する
   if (await collectionExists(db, collectionName)) {
     await db.command({
@@ -44,7 +44,7 @@ export async function setJsonSchemaValidator(db: Db, collectionName: string, jso
   }
 }
 
-export async function collectionExists(db: Db, collectionName: string) {
+export async function collectionExists(db: mongodb.Db, collectionName: string) {
   return (await db.listCollections({ name: collectionName }).toArray()).length > 0;
 }
 
@@ -80,7 +80,7 @@ export function prettier(code: string) {
   });
 }
 
-export function index(fields: IndexFields, options: CreateIndexesOptions = {}): Index {
+export function index(fields: IndexFields, options: mongodb.CreateIndexesOptions = {}): Index {
   return {
     fields,
     options,
