@@ -1,6 +1,6 @@
 import { createFieldsSchema as s } from './FieldsSchema';
 import { objectId } from './objectId';
-import mongodb from 'mongodb';
+import * as mongodb from 'mongodb';
 
 const { ObjectId } = mongodb;
 
