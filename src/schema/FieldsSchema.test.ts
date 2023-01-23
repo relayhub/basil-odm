@@ -1,5 +1,5 @@
 import { arrayOf, createFieldsSchema, union } from './FieldsSchema';
-import mongodb from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { literal } from './literal';
 import { nullable } from './nullable';
 import { string } from './string';
@@ -70,7 +70,7 @@ test('schema()', () => {
 
   {
     const schema = createFieldsSchema({ _id: objectId() });
-    const id = new mongodb.ObjectId('123456789012');
+    const id = new ObjectId('123456789012');
     expect(schema.decode({ _id: id })).toEqual({ _id: id });
     expect(schema.encode({ _id: id })).toEqual({ _id: id });
     expect(schema.generateBsonSchema()).toEqual({

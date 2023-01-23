@@ -1,6 +1,6 @@
 import { Basil } from './Basil';
 import { string } from './index';
-import mongodb from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 jest.setTimeout(15000);
 
@@ -31,10 +31,10 @@ describe('Basil', () => {
       const col = db.collection('hoge');
 
       await col.insertMany([
-        { _id: new mongodb.ObjectId(), tag: 'apple' },
-        { _id: new mongodb.ObjectId(), tag: 'pineapple' },
-        { _id: new mongodb.ObjectId(), tag: 'pen' },
-        { _id: new mongodb.ObjectId(), tag: 'apple' },
+        { _id: new ObjectId(), tag: 'apple' },
+        { _id: new ObjectId(), tag: 'pineapple' },
+        { _id: new ObjectId(), tag: 'pen' },
+        { _id: new ObjectId(), tag: 'apple' },
       ]);
 
       expect(await col.countDocuments()).toBe(4);

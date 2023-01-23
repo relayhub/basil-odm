@@ -1,7 +1,7 @@
 import { Basil } from './Basil';
 import { createFieldsSchema } from './schema/FieldsSchema';
 import { CountParams, TargetCollection } from './types';
-import mongodb from 'mongodb';
+import * as mongodb from 'mongodb';
 
 export interface EntitySource<T> {
   new (): T;
