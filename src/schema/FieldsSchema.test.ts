@@ -1,5 +1,5 @@
 import { arrayOf, createFieldsSchema, union } from './FieldsSchema';
-import * as mongodb from 'mongodb';
+import mongodb from 'mongodb';
 import { literal } from './literal';
 import { nullable } from './nullable';
 import { string } from './string';

@@ -1,6 +1,6 @@
 import { Basil } from './Basil';
 import { string } from './index';
-import * as mongodb from 'mongodb';
+import mongodb from 'mongodb';
 
 jest.setTimeout(15000);
 

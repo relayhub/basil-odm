@@ -1,4 +1,4 @@
-import * as mongodb from 'mongodb';
+import mongodb from 'mongodb';
 import { BasilSettings, TargetCollection } from './types';
 import { loadConfig } from './Config';
 

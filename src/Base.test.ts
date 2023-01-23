@@ -1,6 +1,6 @@
 import { Basil } from './Basil';
 import { createFieldsSchema, objectId, string } from './index';
-import * as mongodb from 'mongodb';
+import mongodb from 'mongodb';
 import { Base } from './Base';
 
 jest.setTimeout(15000);

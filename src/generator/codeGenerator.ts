@@ -9,7 +9,7 @@ export const header = `/**
  * Do not make changes to this file directly
  */
 /* eslint-disable */
-import * as mongodb from 'mongodb';
+import mongodb from 'mongodb';
 import * as basil from 'basil-odm';
 
 `;
