@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateEnums() normal 1`] = `"export const UserType = {  "0": "member",  "1": "admin",} as const;"`;
+exports[`generateEnums() should work with duplicated name 1`] = `"export const UserType = {  "0": "member",  "1": "admin",} as const;"`;
 
-exports[`generateEnums() without name 1`] = `""`;
+exports[`generateEnums() should work without name 1`] = `""`;
+
+exports[`generateEnums() should works normally 1`] = `"export const UserType = {  "0": "member",  "1": "admin",} as const;"`;
