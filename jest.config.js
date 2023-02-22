@@ -1,4 +1,4 @@
 module.exports = {
   preset: './jestPreset',
-  testRegex: "(.*)\\.(test|spec)\\.(tsx?)$",
+  testRegex: "src/(.*)\\.(test|spec)\\.(tsx?)$",
 };
