@@ -26,10 +26,13 @@ export class Base {
 
   static findById<T extends { [key: string]: any }>(this: EntitySource<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
+    const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
 
     return this.getBasil()
       .useCollection(target, async (collection) => {
-        const result = await collection.findOne<T>({ _id: new mongodb.ObjectId(id) }, options);
+        const _id = hasObjectId ? new mongodb.ObjectId(id) : id;
+        const result = await collection.findOne<T>({ _id }, options);
+
         return result ? (target.schema.encode(result, {}) as T) : null;
       })
       .then((result) => {
@@ -38,12 +41,14 @@ export class Base {
   }
 
   static findByIds<T extends { [key: string]: any }>(this: EntitySource<T>, ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
+    const target = this.getCollection();
+    const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
+
     const filter = {
       ...options.filter,
-      _id: { $in: ids.map((id) => new mongodb.ObjectId(id)) },
+      _id: { $in: ids.map((id) => (hasObjectId ? new mongodb.ObjectId(id) : id)) },
     };
 
-    const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
       const cursor = await collection.find(filter, options);
       const documents = (await cursor.toArray()) as any[];
