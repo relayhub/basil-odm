@@ -44,9 +44,11 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
     if (node.name) {
       code += `export const ${node.name} = {`;
       for (const [key, value] of Object.entries(node.values)) {
-        code += `  ${JSON.stringify(key)}: ${JSON.stringify(value)},`;
+        code += `${JSON.stringify(key)}: ${JSON.stringify(value)},`;
       }
-      code += `} as const;`;
+      code += `} as const;\n`;
+
+      code += `export type ${node.name} = typeof ${node.name}[keyof typeof ${node.name}]`;
     }
   }
 
