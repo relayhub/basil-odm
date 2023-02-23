@@ -22,11 +22,7 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
-      - name: Test
-        run: yarn test
-
-      - name: Typecheck
-        run: yarn typecheck
-
-      - name: Build
-        run: yarn build
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn typecheck
+      - run: yarn build
