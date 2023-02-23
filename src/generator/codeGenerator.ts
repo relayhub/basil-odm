@@ -48,7 +48,7 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
       }
       code += `} as const;\n`;
 
-      code += `export type ${node.name} = typeof ${node.name}[keyof typeof ${node.name}]`;
+      code += `export type ${node.name} = typeof ${node.name}[keyof typeof ${node.name}];\n\n`;
     }
   }
 
