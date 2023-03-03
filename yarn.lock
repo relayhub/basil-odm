@@ -2136,11 +2136,6 @@ bson@^4.7.0:
   dependencies:
     buffer "^5.6.0"
 
-bson@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-5.0.1.tgz#4cd3eeeabf6652ef0d6ab600f9a18212d39baac3"
-  integrity sha512-y09gBGusgHtinMon/GVbv1J6FrXhnr/+6hqLlSmEFzkz6PodqF6TxjyvfvY3AfO+oG1mgUtbC86xSbOlwvM62Q==
-
 buffer-crc32@~0.2.3:
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/buffer-crc32/-/buffer-crc32-0.2.13.tgz#0d333e3f00eac50aa1454abd30ef8c2a5d9a7242"
@@ -4234,7 +4229,7 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mongodb-connection-string-url@^2.5.4, mongodb-connection-string-url@^2.6.0:
+mongodb-connection-string-url@^2.5.4:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.6.0.tgz#57901bf352372abdde812c81be47b75c6b2ec5cf"
   integrity sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ==
@@ -4272,18 +4267,7 @@ mongodb-memory-server@8.11.5:
     mongodb-memory-server-core "8.11.5"
     tslib "^2.4.1"
 
-mongodb@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-5.1.0.tgz#e551f9e496777bde9173e51d16c163ab2c805b9d"
-  integrity sha512-qgKb7y+EI90y4weY3z5+lIgm8wmexbonz0GalHkSElQXVKtRuwqXuhXKccyvIjXCJVy9qPV82zsinY0W1FBnJw==
-  dependencies:
-    bson "^5.0.1"
-    mongodb-connection-string-url "^2.6.0"
-    socks "^2.7.1"
-  optionalDependencies:
-    saslprep "^1.0.3"
-
-mongodb@^4.13.0:
+mongodb@4.14.0, mongodb@^4.13.0:
   version "4.14.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.14.0.tgz#3a21ca602069b2494b7066a7709056c8cece6bf6"
   integrity sha512-coGKkWXIBczZPr284tYKFLg+KbGPPLlSbdgfKAb6QqCFt5bo5VFZ50O3FFzsw4rnkqjwT6D8Qcoo9nshYKM7Mg==
