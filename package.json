@@ -9,7 +9,7 @@
     "basil": "bin/cli.js"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "4.1.6",
+    "@shelf/jest-mongodb": "4.1.7",
     "@types/jest": "29.4.0",
     "@types/pluralize": "0.0.29",
     "@typescript-eslint/eslint-plugin": "5.54.0",
