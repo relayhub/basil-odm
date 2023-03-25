@@ -8,7 +8,7 @@ export interface ValidationMessage {
   message?: string;
 }
 
-export function validate(target: any, node: SchemaNode, paths: string[]): ValidationMessage[] {
+export function validate(target: unknown, node: SchemaNode, paths: string[]): ValidationMessage[] {
   switch (node.kind) {
     case 'union':
       for (const item of node.items) {
@@ -41,6 +41,9 @@ export function validate(target: any, node: SchemaNode, paths: string[]): Valida
         return error('Target value is not ObjectId');
       }
       return [];
+
+    case 'record':
+      throw Error('Not implemented');
 
     case 'object': {
       const errors: ValidationMessage[] = [];
@@ -88,7 +91,7 @@ export function validate(target: any, node: SchemaNode, paths: string[]): Valida
       return [];
 
     case 'enum':
-      if (!Object.values(node.values).includes(target)) {
+      if (!Object.values(node.values).includes(target as string | number)) {
         return error('Target value does not match enum value');
       }
       return [];

@@ -1,7 +1,7 @@
 import { SchemaNode } from './schema/astTypes';
 import { inspect } from 'util';
 
-export function generateBsonSchema(node: SchemaNode): Record<string, any> {
+export function generateBsonSchema(node: SchemaNode): Record<string, unknown> {
   switch (node.kind) {
     case 'union':
       return {
@@ -24,8 +24,15 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
         bsonType: 'objectId',
       };
 
-    case 'object':
-      const properties: { [key: string]: any } = {};
+    case 'record':
+      return {
+        bsonType: 'object',
+        properties: {},
+        additionalProperties: generateBsonSchema(node.item),
+      };
+
+    case 'object': {
+      const properties: { [key: string]: unknown } = {};
       const required: string[] = [];
 
       Object.keys(node.props).forEach((key) => {
@@ -43,6 +50,7 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
         additionalProperties: Object.keys(node.props).length === 0,
         ...(required.length > 0 ? { required } : {}),
       };
+    }
 
     case 'number':
       return {
@@ -70,12 +78,13 @@ export function generateBsonSchema(node: SchemaNode): Record<string, any> {
     case 'array':
       return { bsonType: 'array', items: generateBsonSchema(node.item) };
 
-    default:
+    default: {
       const _: never = node;
       throw Error();
+    }
   }
 
-  function error(message: string = '') {
+  function error(message = '') {
     return Error(`${message}\nschema = ${inspect(node)}`);
   }
 }

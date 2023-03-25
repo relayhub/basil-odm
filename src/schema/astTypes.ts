@@ -10,7 +10,7 @@
 
 export type SchemaRoot = ObjectNode;
 
-export type SchemaNode = ObjectNode | ArrayNode | Union | Value | Literal | Enum | Reference;
+export type SchemaNode = ObjectNode | ArrayNode | Union | Value | Literal | Enum | Reference | RecordNode;
 
 export type ObjectNode = {
   kind: 'object';
@@ -36,6 +36,11 @@ export type Reference = {
 
 export type ArrayNode = {
   kind: 'array';
+  item: SchemaNode;
+};
+
+export type RecordNode = {
+  kind: 'record';
   item: SchemaNode;
 };
 

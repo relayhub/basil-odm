@@ -6,6 +6,7 @@ import { objectId } from '../schema/objectId';
 import { date } from '../schema/date';
 import { boolean } from '../schema/boolean';
 import { string } from '../schema/string';
+import { record } from '../schema/record';
 
 const table = [
   [
@@ -19,6 +20,7 @@ const table = [
         sub: {
           name: string(),
         },
+        record: record(string),
       },
       collectionName: 'docs',
     }),
@@ -42,6 +44,7 @@ const table = [
       sub: {name: string} = {
         name: "",
       };
+      record: Record<string, string> = {};
     }`,
   ],
 ] as const;

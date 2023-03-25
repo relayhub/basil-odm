@@ -16,6 +16,7 @@ export * from './schema/object';
 export * from './schema/objectId';
 export * from './schema/date';
 export * from './schema/nullable';
+export * from './schema/record';
 export { generateCode } from './generator/codeGenerator';
 export { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './schema/symbols';
 export { index } from './utils';

@@ -119,6 +119,20 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
         return extract(item, node.item, [...paths, index.toString()]);
       });
 
+    case 'record': {
+      const record: Record<string, unknown> = {};
+
+      if (target === undefined || target === null) {
+        throw error('Extracting fail.');
+      }
+
+      for (const [key, value] of Object.entries(target as any /* FIXME */)) {
+        record[key] = extract(value, node.item, [...paths, key]);
+      }
+
+      return record;
+    }
+
     default: {
       const _: never = node;
       throw Error();

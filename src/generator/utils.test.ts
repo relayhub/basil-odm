@@ -1,6 +1,7 @@
 import { enums } from '../schema/enums';
 import { createFieldsSchema, union } from '../schema/FieldsSchema';
 import { aggregateEnums } from './utils';
+import { record } from '../schema/record';
 
 describe('aggregateEnums()', () => {
   it('should works normally', () => {
@@ -27,5 +28,18 @@ describe('aggregateEnums()', () => {
       }).getSchemaAST()
     );
     expect(aggregated.length).toBe(2);
+  });
+
+  it('should works normally', () => {
+    const aggregated = aggregateEnums(
+      createFieldsSchema({
+        record: record(
+          enums({
+            values: [1, 2, 3],
+          })
+        ),
+      }).getSchemaAST()
+    );
+    expect(aggregated.length).toBe(1);
   });
 });

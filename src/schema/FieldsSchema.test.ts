@@ -154,10 +154,6 @@ test('Nullable', () => {
   }
 });
 
-test('Literal', () => {
-  const schemaFragment = literal('foobar');
-});
-
 test('Union', () => {
   const schema = createFieldsSchema({
     type: union(literal('foo'), literal('bar')),

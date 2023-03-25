@@ -46,6 +46,9 @@ export function generateDefaultValue(node: SchemaNode): string {
       return lines.join('\n');
     }
 
+    case 'record':
+      return '{}';
+
     case 'literal':
       return generateLiteralValue(node.value);
 
@@ -94,6 +97,9 @@ export function generateType(node: SchemaNode): string {
 
     case 'objectId':
       return 'mongodb.ObjectId';
+
+    case 'record':
+      return `Record<string, ${generateType(node.item)}>`;
 
     case 'object':
       return generateObjectType(node);
@@ -167,6 +173,10 @@ function _aggregateEnums(node: SchemaNode, enums: Enum[] = []) {
       return;
 
     case 'array':
+      _aggregateEnums(node.item, enums);
+      return;
+
+    case 'record':
       _aggregateEnums(node.item, enums);
       return;
 
