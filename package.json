@@ -22,7 +22,7 @@
     "jest-environment-node": "29.5.0",
     "lint-staged": "13.2.0",
     "merge": "2.1.1",
-    "mongodb": "4.14.0",
+    "mongodb": "4.15.0",
     "typescript": "5.0.2"
   },
   "dependencies": {
