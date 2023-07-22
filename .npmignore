@@ -1,6 +1,7 @@
 src
 test
 node_modules
+playground
 .github
 .husky
 .yarn
