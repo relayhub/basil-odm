@@ -1,22 +1,16 @@
 # Basil ODM [![CI](https://github.com/anatoo/basil-odm/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/anatoo/basil-odm/actions/workflows/ci.yaml)
 
-Basil is an Object-Document Mapper for TypeScript and MongoDB.
+Basil is a TypeScript ODM for MongoDB.
 
-Basilは以下のような特徴を持っているODMです。
+## Getting Started
 
-- コレクションがどのようなフィールドや制約を持っているかをSchemaに記述することでTypeScriptのモデルを生成します。生成されるモデルは型安全です
-- Schemaを記述することで、コレクションごとのインデックスやBSON Schemaの設定できます
-
-## Install
+### Install
 
 ```bash
 $ npm install mongodb basil-odm --save
 ```
 
-## Getting Started
-
-
-プロジェクトのディレクトリに `basil.config.cjs` という設定ファイルを作ります。
+### Add a configuration file
 
 ```javascript
 // basil.config.cjs
@@ -26,17 +20,103 @@ module.exports = {
 };
 ```
 
-データベースのスキーマを書きます。
+### Define a database schema in TypeScript
 
 ```typescript
-// TODO: スキーマのコードを書く
+// schema.ts
+import {
+  CollectionSchema,
+  objectId,
+  date,
+  string,
+  index,
+} from 'basil-odm';
 
+const BlogEntries = new CollectionSchema({
+  collectionName: 'blogEntries',
+  fields: {
+    _id: objectId,
+    title: string,
+    content: string,
+    createdAt: date,
+  },
+  indexes: [
+    index({createdAt: -1}),
+  ],
+});
+
+export const collections = [
+  BlogEntries
+];
 ```
 
-データベースのスキーマからコードを生成します。
+### Apply the defined schema to the database
 
 ```typescript
-// TODO: コード生成のコードを書く
+// prepare-db.ts
+import {Basil, prepareCollections} from 'basil-odm';
+import {collections} from './schema'; // import your schema
+import {dirname} from 'path';
+
+const prepare = async () => {
+  const basil = await Basil.connect();
+  await prepareCollections(collections);
+  await basil.close();
+};
+
+prepare();
 ```
 
-モデルのコードが生成されます。
+```bash
+$ npx tsx prepare-db.ts
+```
+
+### Generate models from the schema
+
+```typescript
+// generate.ts
+import {generateCode} from 'basil-odm';
+import {join, dirname} from 'path';
+import {collections} from './schema'; // import your schema
+
+generateCode({
+  collections: collections,
+  outputFile: join(__dirname, 'basil-gen.ts'),
+});
+```
+
+```bash
+$ npx tsx generate.ts
+```
+
+### CRUD examples
+
+```typescript
+import {BlogEntry} from './basil-gen'; // import from generated code
+
+(async () => {
+  const entry = new BlogEntry({
+    name: 'My First Entry',
+    content: 'blablabla',
+    createdAt: new Date(),
+  });
+  
+  await BlogEntry.insertOne(entry);
+  
+  const entries = await BlogEntry.findMany({
+    createdAt: {
+      $gt: new Date('2022-10-10')
+    }
+  });
+  
+  await BlogEntry.updateOne({
+    name: 'My First Entry'
+  }, {
+    content: 'updated text'
+  });
+
+  await BlogEntry.deleteOne({
+    name: 'My First Entry'
+  });
+})();
+```
