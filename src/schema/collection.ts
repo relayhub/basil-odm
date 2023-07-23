@@ -9,7 +9,7 @@ interface Props {
   entityName?: string;
 }
 
-export class CollectionSchema implements CollectionDef {
+class CollectionSchema implements CollectionDef {
   _collectionName: string;
   _fields: FieldsSchema;
   _indexes: Index[];
@@ -40,3 +40,5 @@ export class CollectionSchema implements CollectionDef {
     return this._indexes;
   }
 }
+
+export const collection = (props: Props): CollectionSchema => new CollectionSchema(props);

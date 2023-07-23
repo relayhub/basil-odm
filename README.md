@@ -25,14 +25,14 @@ module.exports = {
 ```typescript
 // schema.ts
 import {
-  CollectionSchema,
+  collection,
   objectId,
   date,
   string,
   index,
 } from 'basil-odm';
 
-const BlogEntries = new CollectionSchema({
+const blogEntries = collection({
   collectionName: 'blogEntries',
   fields: {
     _id: objectId,
@@ -46,7 +46,7 @@ const BlogEntries = new CollectionSchema({
 });
 
 export const collections = [
-  BlogEntries
+  blogEntries
 ];
 ```
 

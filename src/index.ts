@@ -3,7 +3,7 @@ export * from './utils';
 export * from './Config';
 export * from './Base';
 export * from './types';
-export * from './schema/CollectionSchema';
+export * from './schema/collection';
 export * from './schema/FieldsSchema';
 export * from './schema/utils';
 export * from './schema/string';

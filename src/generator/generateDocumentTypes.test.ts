@@ -1,6 +1,6 @@
 import { enums } from '../schema/enums';
 import { generateDocumentTypes } from './codeGenerator';
-import { CollectionSchema } from '../schema/CollectionSchema';
+import { collection } from '../schema/collection';
 import { format } from '../testUtils';
 import { objectId } from '../schema/objectId';
 import { date } from '../schema/date';
@@ -10,7 +10,7 @@ import { record } from '../schema/record';
 
 const table = [
   [
-    new CollectionSchema({
+    collection({
       fields: {
         _id: objectId(),
         createdAt: date(),

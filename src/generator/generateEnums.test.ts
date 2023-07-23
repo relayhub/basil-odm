@@ -1,11 +1,11 @@
 import { enums } from '../schema/enums';
 import { generateEnumsCode } from './codeGenerator';
-import { CollectionSchema } from '../schema/CollectionSchema';
+import { collection } from '../schema/collection';
 import { objectId } from '../schema/objectId';
 
 describe('generateEnums()', () => {
   it('should works normally', () => {
-    const collection = new CollectionSchema({
+    const users = collection({
       collectionName: 'users',
       entityName: 'User',
       fields: {
@@ -17,11 +17,11 @@ describe('generateEnums()', () => {
       },
     });
 
-    expect(generateEnumsCode([collection])).toMatchSnapshot();
+    expect(generateEnumsCode([users])).toMatchSnapshot();
   });
 
   it('should work without name', () => {
-    const collection = new CollectionSchema({
+    const users = collection({
       collectionName: 'users',
       entityName: 'User',
       fields: {
@@ -32,7 +32,7 @@ describe('generateEnums()', () => {
       },
     });
 
-    expect(generateEnumsCode([collection])).toMatchSnapshot();
+    expect(generateEnumsCode([users])).toMatchSnapshot();
   });
 
   it('should work with duplicated name', () => {
@@ -40,7 +40,7 @@ describe('generateEnums()', () => {
       name: 'UserType',
       values: ['member', 'admin'],
     });
-    const collection = new CollectionSchema({
+    const users = collection({
       collectionName: 'users',
       entityName: 'User',
       fields: {
@@ -50,11 +50,11 @@ describe('generateEnums()', () => {
       },
     });
 
-    expect(generateEnumsCode([collection])).toMatchSnapshot();
+    expect(generateEnumsCode([users])).toMatchSnapshot();
   });
 
   it('should throw error', () => {
-    const collection = new CollectionSchema({
+    const users = collection({
       collectionName: 'users',
       entityName: 'User',
       fields: {
@@ -70,6 +70,6 @@ describe('generateEnums()', () => {
       },
     });
 
-    expect(() => generateEnumsCode([collection])).toThrowError();
+    expect(() => generateEnumsCode([users])).toThrowError();
   });
 });
