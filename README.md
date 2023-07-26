@@ -56,7 +56,6 @@ export const collections = [
 // prepare-db.ts
 import {Basil, prepareCollections} from 'basil-odm';
 import {collections} from './schema'; // import your schema
-import {dirname} from 'path';
 
 const prepare = async () => {
   const basil = await Basil.connect();
@@ -120,3 +119,7 @@ import {BlogEntry} from './basil-gen'; // import from generated code
   });
 })();
 ```
+
+### Docs
+
+ - [Define the schema](./docs/schema.md)
