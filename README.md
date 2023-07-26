@@ -15,8 +15,8 @@ $ npm install mongodb basil-odm --save
 ```javascript
 // basil.config.cjs
 module.exports = {
-  database: 'relayhub',
-  connectionUri: process.env.MONGODB_URI
+  database: 'mydb',
+  connectionUri: 'mongodb://localhost:27017'
 };
 ```
 
@@ -122,4 +122,5 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 
 ### Docs
 
- - [Define the schema](./docs/schema.md)
+ - [Manage Connections](./docs/01_connection.md)
+ - [Define the schema](./docs/02_schema.md)
