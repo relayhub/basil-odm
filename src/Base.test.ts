@@ -7,7 +7,7 @@ jest.setTimeout(15000);
 const basil = Basil.getInstance();
 
 beforeAll(async () => {
-  const uri = process.env.MONGO_URL as string;
+  const uri = process.env.MONGO_URI as string;
 
   basil.configure({
     connectionUri: uri,
