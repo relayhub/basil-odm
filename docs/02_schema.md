@@ -27,6 +27,22 @@ const users = b.collection({
 
 > NOTE: When you add a record to a collection, MongoDB automatically adds an `ObjectID` value to the `_id` field. However, if you are writing the schema in Basil ODM, you must explicitly define the `_id` property to be of type `ObjectID`.
 
+## References
+
+- [objectId()](#objectId)
+- [string()](#string)
+- [number()](#number)
+- [boolean()](#boolean)
+- [enum()](#enum)
+- [date()](#date)
+- [literal()](#literal)
+- [nullable()](#nullable)
+- [record()](#record)
+- [shape()](#shape)
+- [arrayOf()](#arrayOf)
+- [union()](#union)
+- [index()](#index)
+
 ### `objectId()`
 
 The `objectId()` function defines that a field has a value of ObjectID.

@@ -1,4 +1,4 @@
-# Manage Connections
+# Manage connections
 
 ## Setup for connection
 

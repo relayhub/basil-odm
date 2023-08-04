@@ -122,5 +122,5 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 
 ### Docs
 
- - [Manage Connections](./docs/01_connection.md)
+ - [Manage connections](./docs/01_connection.md)
  - [Define the schema](./docs/02_schema.md)
