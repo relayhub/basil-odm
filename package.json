@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@types/jest": "29.5.1",
-    "@types/pluralize": "0.0.29",
+    "@types/pluralize": "0.0.30",
     "@typescript-eslint/eslint-plugin": "6.2.1",
     "@typescript-eslint/parser": "6.2.1",
     "esbuild": "0.18.17",
