@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@types/jest": "29.5.1",
-    "@types/pluralize": "0.0.29",
+    "@types/pluralize": "0.0.30",
     "@typescript-eslint/eslint-plugin": "6.2.1",
     "@typescript-eslint/parser": "6.2.1",
     "esbuild": "0.18.17",
@@ -23,7 +23,7 @@
     "merge": "2.1.1",
     "mongodb": "4.16.0",
     "mongodb-memory-server": "8.14.0",
-    "typescript": "5.0.4"
+    "typescript": "5.1.6"
   },
   "dependencies": {
     "commander": "11.0.0",
