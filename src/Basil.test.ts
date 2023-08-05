@@ -30,12 +30,19 @@ describe('Basil', () => {
       const col = db.collection('hoge');
       await col.deleteMany({});
 
-      await col.insertMany([
-        { _id: new ObjectId(), tag: 'apple' },
-        { _id: new ObjectId(), tag: 'pineapple' },
-        { _id: new ObjectId(), tag: 'pen' },
-        { _id: new ObjectId(), tag: 'apple' },
-      ]);
+      await col.insertMany(
+        [
+          { _id: new ObjectId(), tag: 'apple' },
+          { _id: new ObjectId(), tag: 'pineapple' },
+          { _id: new ObjectId(), tag: 'pen' },
+          { _id: new ObjectId(), tag: 'apple' },
+        ],
+        {
+          readConcern: {
+            level: 'linearizable',
+          },
+        }
+      );
 
       expect(
         await col.countDocuments(
