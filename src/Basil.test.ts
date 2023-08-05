@@ -1,5 +1,4 @@
 import { Basil } from './Basil';
-import { string } from './index';
 import { ObjectId } from 'mongodb';
 
 jest.setTimeout(15000);
@@ -29,6 +28,7 @@ describe('Basil', () => {
 
     await basil.useDatabase(async (db) => {
       const col = db.collection('hoge');
+      await col.deleteMany({});
 
       await col.insertMany([
         { _id: new ObjectId(), tag: 'apple' },
@@ -37,7 +37,16 @@ describe('Basil', () => {
         { _id: new ObjectId(), tag: 'apple' },
       ]);
 
-      expect(await col.countDocuments()).toBe(4);
+      expect(
+        await col.countDocuments(
+          {},
+          {
+            readConcern: {
+              level: 'linearizable',
+            },
+          }
+        )
+      ).toBe(4);
       await col.deleteMany({});
     });
   });
