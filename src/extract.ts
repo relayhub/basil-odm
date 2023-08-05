@@ -1,16 +1,19 @@
-import { SchemaNode, SchemaRoot } from './schema/astTypes';
+import { SchemaNode, SchemaRoot, LiteralValue } from './schema/astTypes';
 import { inspect } from 'util';
+import { ObjectId } from 'mongodb';
 
-export function createDocument(entity: Record<string, unknown>, rootNode: SchemaRoot): Record<string, any> {
-  return extract(entity, rootNode, []);
+export function createDocument(entity: Record<string, unknown>, rootNode: SchemaRoot): Record<string, unknown> {
+  return extract(entity, rootNode, []) as Record<string, unknown>;
 }
 
-export function createEntity<T extends Record<string, unknown>>(source: T, document: Record<string, any>, rootNode: SchemaRoot): T {
+export function createEntity<T extends Record<string, unknown>>(source: T, document: Record<string, unknown>, rootNode: SchemaRoot): T {
   const object = extract(document, rootNode, []);
   return Object.assign(source, object);
 }
 
-export function extract(target: unknown, node: SchemaNode, paths: string[]): any {
+const objectIdBsonType = new ObjectId()._bsontype;
+
+export function extract(target: unknown, node: SchemaNode, paths: string[]): unknown {
   switch (node.kind) {
     case 'union':
       for (const item of node.items) {
@@ -38,9 +41,10 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
       throw error('Not implemented');
 
     case 'objectId':
-      if ((target as any)?._bsontype !== 'ObjectID') {
+      if (!(target instanceof ObjectId) && (target as ObjectId)?._bsontype !== objectIdBsonType) {
         throw error('Extracting ObjectId fail');
       }
+
       return target;
 
     case 'object': {
@@ -48,7 +52,7 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
         throw error('Extracting Object fail');
       }
 
-      const record: Record<string, any> = {};
+      const record: Record<string, unknown> = {};
       for (const [name, field] of Object.entries(node.props)) {
         try {
           record[name] = extract((target as Record<string, unknown>) /* FIXME */[name], field.node, [...paths, name]);
@@ -96,7 +100,7 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
       return target;
 
     case 'enum':
-      if (!Object.values(node.values).includes(target as any)) {
+      if (!Object.values(node.values).includes(target as LiteralValue)) {
         throw error('Extract enum value fail');
       }
       return target;
@@ -126,7 +130,7 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): any
         throw error('Extracting fail.');
       }
 
-      for (const [key, value] of Object.entries(target as any /* FIXME */)) {
+      for (const [key, value] of Object.entries(target as Record<string, unknown>)) {
         record[key] = extract(value, node.item, [...paths, key]);
       }
 
