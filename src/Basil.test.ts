@@ -38,8 +38,8 @@ describe('Basil', () => {
           { _id: new ObjectId(), tag: 'apple' },
         ],
         {
-          readConcern: {
-            level: 'linearizable',
+          writeConcern: {
+            w: 'majority',
           },
         }
       );
