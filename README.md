@@ -16,7 +16,7 @@ See [Getting started](./docs/00_getting_started.md) to see what Basil ODM looks 
 
  - [Getting started](./docs/00_getting_started.md)
  - [Manage connections](./docs/01_connection.md)
- - [Define the schema](./docs/02_schema.md)
+ - [Define your schema](./docs/02_schema.md)
 
 ## License
 

@@ -1,4 +1,4 @@
-# Define the schema
+# Define your schema
 
 Basil ODM allows you to write a schema in TypeScript. It allows you to set up [schema validation](https://www.mongodb.com/docs/manual/core/schema-validation/) and [indexes](https://www.mongodb.com/docs/v6.0/indexes/) for Mongo DB collections. You can also generate a fully type-safe model from the schema.
 
