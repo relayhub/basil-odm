@@ -9,11 +9,12 @@ export class Basil {
   _settings?: BasilSettings;
 
   _queue: ClientCallbackQueue = [];
-  _timeoutId: undefined | ReturnType<typeof setTimeout> = undefined;
+  _timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   configure(settings: BasilSettings) {
     if (this._settings) {
-      throw Error('This instance is already configured.');
+      console.warn('This instance is already configured.');
+      return;
     }
 
     Object.freeze(settings);
@@ -74,9 +75,11 @@ export class Basil {
       callback(this._client);
     } else {
       if (this._queue.length === 0) {
-        this._timeoutId = setTimeout(() => {
-          throw Error('TIMEOUT: Maybe Basil is not initialized. Call Basil.connect().');
-        }, 3000);
+        this._timeoutIds.push(
+          setTimeout(() => {
+            throw Error('TIMEOUT: Maybe Basil is not initialized. Call configure() or loadConfig().');
+          }, 5000)
+        );
       }
       this._queue.push(callback);
     }
@@ -87,7 +90,10 @@ export class Basil {
       throw Error('Invalid state');
     }
 
-    clearTimeout(this._timeoutId);
+    for (const timeoutId of this._timeoutIds) {
+      clearTimeout(timeoutId);
+    }
+    this._timeoutIds = [];
 
     while (this._queue.length > 0) {
       const callback = this._queue.shift();
@@ -159,7 +165,7 @@ export class Basil {
   }
 }
 
-const basil: Basil = new Basil();
+export const basil: Basil = new Basil();
 
 export function configure(settings: BasilSettings): void {
   basil.configure(settings);
