@@ -4,8 +4,8 @@
 
 To connect to MongoDB, remember to place a configuration file in the directory where package.json is located. The name of the configuration file is `basil.config.cjs` (note that the extension is not `.js`).
 
+`basi.config.cjs`
 ```javascript
-// basil.config.cjs
 module.exports = {
   database: 'mydb',
   connectionUri: 'mongodb://localhost:27017'
