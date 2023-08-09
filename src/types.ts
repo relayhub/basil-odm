@@ -1,4 +1,4 @@
-import type { Db, MongoClientOptions, Filter, CountDocumentsOptions } from 'mongodb';
+import type { MongoClientOptions, Filter, CountDocumentsOptions } from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 
 export interface BasilSettings {
@@ -37,3 +37,5 @@ export type TargetCollection<T> = {
   collectionName: string;
   indexes: Index[];
 };
+
+export type DefinedSchema = Record<string, CollectionDef> | CollectionDef[];

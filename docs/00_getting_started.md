@@ -28,7 +28,7 @@ import {
   index,
 } from 'basil-odm';
 
-const blogEntries = collection({
+export const blogEntries = collection({
   collectionName: 'blogEntries',
   fields: {
     _id: objectId,
@@ -40,10 +40,6 @@ const blogEntries = collection({
     index({createdAt: -1}),
   ],
 });
-
-export const collections = [
-  blogEntries
-];
 ```
 
 ### Apply the defined schema to the database
@@ -52,11 +48,11 @@ export const collections = [
 
 ```typescript
 import {Basil, prepareCollections} from 'basil-odm';
-import {collections} from './schema'; // import your schema
+import * as schema from './schema'; // import your schema
 
 const prepare = async () => {
   const basil = await Basil.connect();
-  await prepareCollections(collections);
+  await prepareCollections(schema);
   await basil.close();
 };
 
@@ -73,10 +69,10 @@ $ npx tsx ./prepare-db.ts
 ```typescript
 import {generateCode} from 'basil-odm';
 import {join, dirname} from 'path';
-import {collections} from './schema'; // import your schema
+import * as schema from './schema'; // import your schema
 
 generateCode({
-  collections: collections,
+  schema: schema,
   outputFile: join(__dirname, 'basil-gen.ts'),
 });
 ```

@@ -1,5 +1,5 @@
 import { SchemaRoot, Enum } from '../schema/astTypes';
-import { CollectionDef } from '../types';
+import { CollectionDef, DefinedSchema } from '../types';
 import { writeFileSync } from 'fs';
 import { prettier } from '../utils';
 import { aggregateEnums, generateDefaultValue, generateType, getDefaultEntityName } from './utils';
@@ -115,11 +115,12 @@ export function generateTypeFromSchema(root: SchemaRoot) {
 }
 
 interface GenerateCodeParams {
-  collections: CollectionDef[];
   outputFile: string;
+  schema: DefinedSchema;
 }
 
 export function generateCode(params: GenerateCodeParams) {
-  const { collections, outputFile } = params;
+  const { schema, outputFile } = params;
+  const collections = Object.values(schema);
   writeFileSync(outputFile, prettier(generateTypeScriptFile(collections)));
 }
