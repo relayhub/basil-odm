@@ -6,9 +6,9 @@ Basil is a TypeScript ODM for MongoDB.
 
  - Designed for Node.js+TypeScript and MongoDB
  - Provides full type safety
- - Schema can be defined in TypeScript
- - MongoDB schema validation and index can be set from the schema
- - A data access layer in TypeScript can be generated from the schema
+ - Define schema in TypeScript
+ - Set schema validation and index in MongoDB from the defined schema
+ - Generate a TypeScript data access layer from the defined schema
 
 ## Documentation
 
