@@ -47,13 +47,12 @@ export const blogEntries = collection({
 `prepare-db.ts`
 
 ```typescript
-import {Basil, prepareCollections} from 'basil-odm';
+import {disconnect, prepareCollections} from 'basil-odm';
 import * as schema from './schema'; // import your schema
 
 const prepare = async () => {
-  const basil = await Basil.connect();
   await prepareCollections(schema);
-  await basil.close();
+  await disconnect();
 };
 
 prepare();
