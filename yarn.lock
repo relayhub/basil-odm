@@ -3580,7 +3580,7 @@ jest-each@^29.6.2:
     jest-util "^29.6.2"
     pretty-format "^29.6.2"
 
-jest-environment-node@29.6.2, jest-environment-node@^29.6.2:
+jest-environment-node@^29.6.2:
   version "29.6.2"
   resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-29.6.2.tgz#a9ea2cabff39b08eca14ccb32c8ceb924c8bb1ad"
   integrity sha512-YGdFeZ3T9a+/612c5mTQIllvWkddPbYcN2v95ZH24oWMbGA4GGS2XdIF92QMhUhvrjjuQWYgUGW2zawOyH63MQ==
