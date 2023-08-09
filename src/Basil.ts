@@ -9,7 +9,7 @@ export class Basil {
   _settings?: BasilSettings;
 
   _queue: ClientCallbackQueue = [];
-  _timeoutId: any = undefined;
+  _timeoutId: undefined | ReturnType<typeof setTimeout> = undefined;
 
   configure(settings: BasilSettings) {
     if (this._settings) {
@@ -21,6 +21,8 @@ export class Basil {
 
     this._client = new mongodb.MongoClient(settings.connectionUri, settings.clientOptions);
     this._client.addListener('close', this.handleClose);
+
+    this.flushQueue();
   }
 
   private handleClose = () => {
@@ -63,16 +65,7 @@ export class Basil {
     return this.settings.databaseName;
   }
 
-  async prepare() {
-    await this.connect();
-  }
-
-  async connect(): Promise<void> {
-    await this.client.connect();
-    this.flushQueue();
-  }
-
-  async close(): Promise<void> {
+  async disconnect(): Promise<void> {
     await this.client.close();
   }
 
@@ -131,7 +124,7 @@ export class Basil {
     });
   }
 
-  useCollection<T extends { [key: string]: any }, R>(target: TargetCollection<any>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
+  useCollection<T extends { [key: string]: unknown }, R>(target: TargetCollection<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
     const name = typeof target === 'string' ? target : target.collectionName;
 
     return new Promise((resolve, reject) => {
@@ -162,10 +155,16 @@ export class Basil {
       await basil.loadConfig(configPath);
     }
 
-    await basil.connect();
-
     return basil;
   }
 }
 
 const basil: Basil = new Basil();
+
+export function configure(settings: BasilSettings): void {
+  basil.configure(settings);
+}
+
+export function disconnect(): Promise<void> {
+  return basil.disconnect();
+}

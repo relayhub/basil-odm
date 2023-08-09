@@ -13,11 +13,10 @@ beforeAll(async () => {
     databaseName: 'db',
     clientOptions: {},
   });
-  await basil.connect();
 });
 
 afterAll(async () => {
-  await basil.close();
+  await basil.disconnect();
 });
 
 describe('Basil', () => {

@@ -14,7 +14,6 @@ beforeAll(async () => {
     databaseName: 'db',
     clientOptions: {},
   });
-  await basil.connect();
 });
 
 beforeEach(async () => {
@@ -23,7 +22,7 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await basil.close();
+  await basil.disconnect();
 });
 
 class User extends Base {
