@@ -9,6 +9,7 @@ $ npm install mongodb basil-odm --save
 ### Add a configuration file
 
 `basil.config.cjs`
+
 ```javascript
 module.exports = {
   database: 'mydb',
@@ -19,6 +20,7 @@ module.exports = {
 ### Define a database schema in TypeScript
 
 `schema.ts`
+
 ```typescript
 import {
   collection,
@@ -65,9 +67,10 @@ $ npx tsx ./prepare-db.ts
 ### Generate models from the schema
 
 `generate.ts`
+
 ```typescript
 import {generateCode} from 'basil-odm';
-import {join, dirname} from 'path';
+import {join} from 'path';
 import * as schema from './schema'; // import your schema
 
 generateCode({

@@ -8,10 +8,12 @@ This page describes how to define the schema using Basil ODM and TypeScript.
 
 You can set the schema for a collection using the `collection()` function. It describes the name of the collection, the index of the collection, and what fields the collection will have.
 
+`schema.ts`
+
 ```typescript
 import * as b from 'basil-odm';
 
-const users = b.collection({
+export const users = b.collection({
   collectionName: 'users',
   fields: {
     _id: b.objectId(),
@@ -26,6 +28,52 @@ const users = b.collection({
 ```
 
 > NOTE: When you add a record to a collection, MongoDB automatically adds an `ObjectID` value to the `_id` field. However, if you are writing the schema in Basil ODM, you must explicitly define the `_id` property to be of type `ObjectID`.
+
+
+### Prepare schema validation and indexes in database
+
+MongoDB allows you to set schema validation and indexes for a collection. Schema validation allows you to restrict what fields a document in that collection should have.
+
+`prepare-db.ts`
+
+```typescript
+import {disconnect, prepareCollections} from 'basil-odm';
+import * as schema from './schema'; // import your schema
+
+(async () => {
+  await prepareCollections(schema);
+  await disconnect();
+})();
+```
+
+```bash
+$ npx tsx ./prepare-db.ts
+```
+
+> NOTE: We use [`tsx`](https://www.npmjs.com/package/tsx) to run TypeScript, but `ts-node` and others should also work.
+
+If nothing goes wrong, schema validation and index are set for each collection in the database. Even if the database already has a collection with schema validation and index set, Basil ODM will successfully reconfigure the schema validation and indexes.
+
+### Generate models from defined schema
+
+`generate.ts`
+
+```typescript
+import {generateCode} from 'basil-odm';
+import {join} from 'path';
+import * as schema from './schema'; // import your schema
+
+generateCode({
+  schema: schema,
+  outputFile: join(__dirname, 'basil-gen.ts'),
+});
+```
+
+```bash
+$ npx tsx ./generate.ts
+```
+
+If nothing goes wrong, TypeScript code will be generated in the specified file path.
 
 ## References
 
