@@ -17,32 +17,30 @@ module.exports = {
 };
 ```
 
+Start MongoDB server and set its connection URI and database name.
+
 ### Define a database schema in TypeScript
 
 `schema.ts`
 
 ```typescript
-import {
-  collection,
-  objectId,
-  date,
-  string,
-  index,
-} from 'basil-odm';
+import * as b from 'basil-odm';
 
-export const blogEntries = collection({
+export const blogEntries = b.collection({
   collectionName: 'blogEntries',
   fields: {
-    _id: objectId,
-    title: string,
-    content: string,
-    createdAt: date,
+    _id: b.objectId(),
+    title: b.string(),
+    content: b.string(),
+    createdAt: b.date(),
   },
   indexes: [
-    index({createdAt: -1}),
+    b.index({createdAt: -1}),
   ],
 });
 ```
+
+The schema describes what fields and indexes are in the documents of the collection.
 
 ### Apply the defined schema to the database
 
@@ -64,6 +62,8 @@ prepare();
 $ npx tsx ./prepare-db.ts
 ```
 
+If nothing goes wrong, create  collections described by schema in the database and set schema validation and indexes.
+
 ### Generate models from the schema
 
 `generate.ts`
@@ -83,7 +83,13 @@ generateCode({
 $ npx tsx ./generate.ts
 ```
 
-### CRUD examples
+TypeScript models for accessing the database will be generated in `basil-gen.ts`.
+
+### Examples of using the generated code
+
+Through the generated code, you can query and store data in MongoDB collections.
+
+#### `insertOne()`
 
 ```typescript
 import {BlogEntry} from './basil-gen'; // import from generated code
@@ -96,21 +102,44 @@ import {BlogEntry} from './basil-gen'; // import from generated code
   });
   
   await BlogEntry.insertOne(entry);
-  
-  const entries = await BlogEntry.findMany({
-    createdAt: {
-      $gt: new Date('2022-10-10')
-    }
-  });
-  
-  await BlogEntry.updateOne({
-    name: 'My First Entry'
-  }, {
-    content: 'updated text'
-  });
+})();
+```
 
+#### `findMany()`
+
+```typescript
+import {BlogEntry} from './basil-gen'; // import from generated code
+
+(async () => {
+  const entreis = await BlogEntry.findMany({}, {limit: 10});
+  
+  console.log(entries);
+})();
+```
+
+#### `save()`
+
+```typescript
+import {BlogEntry} from './basil-gen'; // import from generated code
+
+(async () => {
+  const entry = BlogEntry.findOne({
+    name: 'My First Entry',
+  });
+  entry.name = "foobar";
+  
+  await BlogEntry.save(entry);
+})();
+```
+
+#### `deleteOne()`
+
+```typescript
+import {BlogEntry} from './basil-gen'; // import from generated code
+
+(async () => {
   await BlogEntry.deleteOne({
-    name: 'My First Entry'
+    name: "foobar"
   });
 })();
 ```
