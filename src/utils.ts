@@ -1,7 +1,7 @@
 import mongodb from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
-import { Index, IndexFields, TargetCollection, DefinedSchema } from './types';
+import { Index, IndexFields, EntityMeta, DefinedSchema } from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(
@@ -66,7 +66,7 @@ export const prepareCollections = async (schema: DefinedSchema) => {
   );
 };
 
-export const dumpValidationSchemas = (collections: TargetCollection<unknown>[]) => {
+export const dumpValidationSchemas = (collections: EntityMeta<unknown>[]) => {
   collections.forEach((collection) => {
     const bsonSchema = collection.schema.generateBsonSchema();
     const collectionName = collection.collectionName;

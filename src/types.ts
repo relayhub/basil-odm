@@ -31,7 +31,7 @@ export type CollectionDef = {
   entityName: string | null;
 };
 
-export type TargetCollection<T> = {
+export type EntityMeta<T> = {
   _type?: T;
   schema: FieldsSchema;
   collectionName: string;

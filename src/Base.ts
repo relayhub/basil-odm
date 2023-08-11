@@ -1,12 +1,12 @@
 import { Basil } from './Basil';
 import { createFieldsSchema } from './schema/FieldsSchema';
-import { CountParams, TargetCollection } from './types';
+import { CountParams, EntityMeta } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId } from 'mongodb';
 
-export interface EntitySource<T> {
+export interface EntityClass<T> {
   new (): T;
-  getCollection(): TargetCollection<T>;
+  getCollection(): EntityMeta<T>;
   getBasil(): Basil;
 }
 
@@ -18,7 +18,7 @@ export class Base {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static getCollection(): TargetCollection<any> {
+  static getCollection(): EntityMeta<unknown> {
     return {
       schema: createFieldsSchema({}),
       indexes: [],
@@ -26,7 +26,7 @@ export class Base {
     };
   }
 
-  static findById<T extends { _id: ObjectId | string }>(this: EntitySource<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
+  static findById<T extends { _id: ObjectId | string }>(this: EntityClass<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
     const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
 
@@ -43,7 +43,7 @@ export class Base {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static findByIds<T extends { [key: string]: any }>(this: EntitySource<T>, ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
+  static findByIds<T extends { [key: string]: any }>(this: EntityClass<T>, ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
     const target = this.getCollection();
     const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
 
@@ -64,14 +64,14 @@ export class Base {
     });
   }
 
-  static aggregate<T extends mongodb.Document>(this: EntitySource<T>, pipeline: mongodb.Document[], options: mongodb.AggregateOptions = {}): Promise<unknown[]> {
+  static aggregate<T extends mongodb.Document>(this: EntityClass<T>, pipeline: mongodb.Document[], options: mongodb.AggregateOptions = {}): Promise<unknown[]> {
     const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
       return (await collection.aggregate(pipeline, options)).toArray();
     });
   }
 
-  static findOne<T extends mongodb.Document>(this: EntitySource<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
+  static findOne<T extends mongodb.Document>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
 
     return this.getBasil()
@@ -84,7 +84,7 @@ export class Base {
       });
   }
 
-  static findMany<T extends mongodb.Document>(this: EntitySource<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T[]> {
+  static findMany<T extends mongodb.Document>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T[]> {
     const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
       const cursor = await collection.find(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -97,7 +97,7 @@ export class Base {
   }
 
   static save<T extends { _id: mongodb.ObjectId | string }>(
-    this: EntitySource<T>,
+    this: EntityClass<T>,
     entity: T,
     options: mongodb.ReplaceOptions = {}
   ): Promise<mongodb.UpdateResult | mongodb.Document> {
@@ -119,25 +119,21 @@ export class Base {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static deleteOne<T extends { [key: string]: any }>(this: EntitySource<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
+  static deleteOne<T extends { [key: string]: any }>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
       return collection.deleteOne(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
     });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static deleteMany<T extends { [key: string]: any }>(this: EntitySource<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
+  static deleteMany<T extends { [key: string]: any }>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
       return collection.deleteMany(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
     });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static insertOne<T extends { [key: string]: any }>(
-    this: EntitySource<T>,
-    entity: T,
-    options: mongodb.InsertOneOptions = {}
-  ): Promise<mongodb.InsertOneResult<mongodb.WithId<T>>> {
+  static insertOne<T extends { [key: string]: any }>(this: EntityClass<T>, entity: T, options: mongodb.InsertOneOptions = {}): Promise<mongodb.InsertOneResult<mongodb.WithId<T>>> {
     const target = this.getCollection();
 
     return this.getBasil().useCollection(target, (collection) => {
@@ -147,14 +143,14 @@ export class Base {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static count<T extends { [key: string]: any }>(this: EntitySource<T>, params: CountParams<T> = {}): Promise<number> {
+  static count<T extends { [key: string]: any }>(this: EntityClass<T>, params: CountParams<T> = {}): Promise<number> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
       return collection.countDocuments(params?.filter ?? {}, params?.options ?? {});
     });
   }
 
   static updateMany<T>(
-    this: EntitySource<T>,
+    this: EntityClass<T>,
     filter: mongodb.Filter<T>,
     update: mongodb.UpdateFilter<T>,
     options: mongodb.UpdateOptions = {}
@@ -165,7 +161,7 @@ export class Base {
   }
 
   static updateOne<T>(
-    this: EntitySource<T>,
+    this: EntityClass<T>,
     filter: mongodb.Filter<T>,
     update: mongodb.UpdateFilter<T> | Partial<T>,
     options: mongodb.UpdateOptions = {}
