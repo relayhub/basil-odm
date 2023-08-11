@@ -17,7 +17,6 @@ export class Base {
     return Basil.getInstance();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static getCollection(): EntityMeta<unknown> {
     return {
       schema: createFieldsSchema({}),

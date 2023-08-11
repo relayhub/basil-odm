@@ -10,7 +10,7 @@ export const header = `/**
  * Do not make changes to this file directly
  */
 /* eslint-disable */
-import mongodb from 'mongodb';
+import * as mongodb from 'mongodb';
 import * as basil from 'basil-odm';
 
 `;
@@ -62,7 +62,7 @@ export function generateTypeScriptFile(collections: CollectionDef[]): string {
 export function generateCollectionDefs(collections: CollectionDef[]): string {
   let code = '';
 
-  code += `const $defs: Record<string, basil.TargetCollection<{}>> = {`;
+  code += `const $defs: Record<string, basil.EntityMeta<Record<string, unknown>>> = {`;
   for (const collection of collections) {
     code += `
 ${JSON.stringify(collection.collectionName)}: {
