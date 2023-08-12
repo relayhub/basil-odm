@@ -46,7 +46,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf build dist",
     "prepare": "husky install",
-    "publish": "npm run clean && npm run build && yalc publish --push --private"
+    "publish-yalc": "npm run clean && npm run build && yalc publish --push --private"
   },
   "prettier": {
     "trailingComma": "es5",
