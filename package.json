@@ -21,6 +21,8 @@
     "merge": "2.1.1",
     "mongodb": "5.7.0",
     "mongodb-memory-server": "8.14.0",
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.15.4",
     "typescript": "5.1.6"
   },
   "dependencies": {
@@ -46,7 +48,8 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf build dist",
     "prepare": "husky install",
-    "publish-yalc": "npm run clean && npm run build && yalc publish --push --private"
+    "publish-yalc": "npm run clean && npm run build && yalc publish --push --private",
+    "gen-typedoc": "npx typedoc src --out api-docs --readme none --basePath . --plugin typedoc-plugin-markdown"
   },
   "prettier": {
     "trailingComma": "es5",
