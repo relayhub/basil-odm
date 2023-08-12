@@ -4,25 +4,6 @@ import { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } fro
 export type Entity = { [key: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 export type Document = { [key: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-export type EntityFragment = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-export type DocumentFragment = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
-export type SerializationContext = {
-  entity: Entity;
-  path: string[];
-};
-
-export type ValidationContext = SerializationContext;
-
-export type DeserializationContext = {
-  document: Document;
-  path: string[];
-};
-
-export type TypeGeneratorContext = {
-  import(name: string, from: string): void;
-};
-
 export interface SchemaFragment {
   [schemaFragmentFrag]: true;
 
