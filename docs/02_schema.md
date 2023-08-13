@@ -37,11 +37,11 @@ MongoDB allows you to set schema validation and indexes for a collection. Schema
 `prepare-db.ts`
 
 ```typescript
-import {disconnect, prepareCollections} from 'basil-odm';
+import {disconnect, prepareDb} from 'basil-odm';
 import * as schema from './schema'; // import your schema
 
 (async () => {
-  await prepareCollections(schema);
+  await prepareDb(schema);
   await disconnect();
 })();
 ```

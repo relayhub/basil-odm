@@ -48,7 +48,7 @@ export async function collectionExists(db: mongodb.Db, collectionName: string) {
   return (await db.listCollections({ name: collectionName }).toArray()).length > 0;
 }
 
-export const prepareCollections = async (schema: DefinedSchema) => {
+export const prepareDb = async (schema: DefinedSchema) => {
   const basil = await Basil.connect();
   const collections = Object.values(schema);
 
