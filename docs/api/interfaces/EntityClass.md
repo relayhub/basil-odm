@@ -27,7 +27,7 @@
 
 #### Defined in
 
-[src/Base.ts:8](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L8)
+[src/Base.ts:11](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L11)
 
 ## Methods
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/Base.ts:10](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L10)
+[src/Base.ts:13](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L13)
 
 ___
 
@@ -55,4 +55,4 @@ ___
 
 #### Defined in
 
-[src/Base.ts:9](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L9)
+[src/Base.ts:12](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L12)

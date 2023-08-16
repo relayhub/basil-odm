@@ -37,6 +37,10 @@
 
 ▸ `Static` **aggregate**<`T`\>(`this`, `pipeline`, `options?`): `Promise`<`unknown`[]\>
 
+Performs aggregate operations on collections.
+
+Since the execution result will be an array of unknown type, it is recommended to use a validation library such as [zod](https://zod.dev) to verify the result.
+
 #### Type parameters
 
 | Name | Type |
@@ -45,11 +49,11 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `this` | [`EntityClass`](../interfaces/EntityClass.md)<`T`\> |
-| `pipeline` | `Document`[] |
-| `options` | `AggregateOptions` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `this` | [`EntityClass`](../interfaces/EntityClass.md)<`T`\> | - |
+| `pipeline` | `Document`[] | Pipeline array to be passed to aggregate operation |
+| `options` | `AggregateOptions` |  |
 
 #### Returns
 
@@ -57,13 +61,15 @@
 
 #### Defined in
 
-[src/Base.ts:66](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L66)
+[src/Base.ts:96](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L96)
 
 ___
 
 ### count
 
 ▸ `Static` **count**<`T`\>(`this`, `params?`): `Promise`<`number`\>
+
+Gets the number of documents matching the filter.
 
 #### Type parameters
 
@@ -84,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/Base.ts:145](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L145)
+[src/Base.ts:217](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L217)
 
 ___
 
@@ -92,6 +98,8 @@ ___
 
 ▸ `Static` **deleteMany**<`T`\>(`this`, `filter`, `options?`): `Promise`<`DeleteResult`\>
 
+Delete documents that matches the filter.
+
 #### Type parameters
 
 | Name | Type |
@@ -112,7 +120,7 @@ ___
 
 #### Defined in
 
-[src/Base.ts:128](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L128)
+[src/Base.ts:189](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L189)
 
 ___
 
@@ -120,6 +128,8 @@ ___
 
 ▸ `Static` **deleteOne**<`T`\>(`this`, `filter`, `options?`): `Promise`<`DeleteResult`\>
 
+Delete the first document that matches the filter.
+
 #### Type parameters
 
 | Name | Type |
@@ -140,13 +150,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:121](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L121)
+[src/Base.ts:176](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L176)
 
 ___
 
 ### findById
 
 ▸ `Static` **findById**<`T`\>(`this`, `id`, `options?`): `Promise`<``null`` \| `T`\>
+
+Find a document matched by `_id`. Returns null if the document is not found.
 
 #### Type parameters
 
@@ -168,13 +180,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:28](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L28)
+[src/Base.ts:43](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L43)
 
 ___
 
 ### findByIds
 
 ▸ `Static` **findByIds**<`T`\>(`this`, `ids`, `options?`): `Promise`<`T`[]\>
+
+Finds documents matching an array of ids.
 
 #### Type parameters
 
@@ -184,11 +198,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `this` | [`EntityClass`](../interfaces/EntityClass.md)<`T`\> |
-| `ids` | readonly (`string` \| `ObjectId`)[] |
-| `options` | [`FindByIdsOptions`](../README.md#findbyidsoptions)<`T`\> |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `this` | [`EntityClass`](../interfaces/EntityClass.md)<`T`\> | - |
+| `ids` | readonly (`string` \| `ObjectId`)[] | array of ObjectId or string |
+| `options` | [`FindByIdsOptions`](../README.md#findbyidsoptions)<`T`\> | optional. |
 
 #### Returns
 
@@ -196,13 +210,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:45](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L45)
+[src/Base.ts:67](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L67)
 
 ___
 
 ### findMany
 
 ▸ `Static` **findMany**<`T`\>(`this`, `filter`, `options?`): `Promise`<`T`[]\>
+
+Fetches documents that matches the filter.
 
 #### Type parameters
 
@@ -224,13 +240,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:86](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L86)
+[src/Base.ts:128](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L128)
 
 ___
 
 ### findOne
 
 ▸ `Static` **findOne**<`T`\>(`this`, `filter`, `options?`): `Promise`<``null`` \| `T`\>
+
+Fetches the first document that matches the filter.
 
 #### Type parameters
 
@@ -252,7 +270,7 @@ ___
 
 #### Defined in
 
-[src/Base.ts:73](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L73)
+[src/Base.ts:109](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L109)
 
 ___
 
@@ -266,7 +284,7 @@ ___
 
 #### Defined in
 
-[src/Base.ts:16](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L16)
+[src/Base.ts:22](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L22)
 
 ___
 
@@ -280,13 +298,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:20](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L20)
+[src/Base.ts:29](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L29)
 
 ___
 
 ### insertOne
 
 ▸ `Static` **insertOne**<`T`\>(`this`, `entity`, `options?`): `Promise`<`InsertOneResult`<`WithId`<`T`\>\>\>
+
+Inserts a passed entity into the collection.
 
 #### Type parameters
 
@@ -308,13 +328,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:135](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L135)
+[src/Base.ts:202](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L202)
 
 ___
 
 ### save
 
 ▸ `Static` **save**<`T`\>(`this`, `entity`, `options?`): `Promise`<`Document` \| `UpdateResult`<`Document`\>\>
+
+Save changes to a document persisted in the collection.
 
 #### Type parameters
 
@@ -336,13 +358,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:98](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L98)
+[src/Base.ts:147](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L147)
 
 ___
 
 ### updateMany
 
 ▸ `Static` **updateMany**<`T`\>(`this`, `filter`, `update`, `options?`): `Promise`<`Document` \| `UpdateResult`<`Document`\>\>
+
+Update multiple documents in a collection.
 
 #### Type parameters
 
@@ -365,13 +389,15 @@ ___
 
 #### Defined in
 
-[src/Base.ts:151](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L151)
+[src/Base.ts:230](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L230)
 
 ___
 
 ### updateOne
 
 ▸ `Static` **updateOne**<`T`\>(`this`, `filter`, `update`, `options?`): `Promise`<`UpdateResult`<`Document`\>\>
+
+Update a single document in a collection.
 
 #### Type parameters
 
@@ -394,4 +420,4 @@ ___
 
 #### Defined in
 
-[src/Base.ts:162](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/Base.ts#L162)
+[src/Base.ts:248](https://github.com/anatoo/basil-odm/blob/f14292c/src/Base.ts#L248)

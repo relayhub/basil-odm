@@ -23,7 +23,7 @@
 
 #### Defined in
 
-[src/types.ts:23](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/types.ts#L23)
+[src/types.ts:23](https://github.com/anatoo/basil-odm/blob/f14292c/src/types.ts#L23)
 
 ___
 
@@ -33,4 +33,4 @@ ___
 
 #### Defined in
 
-[src/types.ts:24](https://github.com/anatoo/basil-odm/blob/5a6ae65/src/types.ts#L24)
+[src/types.ts:24](https://github.com/anatoo/basil-odm/blob/f14292c/src/types.ts#L24)
