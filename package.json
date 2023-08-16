@@ -49,7 +49,7 @@
     "clean": "rm -rf build dist",
     "prepare": "husky install",
     "publish-yalc": "npm run clean && npm run build && yalc publish --push --private",
-    "gen-typedoc": "npx typedoc src --out api-docs --readme none --basePath . --plugin typedoc-plugin-markdown"
+    "gen-typedoc": "npx typedoc src --out docs/api --readme none --basePath . --plugin typedoc-plugin-markdown"
   },
   "prettier": {
     "trailingComma": "es5",
