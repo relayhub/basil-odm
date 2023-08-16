@@ -167,10 +167,20 @@ export class Basil {
 
 export const basil: Basil = new Basil();
 
+/**
+ * Set connection information by code without using a configuration file.
+ *
+ * @param settings
+ */
 export function configure(settings: BasilSettings): void {
   basil.configure(settings);
 }
 
+/**
+ * Disconnect from MongoDB established by Basil ODM.
+ *
+ * Explicitly call this function when exiting the application, exiting a test, or exiting a batch process.
+ */
 export function disconnect(): Promise<void> {
   return basil.disconnect();
 }

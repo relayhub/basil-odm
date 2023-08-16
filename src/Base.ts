@@ -4,6 +4,9 @@ import { CountParams, EntityMeta } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId } from 'mongodb';
 
+/**
+ * @internal
+ */
 export interface EntityClass<T> {
   new (): T;
   getCollection(): EntityMeta<T>;
@@ -13,10 +16,16 @@ export interface EntityClass<T> {
 export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
 
 export class Base {
+  /**
+   * @internal
+   */
   static getBasil() {
     return Basil.getInstance();
   }
 
+  /**
+   * @internal
+   */
   static getCollection(): EntityMeta<unknown> {
     return {
       schema: createFieldsSchema({}),
@@ -25,6 +34,12 @@ export class Base {
     };
   }
 
+  /**
+   * Find a document matched by `_id`. Returns null if the document is not found.
+   *
+   * @param id
+   * @param options
+   */
   static findById<T extends { _id: ObjectId | string }>(this: EntityClass<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
     const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
@@ -41,6 +56,13 @@ export class Base {
       });
   }
 
+  /**
+   * Finds documents matching an array of ids.
+   *
+   * @param ids - array of ObjectId or string
+   * @param options - optional.
+   * @param options.filter - filter object
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static findByIds<T extends { [key: string]: any }>(this: EntityClass<T>, ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
     const target = this.getCollection();
@@ -63,6 +85,14 @@ export class Base {
     });
   }
 
+  /**
+   * Performs aggregate operations on collections.
+   *
+   * Since the execution result will be an array of unknown type, it is recommended to use a validation library such as [zod](https://zod.dev) to verify the result.
+   *
+   * @param pipeline - Pipeline array to be passed to aggregate operation
+   * @param options
+   */
   static aggregate<T extends mongodb.Document>(this: EntityClass<T>, pipeline: mongodb.Document[], options: mongodb.AggregateOptions = {}): Promise<unknown[]> {
     const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
@@ -70,6 +100,12 @@ export class Base {
     });
   }
 
+  /**
+   * Fetches the first document that matches the filter.
+   *
+   * @param filter
+   * @param options
+   */
   static findOne<T extends mongodb.Document>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getCollection();
 
@@ -83,6 +119,12 @@ export class Base {
       });
   }
 
+  /**
+   * Fetches documents that matches the filter.
+   *
+   * @param filter
+   * @param options
+   */
   static findMany<T extends mongodb.Document>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T[]> {
     const target = this.getCollection();
     return this.getBasil().useCollection(target, async (collection) => {
@@ -95,6 +137,13 @@ export class Base {
     });
   }
 
+  /**
+   * Save changes to a document persisted in the collection.
+   *
+   * @param filter
+   * @param options
+   * @param options.upsert - When true, creates a new document if no document matches the query. Default value is false.
+   */
   static save<T extends { _id: mongodb.ObjectId | string }>(
     this: EntityClass<T>,
     entity: T,
@@ -117,6 +166,12 @@ export class Base {
     });
   }
 
+  /**
+   * Delete the first document that matches the filter.
+   *
+   * @param filter
+   * @param options
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static deleteOne<T extends { [key: string]: any }>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
@@ -124,6 +179,12 @@ export class Base {
     });
   }
 
+  /**
+   * Delete documents that matches the filter.
+   *
+   * @param filter
+   * @param options
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static deleteMany<T extends { [key: string]: any }>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
@@ -131,6 +192,12 @@ export class Base {
     });
   }
 
+  /**
+   * Inserts a passed entity into the collection.
+   *
+   * @param entity
+   * @param options
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static insertOne<T extends { [key: string]: any }>(this: EntityClass<T>, entity: T, options: mongodb.InsertOneOptions = {}): Promise<mongodb.InsertOneResult<mongodb.WithId<T>>> {
     const target = this.getCollection();
@@ -141,6 +208,11 @@ export class Base {
     });
   }
 
+  /**
+   * Gets the number of documents matching the filter.
+   *
+   * @param params
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static count<T extends { [key: string]: any }>(this: EntityClass<T>, params: CountParams<T> = {}): Promise<number> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
@@ -148,6 +220,13 @@ export class Base {
     });
   }
 
+  /**
+   * Update multiple documents in a collection.
+   *
+   * @param filter
+   * @param update
+   * @param options
+   */
   static updateMany<T>(
     this: EntityClass<T>,
     filter: mongodb.Filter<T>,
@@ -159,6 +238,13 @@ export class Base {
     });
   }
 
+  /**
+   * Update a single document in a collection.
+   *
+   * @param filter
+   * @param update
+   * @param options
+   */
   static updateOne<T>(
     this: EntityClass<T>,
     filter: mongodb.Filter<T>,
