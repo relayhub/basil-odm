@@ -8,7 +8,7 @@
  *  - コレクションのドキュメント同士のリレーションを定義できるようにする
  **/
 
-export type SchemaRoot = ObjectNode;
+export type FieldsSchemaRoot = ObjectNode;
 
 export type SchemaNode = ObjectNode | ArrayNode | Union | Value | Literal | Enum | Reference | RecordNode;
 

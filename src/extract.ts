@@ -1,12 +1,12 @@
-import { SchemaNode, SchemaRoot, LiteralValue } from './schema/astTypes';
+import { SchemaNode, FieldsSchemaRoot, LiteralValue } from './schema/astTypes';
 import { inspect } from 'util';
 import { ObjectId } from 'mongodb';
 
-export function createDocument(entity: Record<string, unknown>, rootNode: SchemaRoot): Record<string, unknown> {
+export function createDocument(entity: Record<string, unknown>, rootNode: FieldsSchemaRoot): Record<string, unknown> {
   return extract(entity, rootNode, []) as Record<string, unknown>;
 }
 
-export function createEntity<T extends Record<string, unknown>>(source: T, document: Record<string, unknown>, rootNode: SchemaRoot): T {
+export function createEntity<T extends Record<string, unknown>>(source: T, document: Record<string, unknown>, rootNode: FieldsSchemaRoot): T {
   const object = extract(document, rootNode, []);
   return Object.assign(source, object);
 }

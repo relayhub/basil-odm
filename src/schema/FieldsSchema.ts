@@ -1,7 +1,7 @@
 import { getSchemaFragment } from './utils';
 import { literal } from './literal';
 import { Document, Entity, ObjectSchemaSource, SchemaFragment, SchemaFragmentAggregate, SchemaLike } from './types';
-import { Field, SchemaRoot } from './astTypes';
+import { Field, FieldsSchemaRoot } from './astTypes';
 import { createDocument, createEntity } from '../extract';
 import { generateBsonSchema } from '../generateBsonSchema';
 import { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './symbols';
@@ -45,7 +45,7 @@ export function shape<T extends ObjectSchemaSource>(source: T): SchemaFragment {
   return {
     [schemaFragmentFrag]: true,
 
-    buildASTNode(): SchemaRoot {
+    buildASTNode(): FieldsSchemaRoot {
       const props: Record<string, Field> = {};
 
       for (const [key, value] of Object.entries(object)) {
@@ -109,13 +109,13 @@ export function createFieldsSchema(source: ObjectSchemaSource) {
 }
 
 export class FieldsSchema {
-  _schemaRoot: SchemaRoot;
+  _schemaRoot: FieldsSchemaRoot;
 
-  constructor(schemaRoot: SchemaRoot) {
+  constructor(schemaRoot: FieldsSchemaRoot) {
     this._schemaRoot = schemaRoot;
   }
 
-  getSchemaAST(): SchemaRoot {
+  getSchemaAST(): FieldsSchemaRoot {
     return this._schemaRoot;
   }
 

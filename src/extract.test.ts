@@ -1,7 +1,7 @@
 import { createDocument } from './extract';
-import { SchemaRoot } from './schema/astTypes';
+import { FieldsSchemaRoot } from './schema/astTypes';
 
-type Case = [SchemaRoot, Record<string, unknown>, Record<string, unknown>];
+type Case = [FieldsSchemaRoot, Record<string, unknown>, Record<string, unknown>];
 
 const successCases: Case[] = [
   [

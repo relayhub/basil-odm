@@ -1,4 +1,4 @@
-import { SchemaRoot, Enum } from '../schema/astTypes';
+import { FieldsSchemaRoot, Enum } from '../schema/astTypes';
 import { CollectionDef, DefinedSchema } from '../types';
 import { writeFileSync } from 'fs';
 import { prettier } from '../utils';
@@ -110,7 +110,7 @@ static getCollection() {
   return code;
 }
 
-export function generateTypeFromSchema(root: SchemaRoot) {
+export function generateTypeFromSchema(root: FieldsSchemaRoot) {
   return generateType(root);
 }
 
