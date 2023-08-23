@@ -2,7 +2,6 @@ import { createFieldsSchema, FieldsSchema, union } from '../schema/FieldsSchema'
 import { enums } from '../schema/enums';
 import { generateTypeFromSchema } from './codeGenerator';
 import { literal } from '../schema/literal';
-import { format } from '../testUtils';
 import { nullable } from '../schema/nullable';
 import { objectId } from '../schema/objectId';
 import { string } from '../schema/string';
@@ -13,7 +12,7 @@ import { date } from '../schema/date';
 type Case = [string, FieldsSchema, string];
 
 const table: Case[] = [
-  ['ObjectId', createFieldsSchema({ _id: objectId() }), '{_id: mongodb.ObjectId}'],
+  ['ObjectId', createFieldsSchema({ _id: objectId() }), '{\n"_id": \nmongodb.ObjectId\n;\n}'],
 
   [
     'value types',
@@ -24,11 +23,19 @@ const table: Case[] = [
       nullField: literal(null),
     }),
     `{
-      stringField: string;
-      booleanField: boolean;
-      numberField: number;
-      nullField: null;
-    }`,
+"stringField": 
+string
+;
+"booleanField": 
+boolean
+;
+"numberField": 
+number
+;
+"nullField": 
+null
+;
+}`,
   ],
 
   [
@@ -36,7 +43,7 @@ const table: Case[] = [
     createFieldsSchema({
       nullableField: nullable(string()),
     }),
-    `{nullableField?: null | string;}`,
+    `{\n"nullableField"?: \n| null| string\n;\n}`,
   ],
 
   [
@@ -46,7 +53,7 @@ const table: Case[] = [
         _id: objectId(),
       },
     }),
-    `{objectField: {_id: mongodb.ObjectId}}`,
+    `{\n"objectField": \n{\n"_id": \nmongodb.ObjectId\n;\n}\n;\n}`,
   ],
 
   [
@@ -54,7 +61,7 @@ const table: Case[] = [
     createFieldsSchema({
       arrayField: [string()],
     }),
-    `{arrayField: Array<string>}`,
+    `{\n"arrayField": \nArray<string>\n;\n}`,
   ],
 
   [
@@ -62,7 +69,7 @@ const table: Case[] = [
     createFieldsSchema({
       dateField: date(),
     }),
-    `{dateField: Date}`,
+    `{\n"dateField": \nDate\n;\n}`,
   ],
 
   [
@@ -70,7 +77,7 @@ const table: Case[] = [
     createFieldsSchema({
       unionField: union(literal('foo'), literal('bar')),
     }),
-    `{unionField: 'foo' | 'bar'}`,
+    `{\n"unionField": \n| "foo"| "bar"\n;\n}`,
   ],
 
   [
@@ -78,7 +85,7 @@ const table: Case[] = [
     createFieldsSchema({
       enumsField: enums({ values: ['foo', 'bar'] }),
     }),
-    `{enumsField: 'foo' | 'bar'}`,
+    `{\n"enumsField": \n| "foo"| "bar"\n;\n}`,
   ],
 
   [
@@ -86,12 +93,11 @@ const table: Case[] = [
     createFieldsSchema({
       enumsField: enums({ values: [0, 1, 2, 3] }),
     }),
-    `{enumsField: 0 | 1 | 2 | 3}`,
+    `{\n"enumsField": \n| 0| 1| 2| 3\n;\n}`,
   ],
 ];
 
 test.each(table)('generateTypeFromSchema() #%# - %s', (name, schema, expected) => {
-  const prefix = 'type Entity = ';
   const code = generateTypeFromSchema(schema.getSchemaAST());
-  expect(format(prefix + code)).toBe(format(prefix + expected));
+  expect(code).toBe(expected);
 });

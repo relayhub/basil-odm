@@ -1,7 +1,6 @@
 import { enums } from '../schema/enums';
 import { generateDocumentTypes } from './codeGenerator';
 import { collection } from '../schema/collection';
-import { format } from '../testUtils';
 import { objectId } from '../schema/objectId';
 import { date } from '../schema/date';
 import { boolean } from '../schema/boolean';
@@ -24,32 +23,10 @@ const table = [
       },
       collectionName: 'docs',
     }),
-    `export class Doc extends basil.Base {
-      constructor(params?: Partial<Doc>) {
-        super();
-        Object.assign(this, params);
-      }
-      static getCollection() {
-        return {
-          collectionName: "docs",
-          schema: $defs["docs"].schema,
-          indexes: $defs["docs"].indexes,
-        };
-      }
-      _id: mongodb.ObjectId = new mongodb.ObjectId();
-      createdAt: Date = new Date();
-      flag: boolean = false;
-      status: "created" | "deleted" = "created";
-      name: string = "";
-      sub: {name: string} = {
-        name: "",
-      };
-      record: Record<string, string> = {};
-    }`,
   ],
 ] as const;
 
-test.each(table)('generateDocumentTypes() #%#', (collection, expected) => {
+test.each(table)('generateDocumentTypes() #%#', (collection) => {
   const code = generateDocumentTypes([collection]);
-  expect(format(code)).toBe(format(expected));
+  expect(code).toMatchSnapshot();
 });

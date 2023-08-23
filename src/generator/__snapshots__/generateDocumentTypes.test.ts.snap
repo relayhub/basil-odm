@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateDocumentTypes() #0 1`] = `
+"export class Doc extends basil.Base {
+constructor(params?: Partial<Doc>) {
+  super();
+  Object.assign(this, params);
+}
+static getCollection() {
+  return {
+    collectionName: "docs",
+    schema: $defs["docs"].schema,
+    indexes: $defs["docs"].indexes,
+  };
+}_id: mongodb.ObjectId= new mongodb.ObjectId();
+createdAt: Date= new Date();
+flag: boolean= false;
+status: | "created"| "deleted"= "created";
+name: string= "";
+sub: {
+"name": 
+string
+;
+}= {
+"name": "",
+};
+record: Record<string, string>= {};
+}
+
+"
+`;
