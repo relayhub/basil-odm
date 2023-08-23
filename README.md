@@ -24,6 +24,7 @@ See [Getting started](./docs/00_getting_started.md) to see what Basil ODM looks 
  - [Manage connections](./docs/01_connection.md)
  - [Define your schema](./docs/02_schema.md)
  - [Operations with generated models](./docs/03_crud.md)
+ - [API Reference](./docs/api/README.md)
 
 ## ⚖️ License
 
