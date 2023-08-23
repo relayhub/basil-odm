@@ -2,11 +2,11 @@ import { Enum, ObjectNode, SchemaNode } from '../schema/astTypes';
 import pluralize from 'pluralize';
 const { singular } = pluralize;
 
-export function generateLiteralType(value: null | string | number | boolean): string {
+function generateLiteralType(value: null | string | number | boolean): string {
   return generateLiteralValue(value);
 }
 
-export function generateLiteralValue(value: null | string | number | boolean): string {
+function generateLiteralValue(value: null | string | number | boolean): string {
   if (value === null) {
     return 'null';
   } else {

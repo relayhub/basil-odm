@@ -65,10 +65,11 @@ export function generateCollectionDefs(collections: CollectionDef[]): string {
   code += `const $defs: Record<string, basil.EntityMeta<Record<string, unknown>>> = {`;
   for (const collection of collections) {
     code += `
-${JSON.stringify(collection.collectionName)}: {
-  collectionName: ${JSON.stringify(collection.collectionName)},
-  schema: new basil.FieldsSchema(${JSON.stringify(collection.schema.getSchemaAST())}),
-  indexes: ${JSON.stringify(collection.indexes)},
+${JSON.stringify(collection.collectionName, null, '  ')}: {
+  collectionName: ${JSON.stringify(collection.collectionName, null, '  ')},
+  schema: new basil.FieldsSchema(${JSON.stringify(collection.schema.getSchemaAST(), null, '  ')}),
+  indexes: ${JSON.stringify(collection.indexes, null, '  ')},
+  options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
 },`;
   }
   code += `};\n\n`;

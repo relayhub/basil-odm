@@ -1,58 +1,36 @@
-import { index, setJsonSchemaValidator, ensureCollection } from './utils';
+import { ensureCollection } from './utils';
 import * as mongodb from 'mongodb';
-
-describe('index()', () => {
-  it('should works normally', () => {
-    expect(index({ id: -1 })).toEqual({ fields: { id: -1 }, options: {} });
-  });
-});
-
-describe('setJsonSchemaValidator()', () => {
-  it('works normally', async () => {
-    const db = {
-      collection: jest.fn() as typeof mongodb.Db.prototype.collection,
-      command: jest.fn() as typeof mongodb.Db.prototype.command,
-      createCollection: jest.fn() as typeof mongodb.Db.prototype.createCollection,
-      listCollections: jest.fn().mockReturnValue({
-        toArray: () => Promise.resolve([]),
-      }) as typeof mongodb.Db.prototype.listCollections,
-    } as mongodb.Db;
-
-    await setJsonSchemaValidator(db, 'foobar', { foo: 'bar' });
-
-    expect(db.createCollection).toHaveBeenCalledWith('foobar', {
-      validator: {
-        $jsonSchema: { foo: 'bar' },
-      },
-    });
-  });
-});
+import { index } from './schema/createIndex';
 
 describe('ensureCollection()', () => {
   it('works normally', async () => {
-    const collection = {
-      createIndex: jest.fn().mockImplementation((fields, options) => Promise.resolve('result')) as typeof mongodb.Collection.prototype.createIndex,
+    const mockCollection = {
+      createIndex: jest.fn().mockImplementation((fields, options) => Promise.resolve('result')) as mongodb.Collection['createIndex'],
     } as mongodb.Collection;
 
-    const db = {
-      collection: (() => collection) as typeof mongodb.Db.prototype.collection,
-      command: jest.fn() as typeof mongodb.Db.prototype.command,
-      createCollection: jest.fn() as typeof mongodb.Db.prototype.createCollection,
+    const mockDb = {
+      collection: (() => mockCollection) as mongodb.Db['collection'],
+      command: jest.fn() as mongodb.Db['command'],
+      createCollection: jest.fn() as mongodb.Db['createCollection'],
       listCollections: jest.fn().mockReturnValue({
         toArray: () => Promise.resolve([]),
-      }) as typeof mongodb.Db.prototype.listCollections,
+      }) as mongodb.Db['listCollections'],
     } as mongodb.Db;
 
-    await ensureCollection(db, 'foobar', {
-      $jsonSchema: {},
+    await ensureCollection(mockDb, 'foobar', {
+      jsonSchema: {},
       indexes: [index({ email: 1 }, { unique: true })],
+      options: {
+        capped: true,
+      },
     });
 
-    expect(db.createCollection).toHaveBeenCalledWith('foobar', {
+    expect(mockDb.createCollection).toHaveBeenCalledWith('foobar', {
       validator: {
         $jsonSchema: {},
       },
+      capped: true,
     });
-    expect(collection.createIndex).toHaveBeenCalledWith({ email: 1 }, { unique: true });
+    expect(mockCollection.createIndex).toHaveBeenCalledWith({ email: 1 }, { unique: true });
   });
 });

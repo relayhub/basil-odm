@@ -1,5 +1,5 @@
 export * from './Basil';
-export * from './utils';
+export { prepareDb } from './utils';
 export * from './Config';
 export * from './Base';
 export * from './types';
@@ -19,4 +19,4 @@ export * from './schema/nullable';
 export * from './schema/record';
 export { generateCode } from './generator/codeGenerator';
 export { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './schema/symbols';
-export { index } from './utils';
+export { index } from './schema/createIndex';

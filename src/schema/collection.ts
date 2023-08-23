@@ -1,12 +1,14 @@
 import { CollectionDef, Index } from '../types';
 import { createFieldsSchema } from './FieldsSchema';
 import { ObjectSchemaSource } from './types';
+import * as mongodb from 'mongodb';
 
 interface Props {
   collectionName: string;
   fields?: ObjectSchemaSource;
   indexes?: Index[];
   entityName?: string;
+  options?: mongodb.CreateCollectionOptions & Record<string, unknown>;
 }
 
 export function collection(props: Props): CollectionDef {
@@ -15,5 +17,6 @@ export function collection(props: Props): CollectionDef {
     entityName: props.entityName || null,
     schema: createFieldsSchema(props.fields || {}),
     indexes: props.indexes || [],
+    options: props.options,
   };
 }

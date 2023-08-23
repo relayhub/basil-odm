@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateCollectionDefs() should works normally 1`] = `
+"const $defs: Record<string, basil.EntityMeta<Record<string, unknown>>> = {
+"foobar": {
+  collectionName: "foobar",
+  schema: new basil.FieldsSchema({
+  "kind": "object",
+  "props": {
+    "_id": {
+      "kind": "field",
+      "isOptional": false,
+      "node": {
+        "kind": "objectId"
+      }
+    }
+  },
+  "allowAdditionalProps": false
+}),
+  indexes: [],
+  options: {
+  "comment": "foobar",
+  "capped": true
+},
+},};
+
+"
+`;

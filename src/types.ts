@@ -1,4 +1,4 @@
-import type { MongoClientOptions, Filter, CountDocumentsOptions } from 'mongodb';
+import type { MongoClientOptions, Filter, CountDocumentsOptions, CreateCollectionOptions, CreateIndexesOptions } from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 
 export interface BasilSettings {
@@ -12,7 +12,7 @@ export type IndexFields = { [key: string]: -1 | 1 };
 export type IndexOptions = {
   unique?: boolean;
   sparse?: boolean;
-};
+} & CreateIndexesOptions;
 
 export type Index = {
   fields: IndexFields;
@@ -29,6 +29,7 @@ export type CollectionDef = {
   collectionName: string;
   indexes: Index[];
   entityName: string | null;
+  options?: CreateCollectionOptions & Record<string, unknown>;
 };
 
 export type EntityMeta<T> = {

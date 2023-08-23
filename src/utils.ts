@@ -1,37 +1,22 @@
-import mongodb from 'mongodb';
+import mongodb, { CreateCollectionOptions } from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
-import { Index, IndexFields, EntityMeta, DefinedSchema } from './types';
+import { Index, EntityMeta, DefinedSchema } from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(
   db: mongodb.Db,
   collectionName: string,
   {
-    $jsonSchema,
+    jsonSchema,
     indexes,
+    options,
   }: {
-    $jsonSchema: Record<string, unknown>;
+    jsonSchema: Record<string, unknown>;
     indexes: Index[];
-  } = { $jsonSchema: {}, indexes: [] }
-) {
-  if (!Array.isArray(indexes)) {
-    throw TypeError('"indexes" option must be an array.');
+    options: CreateCollectionOptions & Record<string, unknown>;
   }
-
-  await setJsonSchemaValidator(db, collectionName, $jsonSchema);
-
-  const collection = await db.collection(collectionName);
-
-  await Promise.all(
-    indexes.map(async (index) => {
-      await collection.createIndex(index.fields, index.options ?? {});
-    })
-  );
-}
-
-export async function setJsonSchemaValidator(db: mongodb.Db, collectionName: string, jsonSchema: Record<string, unknown>) {
-  // もしコレクションがすでにある場合にはschemaを変更する
+) {
   if (await collectionExists(db, collectionName)) {
     await db.command({
       collMod: collectionName,
@@ -40,8 +25,17 @@ export async function setJsonSchemaValidator(db: mongodb.Db, collectionName: str
   } else {
     await db.createCollection(collectionName, {
       validator: { $jsonSchema: jsonSchema },
+      ...options,
     });
   }
+
+  const collection = await db.collection(collectionName);
+
+  await Promise.all(
+    indexes.map(async (index) => {
+      await collection.createIndex(index.fields, index.options ?? {});
+    })
+  );
 }
 
 export async function collectionExists(db: mongodb.Db, collectionName: string) {
@@ -58,8 +52,9 @@ export const prepareDb = async (schema: DefinedSchema) => {
 
       await basil.useDatabase(async (db) => {
         await ensureCollection(db, collection.collectionName, {
-          $jsonSchema: bsonSchema,
+          jsonSchema: bsonSchema,
           indexes: collection.indexes,
+          options: collection.options ?? {},
         });
       });
     })
@@ -79,11 +74,4 @@ export function prettier(code: string) {
   return format(code, {
     parser: 'typescript',
   });
-}
-
-export function index(fields: IndexFields, options: mongodb.CreateIndexesOptions = {}): Index {
-  return {
-    fields,
-    options,
-  };
 }
