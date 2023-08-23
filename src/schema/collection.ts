@@ -1,4 +1,4 @@
-import { CollectionDef, Index } from '../types';
+import { CollectionDef, Index, CollectionOptions } from '../types';
 import { createFieldsSchema } from './FieldsSchema';
 import { ObjectSchemaSource } from './types';
 import * as mongodb from 'mongodb';
@@ -8,7 +8,7 @@ interface Props {
   fields?: ObjectSchemaSource;
   indexes?: Index[];
   entityName?: string;
-  options?: mongodb.CreateCollectionOptions & Record<string, unknown>;
+  options?: CollectionOptions;
 }
 
 export function collection(props: Props): CollectionDef {

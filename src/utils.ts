@@ -1,7 +1,7 @@
 import mongodb, { CreateCollectionOptions } from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
-import { Index, EntityMeta, DefinedSchema } from './types';
+import { Index, EntityMeta, DefinedSchema, CollectionOptions } from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(
@@ -14,7 +14,7 @@ export async function ensureCollection(
   }: {
     jsonSchema: Record<string, unknown>;
     indexes: Index[];
-    options: CreateCollectionOptions & Record<string, unknown>;
+    options: CollectionOptions;
   }
 ) {
   if (await collectionExists(db, collectionName)) {

@@ -1,4 +1,5 @@
-import type { MongoClientOptions, Filter, CountDocumentsOptions, CreateCollectionOptions, CreateIndexesOptions } from 'mongodb';
+import type { MongoClientOptions, Filter, CountDocumentsOptions, CreateIndexesOptions } from 'mongodb';
+import * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 
 export interface BasilSettings {
@@ -24,12 +25,14 @@ export interface CountParams<E> {
   options?: CountDocumentsOptions;
 }
 
+export type CollectionOptions = Omit<mongodb.CreateCollectionOptions & Record<string, unknown>, 'validator'>;
+
 export type CollectionDef = {
   schema: FieldsSchema;
   collectionName: string;
   indexes: Index[];
   entityName: string | null;
-  options?: CreateCollectionOptions & Record<string, unknown>;
+  options?: CollectionOptions;
 };
 
 export type EntityMeta<T> = {
