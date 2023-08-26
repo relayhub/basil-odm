@@ -1,4 +1,4 @@
-import type { MongoClientOptions, Filter, CountDocumentsOptions, CreateIndexesOptions } from 'mongodb';
+import type { MongoClientOptions, CreateIndexesOptions } from 'mongodb';
 import * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 
