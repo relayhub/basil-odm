@@ -2,7 +2,7 @@ export { Basil, basil, configure, disconnect } from './Basil';
 export { prepareDb } from './utils';
 export { loadConfig, validateConfig, createSettings } from './Config';
 export { Base, FindByIdsOptions, EntityClass } from './Base';
-export { BasilSettings, EntityMeta, Index, CollectionOptions, CollectionDef, DefinedSchema, IndexOptions, IndexFields, CountParams } from './types';
+export { BasilSettings, EntityMeta, Index, CollectionOptions, CollectionDef, DefinedSchema, IndexOptions, IndexFields } from './types';
 export { collection } from './schema/collection';
 export { createFieldsSchema } from './schema/FieldsSchema';
 export { getSchemaFragment } from './schema/utils';

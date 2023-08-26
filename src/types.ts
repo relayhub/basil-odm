@@ -20,11 +20,6 @@ export type Index = {
   options?: IndexOptions;
 };
 
-export interface CountParams<E> {
-  filter?: Filter<E>;
-  options?: CountDocumentsOptions;
-}
-
 export type CollectionOptions = Omit<mongodb.CreateCollectionOptions & Record<string, unknown>, 'validator'>;
 
 export type CollectionDef = {

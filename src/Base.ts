@@ -1,8 +1,8 @@
 import { Basil } from './Basil';
 import { createFieldsSchema } from './schema/FieldsSchema';
-import { CountParams, EntityMeta } from './types';
+import { EntityMeta } from './types';
 import * as mongodb from 'mongodb';
-import { ObjectId } from 'mongodb';
+import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
 
 /**
  * @internal
@@ -213,10 +213,9 @@ export class Base {
    *
    * @param params
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static count<T extends { [key: string]: any }>(this: EntityClass<T>, params: CountParams<T> = {}): Promise<number> {
+  static count<T>(this: EntityClass<T>, filter: Filter<T> = {}, options: CountDocumentsOptions = {}): Promise<number> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
-      return collection.countDocuments(params?.filter ?? {}, params?.options ?? {});
+      return collection.countDocuments(filter, options);
     });
   }
 
