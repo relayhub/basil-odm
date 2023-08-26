@@ -130,7 +130,7 @@ export class Basil {
     });
   }
 
-  useCollection<T extends { [key: string]: unknown }, R>(target: EntityMeta<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
+  useCollection<T extends mongodb.Document, R>(target: EntityMeta<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
     const name = typeof target === 'string' ? target : target.collectionName;
 
     return new Promise((resolve, reject) => {

@@ -59,9 +59,9 @@ export class Base {
   /**
    * Finds documents matching an array of ids.
    *
-   * @param ids - array of ObjectId or string
-   * @param options - optional.
-   * @param options.filter - filter object
+   * @param ids - An array of ObjectId or string
+   * @param options
+   * @param options.filter - Filter to query documents
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static findByIds<T extends { [key: string]: any }>(this: EntityClass<T>, ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
@@ -122,8 +122,10 @@ export class Base {
   /**
    * Fetches documents that matches the filter.
    *
-   * @param filter
+   * @param filter The filter used to select the document
    * @param options
+   * @param options.limit Limit to returned documents count
+   * @param options.skip Number of returning documents to skip
    */
   static findMany<T extends mongodb.Document>(this: EntityClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T[]> {
     const target = this.getCollection();
@@ -140,7 +142,7 @@ export class Base {
   /**
    * Save changes to a document persisted in the collection.
    *
-   * @param filter
+   * @param filter The filter used to select the document to save
    * @param options
    * @param options.upsert - When true, creates a new document if no document matches the query. Default value is false.
    */
@@ -211,7 +213,8 @@ export class Base {
   /**
    * Gets the number of documents matching the filter.
    *
-   * @param params
+   * @param filter The filter for the count
+   * @param options Optional settings for the command
    */
   static count<T>(this: EntityClass<T>, filter: Filter<T> = {}, options: CountDocumentsOptions = {}): Promise<number> {
     return this.getBasil().useCollection(this.getCollection(), (collection) => {
@@ -222,9 +225,9 @@ export class Base {
   /**
    * Update multiple documents in a collection.
    *
-   * @param filter
-   * @param update
-   * @param options
+   * @param filter The filter used to select the documents to update
+   * @param update The update operations to be applied to the documents
+   * @param options Optional settings for the command
    */
   static updateMany<T>(
     this: EntityClass<T>,
@@ -240,9 +243,9 @@ export class Base {
   /**
    * Update a single document in a collection.
    *
-   * @param filter
-   * @param update
-   * @param options
+   * @param filter The filter used to select the document to update
+   * @param update The update operations to be applied to the document
+   * @param options Optional settings for the command
    */
   static updateOne<T>(
     this: EntityClass<T>,
