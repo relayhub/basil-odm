@@ -1,8 +1,6 @@
 import { CollectionDef, Index, CollectionOptions } from '../types';
 import { createFieldsSchema } from './FieldsSchema';
 import { ObjectSchemaSource } from './types';
-import * as mongodb from 'mongodb';
-
 interface Props {
   collectionName: string;
   fields?: ObjectSchemaSource;
