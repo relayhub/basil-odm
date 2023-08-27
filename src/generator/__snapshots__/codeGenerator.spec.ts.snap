@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateCollectionDefs() should works normally 1`] = `
-"const $defs: Record<string, basil.EntityMeta<Record<string, unknown>>> = {
+"const $defs: Record<string, basil.RuntimeCollectionSchema<Record<string, unknown>>> = {
 "foobar": {
   collectionName: "foobar",
-  schema: new basil.FieldsSchema({
+  fields: new basil.FieldsSchema({
   "kind": "object",
   "props": {
     "_id": {

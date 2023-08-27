@@ -1,7 +1,7 @@
 import mongodb, { CreateCollectionOptions } from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
-import { Index, EntityMeta, DefinedSchema, CollectionOptions } from './types';
+import { Index, RuntimeCollectionSchema, DefinedSchema, CollectionOptions } from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(
@@ -48,7 +48,7 @@ export const prepareDb = async (schema: DefinedSchema) => {
 
   await Promise.all(
     collections.map(async (collection) => {
-      const bsonSchema = collection.schema.generateBsonSchema();
+      const bsonSchema = collection.fields.generateBsonSchema();
 
       await basil.useDatabase(async (db) => {
         await ensureCollection(db, collection.collectionName, {
@@ -61,9 +61,9 @@ export const prepareDb = async (schema: DefinedSchema) => {
   );
 };
 
-export const dumpValidationSchemas = (collections: EntityMeta<unknown>[]) => {
+export const dumpValidationSchemas = (collections: RuntimeCollectionSchema<unknown>[]) => {
   collections.forEach((collection) => {
-    const bsonSchema = collection.schema.generateBsonSchema();
+    const bsonSchema = collection.fields.generateBsonSchema();
     const collectionName = collection.collectionName;
 
     process.stdout.write(`${collectionName}: ${JSON.stringify(bsonSchema, null, '  ')} \n\n`);

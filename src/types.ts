@@ -23,18 +23,19 @@ export type Index = {
 export type CollectionOptions = Omit<mongodb.CreateCollectionOptions & Record<string, unknown>, 'validator'>;
 
 export type CollectionDef = {
-  schema: FieldsSchema;
+  fields: FieldsSchema;
   collectionName: string;
   indexes: Index[];
   entityName: string | null;
   options?: CollectionOptions;
 };
 
-export type EntityMeta<T> = {
+export type RuntimeCollectionSchema<T> = {
   _type?: T;
-  schema: FieldsSchema;
+  fields: FieldsSchema;
   collectionName: string;
   indexes: Index[];
+  options?: CollectionOptions;
 };
 
 export type DefinedSchema = Record<string, CollectionDef> | CollectionDef[];

@@ -1,6 +1,6 @@
 import { basil } from './Basil';
 import { createFieldsSchema } from './schema/FieldsSchema';
-import { EntityMeta } from './types';
+import { RuntimeCollectionSchema } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
 
@@ -9,7 +9,7 @@ import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
  */
 export type BaseClass<T> = typeof Base & {
   new (): T;
-  getCollection(): EntityMeta<T>;
+  getRuntimeSchema(): RuntimeCollectionSchema<T>;
 };
 
 export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
@@ -20,9 +20,9 @@ export class Base {
   /**
    * @internal
    */
-  static getCollection(): EntityMeta<unknown> {
+  static getRuntimeSchema(): RuntimeCollectionSchema<unknown> {
     return {
-      schema: createFieldsSchema({}),
+      fields: createFieldsSchema({}),
       indexes: [],
       collectionName: '',
     };
@@ -35,15 +35,15 @@ export class Base {
    * @param options
    */
   static findById<T extends { _id: ObjectId | string }>(this: BaseClass<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
-    const target = this.getCollection();
-    const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
+    const target = this.getRuntimeSchema();
+    const hasObjectId = target.fields.getSchemaAST().props['_id']?.node.kind === 'objectId';
 
     return this.basil
       .useCollection(target, async (collection) => {
         const _id = hasObjectId ? new mongodb.ObjectId(id) : id;
         const result = await collection.findOne<T>({ _id: _id as ObjectId }, options);
 
-        return result ? (target.schema.encode(result, {}) as T) : null;
+        return result ? (target.fields.encode(result, {}) as T) : null;
       })
       .then((result) => {
         return result ? Object.assign(new this(), result) : result;
@@ -59,8 +59,8 @@ export class Base {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static findByIds<T extends { [key: string]: any }>(this: BaseClass<T>, ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<T> = {}): Promise<T[]> {
-    const target = this.getCollection();
-    const hasObjectId = target.schema.getSchemaAST().props['_id']?.node.kind === 'objectId';
+    const target = this.getRuntimeSchema();
+    const hasObjectId = target.fields.getSchemaAST().props['_id']?.node.kind === 'objectId';
 
     const filter = {
       ...options.filter,
@@ -73,7 +73,7 @@ export class Base {
 
       return documents
         .map((document) => {
-          return target.schema.encode(document as any, {}) as T; // eslint-disable-line @typescript-eslint/no-explicit-any
+          return target.fields.encode(document as any, {}) as T; // eslint-disable-line @typescript-eslint/no-explicit-any
         })
         .map((document) => Object.assign(new this(), document));
     });
@@ -88,7 +88,7 @@ export class Base {
    * @param options
    */
   static aggregate<T extends mongodb.Document>(this: BaseClass<T>, pipeline: mongodb.Document[], options: mongodb.AggregateOptions = {}): Promise<unknown[]> {
-    const target = this.getCollection();
+    const target = this.getRuntimeSchema();
     return basil.useCollection(target, async (collection) => {
       return (await collection.aggregate(pipeline, options)).toArray();
     });
@@ -101,12 +101,12 @@ export class Base {
    * @param options
    */
   static findOne<T extends mongodb.Document>(this: BaseClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
-    const target = this.getCollection();
+    const target = this.getRuntimeSchema();
 
     return basil
       .useCollection(target, async (collection) => {
         const result = await collection.findOne<T>(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-        return result ? (target.schema.encode(result, {}) as T) : null;
+        return result ? (target.fields.encode(result, {}) as T) : null;
       })
       .then((result) => {
         return result ? Object.assign(new this(), result) : result;
@@ -122,13 +122,13 @@ export class Base {
    * @param options.skip Number of returning documents to skip
    */
   static findMany<T extends mongodb.Document>(this: BaseClass<T>, filter: mongodb.Filter<T>, options: mongodb.FindOptions<T> = {}): Promise<T[]> {
-    const target = this.getCollection();
+    const target = this.getRuntimeSchema();
     return this.basil.useCollection(target, async (collection) => {
       const cursor = await collection.find(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
       const documents = await cursor.toArray();
 
       return documents.map((document) => {
-        return Object.assign(new this(), target.schema.encode(document, {}) as T);
+        return Object.assign(new this(), target.fields.encode(document, {}) as T);
       });
     });
   }
@@ -141,14 +141,14 @@ export class Base {
    * @param options.upsert - When true, creates a new document if no document matches the query. Default value is false.
    */
   static save<T extends { _id: mongodb.ObjectId | string }>(this: BaseClass<T>, entity: T, options: mongodb.ReplaceOptions = {}): Promise<mongodb.UpdateResult | mongodb.Document> {
-    const target = this.getCollection();
+    const target = this.getRuntimeSchema();
 
     return this.basil.useCollection(target, async (collection) => {
       const payload = {
         query: { _id: entity._id },
         entity,
       };
-      const result: mongodb.UpdateResult | mongodb.Document = await collection.replaceOne(payload.query as any, target.schema.decode(payload.entity) as T, options); // eslint-disable-line @typescript-eslint/no-explicit-any
+      const result: mongodb.UpdateResult | mongodb.Document = await collection.replaceOne(payload.query as any, target.fields.decode(payload.entity) as T, options); // eslint-disable-line @typescript-eslint/no-explicit-any
 
       if (result.matchedCount === 0) {
         throw Error('"save()" failed. Matched count is zero.');
@@ -166,7 +166,7 @@ export class Base {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static deleteOne<T extends { [key: string]: any }>(this: BaseClass<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
-    return this.basil.useCollection(this.getCollection(), (collection) => {
+    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
       return collection.deleteOne(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
     });
   }
@@ -179,7 +179,7 @@ export class Base {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static deleteMany<T extends { [key: string]: any }>(this: BaseClass<T>, filter: mongodb.Filter<T>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
-    return this.basil.useCollection(this.getCollection(), (collection) => {
+    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
       return collection.deleteMany(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
     });
   }
@@ -192,10 +192,10 @@ export class Base {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static insertOne<T extends { [key: string]: any }>(this: BaseClass<T>, entity: T, options: mongodb.InsertOneOptions = {}): Promise<mongodb.InsertOneResult<mongodb.WithId<T>>> {
-    const target = this.getCollection();
+    const target = this.getRuntimeSchema();
 
     return this.basil.useCollection(target, (collection) => {
-      const serializedDocument = target.schema.decode(entity) as mongodb.OptionalId<T>;
+      const serializedDocument = target.fields.decode(entity) as mongodb.OptionalId<T>;
       return collection.insertOne(serializedDocument, { ...options });
     });
   }
@@ -207,7 +207,7 @@ export class Base {
    * @param options Optional settings for the command
    */
   static count<T>(this: BaseClass<T>, filter: Filter<T> = {}, options: CountDocumentsOptions = {}): Promise<number> {
-    return this.basil.useCollection(this.getCollection(), (collection) => {
+    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
       return collection.countDocuments(filter, options);
     });
   }
@@ -225,7 +225,7 @@ export class Base {
     update: mongodb.UpdateFilter<T>,
     options: mongodb.UpdateOptions = {}
   ): Promise<mongodb.UpdateResult | mongodb.Document> {
-    return this.basil.useCollection(this.getCollection(), (collection) => {
+    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
       return collection.updateMany(filter as any, update as any /* FIXME */, options); // eslint-disable-line @typescript-eslint/no-explicit-any
     });
   }
@@ -243,7 +243,7 @@ export class Base {
     update: mongodb.UpdateFilter<T> | Partial<T>,
     options: mongodb.UpdateOptions = {}
   ): Promise<mongodb.UpdateResult> {
-    return this.basil.useCollection(this.getCollection(), (collection) => {
+    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
       return collection.updateOne(filter as any, update, options); // eslint-disable-line @typescript-eslint/no-explicit-any
     });
   }

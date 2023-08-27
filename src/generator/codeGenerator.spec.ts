@@ -6,7 +6,7 @@ describe('generateCollectionDefs()', () => {
   it('should works normally', () => {
     const code = generateCollectionDefs([
       {
-        schema: createFieldsSchema({
+        fields: createFieldsSchema({
           _id: objectId,
         }),
         indexes: [],

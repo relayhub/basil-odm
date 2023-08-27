@@ -34,11 +34,11 @@ class User extends Base {
     Object.assign(this, source);
   }
 
-  static getCollection() {
+  static getRuntimeSchema() {
     return {
       collectionName: 'users',
       indexes: [],
-      schema: createFieldsSchema({
+      fields: createFieldsSchema({
         _id: objectId,
         name: string,
       }),
@@ -55,11 +55,11 @@ class User2 extends Base {
     Object.assign(this, source);
   }
 
-  static getCollection() {
+  static getRuntimeSchema() {
     return {
       collectionName: 'users2',
       indexes: [],
-      schema: createFieldsSchema({
+      fields: createFieldsSchema({
         _id: string,
         name: string,
       }),

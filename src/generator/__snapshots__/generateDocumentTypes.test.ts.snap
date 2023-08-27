@@ -6,11 +6,12 @@ constructor(params?: Partial<Doc>) {
   super();
   Object.assign(this, params);
 }
-static getCollection() {
+static getRuntimeSchema() {
   return {
     collectionName: "docs",
-    schema: $defs["docs"].schema,
+    fields: $defs["docs"].fields,
     indexes: $defs["docs"].indexes,
+    options: $defs["docs"].options,
   };
 }_id: mongodb.ObjectId= new mongodb.ObjectId();
 createdAt: Date= new Date();

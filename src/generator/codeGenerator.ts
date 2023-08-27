@@ -19,7 +19,7 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
   let code = '';
 
   let enums = collections.flatMap((collection) => {
-    const root = collection.schema.getSchemaAST();
+    const root = collection.fields.getSchemaAST();
     return aggregateEnums(root);
   });
 
@@ -62,12 +62,12 @@ export function generateTypeScriptFile(collections: CollectionDef[]): string {
 export function generateCollectionDefs(collections: CollectionDef[]): string {
   let code = '';
 
-  code += `const $defs: Record<string, basil.EntityMeta<Record<string, unknown>>> = {`;
+  code += `const $defs: Record<string, basil.RuntimeCollectionSchema<Record<string, unknown>>> = {`;
   for (const collection of collections) {
     code += `
 ${JSON.stringify(collection.collectionName, null, '  ')}: {
   collectionName: ${JSON.stringify(collection.collectionName, null, '  ')},
-  schema: new basil.FieldsSchema(${JSON.stringify(collection.schema.getSchemaAST(), null, '  ')}),
+  fields: new basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
   indexes: ${JSON.stringify(collection.indexes, null, '  ')},
   options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
 },`;
@@ -81,7 +81,7 @@ export function generateDocumentTypes(collections: CollectionDef[]): string {
   let code = ``;
 
   for (const collection of collections) {
-    const ast = collection.schema.getSchemaAST();
+    const ast = collection.fields.getSchemaAST();
     const name = collection.entityName ?? getDefaultEntityName(collection.collectionName);
 
     code += `export class ${name} extends basil.Base {
@@ -89,11 +89,12 @@ constructor(params?: Partial<${name}>) {
   super();
   Object.assign(this, params);
 }
-static getCollection() {
+static getRuntimeSchema() {
   return {
     collectionName: ${JSON.stringify(collection.collectionName)},
-    schema: $defs[${JSON.stringify(collection.collectionName)}].schema,
+    fields: $defs[${JSON.stringify(collection.collectionName)}].fields,
     indexes: $defs[${JSON.stringify(collection.collectionName)}].indexes,
+    options: $defs[${JSON.stringify(collection.collectionName)}].options,
   };
 }`;
 

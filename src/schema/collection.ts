@@ -13,7 +13,7 @@ export function collection(props: Props): CollectionDef {
   return {
     collectionName: props.collectionName,
     entityName: props.entityName || null,
-    schema: createFieldsSchema(props.fields || {}),
+    fields: createFieldsSchema(props.fields || {}),
     indexes: props.indexes || [],
     options: props.options,
   };

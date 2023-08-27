@@ -1,5 +1,5 @@
 import * as mongodb from 'mongodb';
-import { BasilSettings, EntityMeta } from './types';
+import { BasilSettings, RuntimeCollectionSchema } from './types';
 import { loadConfig } from './Config';
 
 type ClientCallbackQueue = ((client: mongodb.MongoClient) => void)[];
@@ -130,7 +130,7 @@ export class Basil {
     });
   }
 
-  useCollection<T extends mongodb.Document, R>(target: EntityMeta<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
+  useCollection<T extends mongodb.Document, R>(target: RuntimeCollectionSchema<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
     const name = typeof target === 'string' ? target : target.collectionName;
 
     return new Promise((resolve, reject) => {
