@@ -29,10 +29,11 @@ export class Base {
   }
 
   /**
-   * Find a document matched by `_id`. Returns null if the document is not found.
+   * Returns a document matching the passed id value. The id value is used to match the `_id` field.
+   * Returns null if the document is not found.
    *
    * @param id
-   * @param options
+   * @param options Same value as the option passed to `findOne()`
    */
   static findById<T extends { _id: ObjectId | string }>(this: BaseClass<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getRuntimeSchema();
