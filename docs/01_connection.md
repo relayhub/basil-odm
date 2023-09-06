@@ -12,7 +12,7 @@ module.exports = {
 };
 ```
 
-To configure without placing a configuration file, call the `configure()` method.
+To configure without placing a configuration file, call the `configure()` method before accessing database.
 
 ```typescript
 import {configure} from 'basil-odm';
