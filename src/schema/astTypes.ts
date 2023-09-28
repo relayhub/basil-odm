@@ -1,13 +1,3 @@
-/**
- * スキーマを表現するASTを定義する
- *
- * 目的:
- *  - インスペクション可能なデータ構造を提供する
- *  - スキーマを変換したり操作したりできるようにする
- *  - 様々なアウトプットに対応できるようにする(例: json-schema, TypeScriptの型、bson-schema、その他コードなど)
- *  - コレクションのドキュメント同士のリレーションを定義できるようにする
- **/
-
 export type FieldsSchemaRoot = ObjectNode;
 
 export type SchemaNode = ObjectNode | ArrayNode | Union | Value | Literal | Enum | Reference | RecordNode;
@@ -96,7 +86,3 @@ export type TimestampValue = {
 export type BinaryValue = {
   kind: 'binary';
 };
-
-// TODO decimal, int, doubleあたりのデータ型を追加する
-// TODO numberを無くす
-// TODO 数値型の場合には、制限を設けるパラメータを付ける(範囲など)

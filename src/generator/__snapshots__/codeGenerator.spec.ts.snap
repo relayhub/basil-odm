@@ -26,3 +26,72 @@ exports[`generateCollectionDefs() should works normally 1`] = `
 
 "
 `;
+
+exports[`generateDocumentTypes() #0 1`] = `
+"export class Doc extends basil.Base {
+    constructor(params?: Partial<Doc>) {
+        super();
+        Object.assign(this, params);
+    }
+    static getRuntimeSchema(): basil.RuntimeCollectionSchema<Doc, {}> {
+        return {
+            collectionName: "docs",
+            fields: $defs["docs"].fields,
+            indexes: $defs["docs"].indexes,
+            options: $defs["docs"].options,
+            edges: {},
+        };
+    }
+    _id: mongodb.ObjectId = new mongodb.ObjectId();
+    createdAt: Date = new Date();
+    flag: boolean = false;
+    status: "created" | "deleted" = "created";
+    name: string = "";
+    sub: {
+        "name": string;
+    } = {
+        "name": "",
+    };
+    record: Record<string, string> = {};
+}
+"
+`;
+
+exports[`generateDocumentTypes() #1 1`] = `
+"export class Doc extends basil.Base {
+    constructor(params?: Partial<Doc>) {
+        super();
+        Object.assign(this, params);
+    }
+    static getRuntimeSchema(): basil.RuntimeCollectionSchema<Doc, {
+        "user": User;
+    }> {
+        return {
+            collectionName: "docs",
+            fields: $defs["docs"].fields,
+            indexes: $defs["docs"].indexes,
+            options: $defs["docs"].options,
+            edges: { "user": { type: "hasOne" as const, entity: "User", referenceField: "userId" }, },
+        };
+    }
+    _id: mongodb.ObjectId = new mongodb.ObjectId();
+    userId: mongodb.ObjectId = new mongodb.ObjectId();
+}
+export class User extends basil.Base {
+    constructor(params?: Partial<User>) {
+        super();
+        Object.assign(this, params);
+    }
+    static getRuntimeSchema(): basil.RuntimeCollectionSchema<User, {}> {
+        return {
+            collectionName: "users",
+            fields: $defs["users"].fields,
+            indexes: $defs["users"].indexes,
+            options: $defs["users"].options,
+            edges: {},
+        };
+    }
+    _id: mongodb.ObjectId = new mongodb.ObjectId();
+}
+"
+`;

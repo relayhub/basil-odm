@@ -16,6 +16,7 @@ export { object } from './schema/object';
 export { objectId } from './schema/objectId';
 export { date } from './schema/date';
 export { record } from './schema/record';
+export { hasOne } from './schema/edges';
 export { generateCode } from './generator/codeGenerator';
 export { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './schema/symbols';
 export { index } from './schema/createIndex';

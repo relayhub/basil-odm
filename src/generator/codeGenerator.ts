@@ -80,23 +80,30 @@ ${JSON.stringify(collection.collectionName, null, '  ')}: {
 export function generateDocumentTypes(collections: CollectionDef[]): string {
   let code = ``;
 
+  const collectionMap = collections.reduce((map, collection) => {
+    map.set(collection.collectionName, collection);
+    return map;
+  }, new Map<string, CollectionDef>());
+
   for (const collection of collections) {
     const ast = collection.fields.getSchemaAST();
-    const name = collection.entityName ?? getDefaultEntityName(collection.collectionName);
 
-    code += `export class ${name} extends basil.Base {
-constructor(params?: Partial<${name}>) {
-  super();
-  Object.assign(this, params);
-}
-static getRuntimeSchema() {
-  return {
-    collectionName: ${JSON.stringify(collection.collectionName)},
-    fields: $defs[${JSON.stringify(collection.collectionName)}].fields,
-    indexes: $defs[${JSON.stringify(collection.collectionName)}].indexes,
-    options: $defs[${JSON.stringify(collection.collectionName)}].options,
-  };
-}`;
+    code += `
+      export class ${collection.entityName} extends basil.Base {
+        constructor(params?: Partial<${collection.entityName}>) {
+          super();
+          Object.assign(this, params);
+        }
+        static getRuntimeSchema(): basil.RuntimeCollectionSchema<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}> {
+          return {
+            collectionName: ${JSON.stringify(collection.collectionName)},
+            fields: $defs[${JSON.stringify(collection.collectionName)}].fields,
+            indexes: $defs[${JSON.stringify(collection.collectionName)}].indexes,
+            options: $defs[${JSON.stringify(collection.collectionName)}].options,
+            edges: ${generateRuntimeEdgesInfo(collection, collectionMap)},
+          };
+        }
+    `;
 
     for (const [name, field] of Object.entries(ast.props)) {
       code += `${name}${field.isOptional ? '?' : ''}: ${generateType(field.node)}`;
@@ -110,6 +117,36 @@ static getRuntimeSchema() {
   }
 
   return code;
+}
+
+function generateEdgesType(collection: CollectionDef, collectionMap: Map<string, CollectionDef>) {
+  return `{${Object.entries(collection.edges ?? {})
+    .map(([name, edge]) => {
+      const referencedCollectionDef = collectionMap.get(edge.collection);
+      if (!referencedCollectionDef) {
+        throw Error(`Not defined collection: ${edge.collection}`);
+      }
+      return `${JSON.stringify(name)}: ${referencedCollectionDef.entityName}, `;
+    })
+    .join('')}}`;
+}
+
+function generateRuntimeEdgesInfo(collection: CollectionDef, collectionMap: Map<string, CollectionDef>) {
+  if (!collection.edges) {
+    return `{}`;
+  }
+
+  return `{${Object.entries(collection.edges)
+    .map(([key, edge]) => {
+      const referencedCollectionDef = collectionMap.get(edge.collection)!;
+      if (!referencedCollectionDef) {
+        throw Error(`Not defined collection: ${edge.collection}`);
+      }
+      return `${JSON.stringify(key)}: { type: 'hasOne' as const, entity: ${JSON.stringify(referencedCollectionDef.entityName)}, referenceField: ${JSON.stringify(
+        edge.referenceField
+      )} },`;
+    })
+    .join('\n')}}`;
 }
 
 export function generateTypeFromSchema(root: FieldsSchemaRoot) {

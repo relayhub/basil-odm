@@ -1,6 +1,7 @@
 import type { MongoClientOptions, CreateIndexesOptions } from 'mongodb';
 import * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
+import { Edge } from './schema/edgeTypes';
 
 export interface BasilSettings {
   connectionUri: string;
@@ -26,16 +27,27 @@ export type CollectionDef = {
   fields: FieldsSchema;
   collectionName: string;
   indexes: Index[];
-  entityName: string | null;
+  entityName: string;
   options?: CollectionOptions;
+  edges?: Record<string, Edge>;
 };
 
-export type RuntimeCollectionSchema<T> = {
-  _type?: T;
+export type RuntimeCollectionSchema<Entity, Edges = unknown> = {
+  _type?: Entity;
+  _edgesType?: Edges;
   fields: FieldsSchema;
   collectionName: string;
   indexes: Index[];
   options?: CollectionOptions;
+  edges?: Record<string, RuntimeEdge>;
+};
+
+export type RuntimeEdge = RuntimeHasOne;
+
+export type RuntimeHasOne = {
+  type: 'hasOne';
+  entity: unknown;
+  referenceField: string;
 };
 
 export type DefinedSchema = Record<string, CollectionDef> | CollectionDef[];

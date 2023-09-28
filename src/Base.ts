@@ -3,13 +3,12 @@ import { createFieldsSchema } from './schema/FieldsSchema';
 import { RuntimeCollectionSchema } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
-
 /**
  * @internal
  */
-export type BaseClass<T> = typeof Base & {
+export type BaseClass<T, E = unknown> = typeof Base & {
   new (): T;
-  getRuntimeSchema(): RuntimeCollectionSchema<T>;
+  getRuntimeSchema(): RuntimeCollectionSchema<T, E>;
 };
 
 export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
@@ -20,12 +19,67 @@ export class Base {
   /**
    * @internal
    */
-  static getRuntimeSchema(): RuntimeCollectionSchema<unknown> {
+  static getRuntimeSchema(): RuntimeCollectionSchema<unknown, unknown> {
     return {
       fields: createFieldsSchema({}),
       indexes: [],
       collectionName: '',
     };
+  }
+
+  static async loadEdges<Entity, Edges, EdgeKey extends keyof Edges>(
+    this: BaseClass<Entity, Edges>,
+    objects: Entity[],
+    edges: Record<EdgeKey, boolean>
+  ): Promise<(Entity & { [key in EdgeKey]: Edges[key] })[]> {
+    const runtimeSchema = this.getRuntimeSchema();
+
+    const promises: Promise<unknown>[] = [];
+    for (const [edgeField, value] of Object.entries(edges)) {
+      if (!value) {
+        // ignore edge info
+        continue;
+      }
+
+      const edgeInfo = runtimeSchema.edges?.[edgeField];
+      if (!edgeInfo) {
+        continue;
+      }
+
+      const { entity, referenceField } = edgeInfo;
+      const Target = entity as BaseClass<{ _id: ObjectId }>; /* FIXME */
+
+      const referenceValues = objects.map((object) => object[referenceField as keyof Entity /* FIXME */]);
+
+      promises.push(
+        (async () => {
+          const targets = await Target.findByIds(referenceValues as ObjectId[] /* FIXME */);
+
+          const map = new Map<string, unknown>();
+          for (const target of targets) {
+            map.set(target._id.toString(), target);
+          }
+
+          for (let i = 0; i < objects.length; i++) {
+            const key = (referenceValues[i] as ObjectId).toString();
+            if (map.has(key)) {
+              /* FIXME */
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              objects[i][edgeField] = map.get(key);
+            } else {
+              // TODO ここどうする?
+            }
+          }
+
+          map.clear();
+        })()
+      );
+    }
+
+    await Promise.all(promises);
+
+    return objects as (Entity & { [key in EdgeKey]: Edges[key] })[];
   }
 
   /**

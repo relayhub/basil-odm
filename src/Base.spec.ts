@@ -1,5 +1,5 @@
 import { Basil } from './Basil';
-import { createFieldsSchema, objectId, string } from './index';
+import { createFieldsSchema, objectId, string, RuntimeCollectionSchema } from './index';
 import * as mongodb from 'mongodb';
 import { Base } from './Base';
 
@@ -155,6 +155,68 @@ describe('Base', () => {
       await User.insertOne(new User());
       const users = await User.findMany({});
       expect(users.length).toBe(2);
+    });
+  });
+
+  describe('loadEdges()', () => {
+    class User extends Base {
+      _id = new mongodb.ObjectId();
+
+      groupId = new mongodb.ObjectId();
+
+      constructor(source?: Partial<User>) {
+        super();
+        Object.assign(this, source);
+      }
+
+      static getRuntimeSchema(): RuntimeCollectionSchema<User, { group: Group }> {
+        return {
+          collectionName: 'users',
+          indexes: [],
+          fields: createFieldsSchema({
+            _id: objectId,
+            groupId: objectId,
+          }),
+          edges: {
+            group: {
+              type: 'hasOne' as const,
+              entity: Group,
+              referenceField: 'groupId' as const,
+            },
+          },
+        };
+      }
+    }
+
+    class Group extends Base {
+      _id = new mongodb.ObjectId();
+
+      constructor(source?: Partial<User>) {
+        super();
+        Object.assign(this, source);
+      }
+
+      static getRuntimeSchema() {
+        return {
+          collectionName: 'groups',
+          indexes: [],
+          fields: createFieldsSchema({
+            _id: objectId,
+          }),
+        };
+      }
+    }
+
+    it('should works normally', async () => {
+      const group = new Group();
+      await Group.insertOne(group);
+
+      const user = new User();
+      user.groupId = group._id;
+      await User.insertOne(user);
+
+      const [loaded] = await User.loadEdges([user], { group: true });
+      expect(loaded.group._id.equals(group._id)).toBe(true);
     });
   });
 
