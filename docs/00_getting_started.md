@@ -1,12 +1,12 @@
-## Getting started
+# Getting started
 
-### Install
+## Install
 
 ```bash
 $ npm install mongodb basil-odm --save
 ```
 
-### Add a configuration file
+## Add a configuration file
 
 `basil.config.cjs`
 
@@ -19,7 +19,7 @@ module.exports = {
 
 Start MongoDB server and set its connection URI and database name.
 
-### Define a database schema in TypeScript
+## Define a database schema in TypeScript
 
 `schema.ts`
 
@@ -42,7 +42,7 @@ export const blogEntries = b.collection({
 
 The schema describes what fields and indexes are in the documents of the collection.
 
-### Apply the defined schema to the database
+## Apply the defined schema to the database
 
 `prepare-db.ts`
 
@@ -64,7 +64,7 @@ $ npx tsx ./prepare-db.ts
 
 If nothing goes wrong, create  collections described by schema in the database and set schema validation and indexes.
 
-### Generate models from the schema
+## Generate models from the schema
 
 `generate.ts`
 
@@ -85,11 +85,11 @@ $ npx tsx ./generate.ts
 
 TypeScript models for accessing the database will be generated in `basil-gen.ts`.
 
-### Examples of using the generated code
+## Examples of using the generated code
 
 Through the generated code, you can query and store data in MongoDB collections.
 
-#### `insertOne()`
+### `insertOne()`
 
 ```typescript
 import {BlogEntry} from './basil-gen'; // import from generated code
@@ -105,7 +105,7 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 })();
 ```
 
-#### `findMany()`
+### `findMany()`
 
 ```typescript
 import {BlogEntry} from './basil-gen'; // import from generated code
@@ -117,7 +117,7 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 })();
 ```
 
-#### `save()`
+### `save()`
 
 ```typescript
 import {BlogEntry} from './basil-gen'; // import from generated code
@@ -132,7 +132,7 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 })();
 ```
 
-#### `deleteOne()`
+### `deleteOne()`
 
 ```typescript
 import {BlogEntry} from './basil-gen'; // import from generated code
