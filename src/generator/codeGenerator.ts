@@ -2,7 +2,7 @@ import { FieldsSchemaRoot, Enum } from '../schema/astTypes';
 import { CollectionDef, DefinedSchema } from '../types';
 import { writeFileSync } from 'fs';
 import { prettier } from '../utils';
-import { aggregateEnums, generateDefaultValue, generateType, getDefaultEntityName } from './utils';
+import { aggregateEnums, generateDefaultValue, generateType } from './utils';
 import { inspect } from 'util';
 
 export const header = `/**
