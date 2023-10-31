@@ -3,6 +3,7 @@ import { createFieldsSchema } from './schema/FieldsSchema';
 import { RuntimeCollectionSchema } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
+import { isObjectId } from './utils';
 /**
  * @internal
  */
@@ -30,55 +31,72 @@ export class Base {
   static async loadEdges<Entity, Edges, EdgeKey extends keyof Edges>(
     this: BaseClass<Entity, Edges>,
     objects: Entity[],
-    edges: Record<EdgeKey, boolean>
+    edges: Record<EdgeKey, true>
   ): Promise<(Entity & { [key in EdgeKey]: Edges[key] })[]> {
     const runtimeSchema = this.getRuntimeSchema();
 
     const promises: Promise<unknown>[] = [];
+
     for (const [edgeField, value] of Object.entries(edges)) {
       if (!value) {
-        // ignore edge info
-        continue;
+        throw Error(`Invalid edges field value: edges[${JSON.stringify(edgeField)}] => ${JSON.stringify(value)}`);
       }
 
       const edgeInfo = runtimeSchema.edges?.[edgeField];
       if (!edgeInfo) {
-        continue;
+        throw Error(`Invalid edges field: ${edgeField}`);
       }
 
       const { entity, referenceField } = edgeInfo;
       const Target = entity as BaseClass<{ _id: ObjectId }>; /* FIXME */
 
-      const referenceValues = objects.map((object) => object[referenceField as keyof Entity /* FIXME */]);
+      // reference values to refer other collection's `document._id` field
+      const referenceValues = objects.map((object) => {
+        const key = referenceField as keyof Entity;
+        const value = object[key] as unknown;
+        if (!isObjectId(value)) {
+          throw Error(
+            `Invalid reference field: reference field value is not ObjectId\n` +
+              ` - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
+              ` - edge field: ${JSON.stringify(edgeField)}\n` +
+              ` - reference field: ${JSON.stringify(referenceField)}`
+          );
+        }
+        return value;
+      });
 
       promises.push(
         (async () => {
-          const targets = await Target.findByIds(referenceValues as ObjectId[] /* FIXME */);
+          const referencedDocumentMap = new Map<string, unknown>();
 
-          const map = new Map<string, unknown>();
+          // collect referenced documents
+          const targets = await Target.findByIds(referenceValues);
           for (const target of targets) {
-            map.set(target._id.toString(), target);
+            referencedDocumentMap.set(target._id.toString(), target);
           }
 
           for (let i = 0; i < objects.length; i++) {
-            const key = (referenceValues[i] as ObjectId).toString();
-            if (map.has(key)) {
-              /* FIXME */
+            const key = referenceValues[i].toString();
+            if (referencedDocumentMap.has(key)) {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              objects[i][edgeField] = map.get(key);
+              objects[i][edgeField] = referencedDocumentMap.get(key);
             } else {
-              // TODO ここどうする?
+              throw Error(
+                `Referenced document is not found:\n` +
+                  `  - collection: ${JSON.stringify(Target.getRuntimeSchema().collectionName)}\n` +
+                  `  - reference field: ${JSON.stringify(referenceField)}\n` +
+                  `  - reference value: ${JSON.stringify(referenceValues[i].toString())}\n` +
+                  `  - edge field: ${JSON.stringify(edgeField)}\n` +
+                  `  - referenced collection: ${JSON.stringify(Target.getRuntimeSchema().collectionName)}\n`
+              );
             }
           }
-
-          map.clear();
         })()
       );
     }
 
     await Promise.all(promises);
-
     return objects as (Entity & { [key in EdgeKey]: Edges[key] })[];
   }
 

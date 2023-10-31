@@ -1,4 +1,4 @@
-import mongodb, { CreateCollectionOptions } from 'mongodb';
+import mongodb, { ObjectId } from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
 import { Index, RuntimeCollectionSchema, DefinedSchema, CollectionOptions } from './types';
@@ -74,4 +74,10 @@ export function prettier(code: string) {
   return format(code, {
     parser: 'typescript',
   });
+}
+
+const objectIdBsonType = new ObjectId()._bsontype;
+
+export function isObjectId(target: unknown): target is ObjectId {
+  return target instanceof ObjectId || (target as ObjectId)?._bsontype === objectIdBsonType;
 }

@@ -1,6 +1,6 @@
 import { SchemaNode, FieldsSchemaRoot, LiteralValue } from './schema/astTypes';
 import { inspect } from 'util';
-import { ObjectId } from 'mongodb';
+import { isObjectId } from './utils';
 
 export function createDocument(entity: Record<string, unknown>, rootNode: FieldsSchemaRoot): Record<string, unknown> {
   return extract(entity, rootNode, []) as Record<string, unknown>;
@@ -10,8 +10,6 @@ export function createEntity<T extends Record<string, unknown>>(source: T, docum
   const object = extract(document, rootNode, []);
   return Object.assign(source, object);
 }
-
-const objectIdBsonType = new ObjectId()._bsontype;
 
 export function extract(target: unknown, node: SchemaNode, paths: string[]): unknown {
   switch (node.kind) {
@@ -41,7 +39,7 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): unk
       throw error('Not implemented');
 
     case 'objectId':
-      if (!(target instanceof ObjectId) && (target as ObjectId)?._bsontype !== objectIdBsonType) {
+      if (!isObjectId(target)) {
         throw error('Extracting ObjectId fail');
       }
 
