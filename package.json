@@ -45,7 +45,7 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --project tsconfig.typecheck.json",
     "clean": "rm -rf build dist",
     "prepare": "husky install",
     "publish-yalc": "npm run clean && npm run build && yalc publish --push --private",

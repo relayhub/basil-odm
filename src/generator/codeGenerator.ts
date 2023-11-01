@@ -144,9 +144,11 @@ function generateRuntimeEdgesInfo(collection: CollectionDef, collectionMap: Map<
       if (!referencedCollectionDef) {
         throw Error(`Not defined collection: ${edge.collection}`);
       }
-      return `${JSON.stringify(key)}: { type: 'hasOne' as const, entity: ${JSON.stringify(referencedCollectionDef.entityName)}, referenceField: ${JSON.stringify(
-        edge.referenceField
-      )} },`;
+      return `${JSON.stringify(key)}: {
+  type: 'hasOne' as const,
+  entity: ${referencedCollectionDef.entityName},
+  referenceField: ${JSON.stringify(edge.referenceField)}
+},`;
     })
     .join('\n')}}`;
 }
