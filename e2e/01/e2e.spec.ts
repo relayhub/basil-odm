@@ -21,10 +21,13 @@ afterAll(async () => {
 describe('e2e/01', () => {
   it('should works normally', async () => {
     const user = new User();
-    await User.insertOne(user);
+    await User.insertOne(user, {
+      writeConcern: { w: 'majority' },
+    });
     const blogEntry = new BlogEntry({
       userId: user._id,
     });
+
     await BlogEntry.insertOne(blogEntry);
     const [loaded] = await BlogEntry.loadEdges([blogEntry], {
       user: true,
