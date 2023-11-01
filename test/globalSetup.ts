@@ -8,6 +8,8 @@ export = async function globalSetup() {
     replSet: { count: 4 },
   });
   const uri = replset.getUri();
-  (global as any).__MONGOINSTANCE = replset;
+  Object.assign(global, {
+    __MONGOINSTANCE: replset,
+  });
   process.env.MONGO_URI = uri.slice(0, uri.lastIndexOf('/'));
 };

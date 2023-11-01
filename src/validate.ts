@@ -1,5 +1,6 @@
 import { SchemaNode } from './schema/astTypes';
 import mongodb from 'mongodb';
+import { isObjectId } from './utils';
 
 export interface ValidationMessage {
   target: unknown;
@@ -37,7 +38,7 @@ export function validate(target: unknown, node: SchemaNode, paths: string[]): Va
       throw Error('Not implemented');
 
     case 'objectId':
-      if (!(target instanceof mongodb.ObjectId)) {
+      if (!isObjectId(target)) {
         return error('Target value is not ObjectId');
       }
       return [];

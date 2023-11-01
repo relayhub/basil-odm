@@ -3,13 +3,14 @@ import { createFieldsSchema } from './schema/FieldsSchema';
 import { RuntimeCollectionSchema } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
+import { isObjectId } from './utils';
 
 /**
  * @internal
  */
-export type BaseClass<T> = typeof Base & {
+export type BaseClass<T, E = unknown> = typeof Base & {
   new (): T;
-  getRuntimeSchema(): RuntimeCollectionSchema<T>;
+  getRuntimeSchema(): RuntimeCollectionSchema<T, E>;
 };
 
 export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
@@ -20,12 +21,84 @@ export class Base {
   /**
    * @internal
    */
-  static getRuntimeSchema(): RuntimeCollectionSchema<unknown> {
+  static getRuntimeSchema(): RuntimeCollectionSchema<unknown, unknown> {
     return {
       fields: createFieldsSchema({}),
       indexes: [],
       collectionName: '',
     };
+  }
+
+  static async loadEdges<Entity, Edges, EdgeKey extends keyof Edges>(
+    this: BaseClass<Entity, Edges>,
+    objects: Entity[],
+    edges: Record<EdgeKey, true>
+  ): Promise<(Entity & { [key in EdgeKey]: Edges[key] })[]> {
+    const runtimeSchema = this.getRuntimeSchema();
+
+    const promises: Promise<unknown>[] = [];
+
+    for (const [edgeField, value] of Object.entries(edges)) {
+      if (!value) {
+        throw Error(`Invalid edges field value: edges[${JSON.stringify(edgeField)}] => ${JSON.stringify(value)}`);
+      }
+
+      const edgeInfo = runtimeSchema.edges?.[edgeField];
+      if (!edgeInfo) {
+        throw Error(`Invalid edges field: ${edgeField}`);
+      }
+
+      const { entity, referenceField } = edgeInfo;
+      const Target = entity as BaseClass<{ _id: ObjectId }>; /* FIXME */
+
+      // reference values to refer other collection's `document._id` field
+      const referenceValues = objects.map((object) => {
+        const key = referenceField as keyof Entity;
+        const value = object[key] as unknown;
+        if (!isObjectId(value)) {
+          throw Error(
+            `Invalid reference field: reference field value is not ObjectId\n` +
+              ` - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
+              ` - edge field: ${JSON.stringify(edgeField)}\n` +
+              ` - reference field: ${JSON.stringify(referenceField)}`
+          );
+        }
+        return value;
+      });
+
+      promises.push(
+        (async () => {
+          const referencedDocumentMap = new Map<string, unknown>();
+
+          // collect referenced documents
+          const targets = await Target.findByIds(referenceValues);
+          for (const target of targets) {
+            referencedDocumentMap.set(target._id.toString(), target);
+          }
+
+          for (let i = 0; i < objects.length; i++) {
+            const key = referenceValues[i].toString();
+            if (referencedDocumentMap.has(key)) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              objects[i][edgeField] = referencedDocumentMap.get(key);
+            } else {
+              throw Error(
+                `Referenced document is not found:\n` +
+                  `  - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
+                  `  - reference field: ${JSON.stringify(referenceField)}\n` +
+                  `  - reference value: ${JSON.stringify(referenceValues[i].toString())}\n` +
+                  `  - edge field: ${JSON.stringify(edgeField)}\n` +
+                  `  - referenced collection: ${JSON.stringify(Target.getRuntimeSchema().collectionName)}\n`
+              );
+            }
+          }
+        })()
+      );
+    }
+
+    await Promise.all(promises);
+    return objects as (Entity & { [key in EdgeKey]: Edges[key] })[];
   }
 
   /**
@@ -137,7 +210,7 @@ export class Base {
   /**
    * Save changes to a document persisted in the collection.
    *
-   * @param filter The filter used to select the document to save
+   * @param entity
    * @param options
    * @param options.upsert - When true, creates a new document if no document matches the query. Default value is false.
    */

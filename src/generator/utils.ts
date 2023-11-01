@@ -32,7 +32,7 @@ export function generateDefaultValue(node: SchemaNode): string {
       return 'null';
 
     case 'objectId':
-      return 'new mongodb.ObjectId()';
+      return 'new $$mongodb.ObjectId()';
 
     case 'object': {
       const lines: string[] = [];
@@ -96,7 +96,7 @@ export function generateType(node: SchemaNode): string {
       return 'null';
 
     case 'objectId':
-      return 'mongodb.ObjectId';
+      return '$$mongodb.ObjectId';
 
     case 'record':
       return `Record<string, ${generateType(node.item)}>`;

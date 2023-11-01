@@ -1,7 +1,10 @@
 import { enums } from '../schema/enums';
 import { createFieldsSchema, union } from '../schema/FieldsSchema';
-import { aggregateEnums } from './utils';
+import { aggregateEnums, generateType } from './utils';
 import { record } from '../schema/record';
+import { string } from '../schema/string';
+import { boolean } from '../schema/boolean';
+import { objectId } from '../schema/objectId';
 
 describe('aggregateEnums()', () => {
   it('should works normally', () => {
@@ -41,5 +44,13 @@ describe('aggregateEnums()', () => {
       }).getSchemaAST()
     );
     expect(aggregated.length).toBe(1);
+  });
+});
+
+describe('generateType()', () => {
+  it('should works normally', () => {
+    expect(generateType(string().buildASTNode())).toBe('string');
+    expect(generateType(boolean().buildASTNode())).toBe('boolean');
+    expect(generateType(objectId().buildASTNode())).toBe('$$mongodb.ObjectId');
   });
 });
