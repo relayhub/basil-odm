@@ -6,87 +6,6 @@
 import * as mongodb from 'mongodb';
 import * as basil from '../../src';
 
-const $defs: Record<string, basil.RuntimeCollectionSchema<Record<string, unknown>>> = {
-  blogEntries: {
-    collectionName: 'blogEntries',
-    fields: new basil.FieldsSchema({
-      kind: 'object',
-      props: {
-        _id: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'objectId',
-          },
-        },
-        title: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'string',
-          },
-        },
-        content: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'string',
-          },
-        },
-        createdAt: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'date',
-          },
-        },
-        userId: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'objectId',
-          },
-        },
-      },
-      allowAdditionalProps: false,
-    }),
-    indexes: [
-      {
-        fields: {
-          createdAt: -1,
-        },
-        options: {},
-      },
-    ],
-    options: {},
-  },
-  users: {
-    collectionName: 'users',
-    fields: new basil.FieldsSchema({
-      kind: 'object',
-      props: {
-        _id: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'objectId',
-          },
-        },
-        name: {
-          kind: 'field',
-          isOptional: false,
-          node: {
-            kind: 'string',
-          },
-        },
-      },
-      allowAdditionalProps: false,
-    }),
-    indexes: [],
-    options: {},
-  },
-};
-
 export class BlogEntry extends basil.Base {
   constructor(params?: Partial<BlogEntry>) {
     super();
@@ -95,9 +14,56 @@ export class BlogEntry extends basil.Base {
   static getRuntimeSchema(): basil.RuntimeCollectionSchema<BlogEntry, { user: User }> {
     return {
       collectionName: 'blogEntries',
-      fields: $defs['blogEntries'].fields,
-      indexes: $defs['blogEntries'].indexes,
-      options: $defs['blogEntries'].options,
+      fields: new basil.FieldsSchema({
+        kind: 'object',
+        props: {
+          _id: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'objectId',
+            },
+          },
+          title: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'string',
+            },
+          },
+          content: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'string',
+            },
+          },
+          createdAt: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'date',
+            },
+          },
+          userId: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'objectId',
+            },
+          },
+        },
+        allowAdditionalProps: false,
+      }),
+      indexes: [
+        {
+          fields: {
+            createdAt: -1,
+          },
+          options: {},
+        },
+      ],
+      options: {},
       edges: {
         user: {
           type: 'hasOne' as const,
@@ -122,9 +88,28 @@ export class User extends basil.Base {
   static getRuntimeSchema(): basil.RuntimeCollectionSchema<User, {}> {
     return {
       collectionName: 'users',
-      fields: $defs['users'].fields,
-      indexes: $defs['users'].indexes,
-      options: $defs['users'].options,
+      fields: new basil.FieldsSchema({
+        kind: 'object',
+        props: {
+          _id: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'objectId',
+            },
+          },
+          name: {
+            kind: 'field',
+            isOptional: false,
+            node: {
+              kind: 'string',
+            },
+          },
+        },
+        allowAdditionalProps: false,
+      }),
+      indexes: [],
+      options: {},
       edges: {},
     };
   }

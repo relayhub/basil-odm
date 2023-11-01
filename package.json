@@ -40,7 +40,8 @@
     ]
   },
   "scripts": {
-    "test": "yarn jest",
+    "test": "jest",
+    "prepare-test": "npx tsx ./e2e/*/generate.ts",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",

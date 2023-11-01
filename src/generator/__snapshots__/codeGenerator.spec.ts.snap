@@ -1,32 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateCollectionDefs() should works normally 1`] = `
-"const $defs: Record<string, basil.RuntimeCollectionSchema<Record<string, unknown>>> = {
-"foobar": {
-  collectionName: "foobar",
-  fields: new basil.FieldsSchema({
-  "kind": "object",
-  "props": {
-    "_id": {
-      "kind": "field",
-      "isOptional": false,
-      "node": {
-        "kind": "objectId"
-      }
-    }
-  },
-  "allowAdditionalProps": false
-}),
-  indexes: [],
-  options: {
-  "comment": "foobar",
-  "capped": true
-},
-},};
-
-"
-`;
-
 exports[`generateDocumentTypes() #0 1`] = `
 "export class Doc extends basil.Base {
     constructor(params?: Partial<Doc>) {
@@ -36,9 +9,80 @@ exports[`generateDocumentTypes() #0 1`] = `
     static getRuntimeSchema(): basil.RuntimeCollectionSchema<Doc, {}> {
         return {
             collectionName: "docs",
-            fields: $defs["docs"].fields,
-            indexes: $defs["docs"].indexes,
-            options: $defs["docs"].options,
+            fields: new basil.FieldsSchema({
+                "kind": "object",
+                "props": {
+                    "_id": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    },
+                    "createdAt": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "date"
+                        }
+                    },
+                    "flag": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "boolean"
+                        }
+                    },
+                    "status": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "enum",
+                            "values": {
+                                "0": "created",
+                                "1": "deleted"
+                            }
+                        }
+                    },
+                    "name": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "string"
+                        }
+                    },
+                    "sub": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "object",
+                            "props": {
+                                "name": {
+                                    "kind": "field",
+                                    "isOptional": false,
+                                    "node": {
+                                        "kind": "string"
+                                    }
+                                }
+                            },
+                            "allowAdditionalProps": false
+                        }
+                    },
+                    "record": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "record",
+                            "item": {
+                                "kind": "string"
+                            }
+                        }
+                    }
+                },
+                "allowAdditionalProps": false
+            }),
+            indexes: [],
+            options: {},
             edges: {},
         };
     }
@@ -68,9 +112,28 @@ exports[`generateDocumentTypes() #1 1`] = `
     }> {
         return {
             collectionName: "docs",
-            fields: $defs["docs"].fields,
-            indexes: $defs["docs"].indexes,
-            options: $defs["docs"].options,
+            fields: new basil.FieldsSchema({
+                "kind": "object",
+                "props": {
+                    "_id": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    },
+                    "userId": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    }
+                },
+                "allowAdditionalProps": false
+            }),
+            indexes: [],
+            options: {},
             edges: { "user": {
                     type: "hasOne" as const,
                     entity: User,
@@ -89,9 +152,21 @@ export class User extends basil.Base {
     static getRuntimeSchema(): basil.RuntimeCollectionSchema<User, {}> {
         return {
             collectionName: "users",
-            fields: $defs["users"].fields,
-            indexes: $defs["users"].indexes,
-            options: $defs["users"].options,
+            fields: new basil.FieldsSchema({
+                "kind": "object",
+                "props": {
+                    "_id": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    }
+                },
+                "allowAdditionalProps": false
+            }),
+            indexes: [],
+            options: {},
             edges: {},
         };
     }

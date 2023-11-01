@@ -58,25 +58,8 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
 
 export function generateTypeScriptFile(config: CodeGeneratorConfig): string {
   const collections = Object.values(config.schema);
-  return generateHeader(config.importSource) + generateCollectionDefs(collections) + generateDocumentTypes(collections) + generateEnumsCode(collections);
-}
 
-export function generateCollectionDefs(collections: CollectionDef[]): string {
-  let code = '';
-
-  code += `const $defs: Record<string, basil.RuntimeCollectionSchema<Record<string, unknown>>> = {`;
-  for (const collection of collections) {
-    code += `
-${JSON.stringify(collection.collectionName, null, '  ')}: {
-  collectionName: ${JSON.stringify(collection.collectionName, null, '  ')},
-  fields: new basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
-  indexes: ${JSON.stringify(collection.indexes, null, '  ')},
-  options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
-},`;
-  }
-  code += `};\n\n`;
-
-  return code;
+  return [generateHeader(config.importSource), generateDocumentTypes(collections), generateEnumsCode(collections)].join('');
 }
 
 export function generateDocumentTypes(collections: CollectionDef[]): string {
@@ -99,9 +82,9 @@ export function generateDocumentTypes(collections: CollectionDef[]): string {
         static getRuntimeSchema(): basil.RuntimeCollectionSchema<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}> {
           return {
             collectionName: ${JSON.stringify(collection.collectionName)},
-            fields: $defs[${JSON.stringify(collection.collectionName)}].fields,
-            indexes: $defs[${JSON.stringify(collection.collectionName)}].indexes,
-            options: $defs[${JSON.stringify(collection.collectionName)}].options,
+            fields: new basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
+            indexes: ${JSON.stringify(collection.indexes, null, '  ')},
+            options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
             edges: ${generateRuntimeEdgesInfo(collection, collectionMap)},
           };
         }

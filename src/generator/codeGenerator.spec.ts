@@ -1,5 +1,3 @@
-import { generateCollectionDefs } from './codeGenerator';
-import { createFieldsSchema } from '../schema/FieldsSchema';
 import { enums } from '../schema/enums';
 import { generateDocumentTypes } from './codeGenerator';
 import { collection } from '../schema/collection';
@@ -11,27 +9,6 @@ import { record } from '../schema/record';
 import { hasOne } from '../schema/edges';
 import { CollectionDef } from '../types';
 import { format } from '../testUtils';
-
-describe('generateCollectionDefs()', () => {
-  it('should works normally', () => {
-    const code = generateCollectionDefs([
-      {
-        fields: createFieldsSchema({
-          _id: objectId,
-        }),
-        indexes: [],
-        collectionName: 'foobar',
-        entityName: 'Foobar',
-        options: {
-          comment: 'foobar',
-          capped: true,
-        },
-      },
-    ]);
-
-    expect(code).toMatchSnapshot();
-  });
-});
 
 const table: {
   collections: CollectionDef[];
