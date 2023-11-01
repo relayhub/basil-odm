@@ -2,6 +2,7 @@ import type { MongoClientOptions, CreateIndexesOptions } from 'mongodb';
 import * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 import { Edge } from './schema/edgeTypes';
+import type { BaseClass } from './Base';
 
 export interface BasilSettings {
   connectionUri: string;
@@ -46,7 +47,7 @@ export type RuntimeEdge = RuntimeHasOne;
 
 export type RuntimeHasOne = {
   type: 'hasOne';
-  entity: unknown;
+  entity: BaseClass<unknown>;
   referenceField: string;
 };
 

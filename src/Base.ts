@@ -4,6 +4,7 @@ import { RuntimeCollectionSchema } from './types';
 import * as mongodb from 'mongodb';
 import { ObjectId, CountDocumentsOptions, Filter } from 'mongodb';
 import { isObjectId } from './utils';
+
 /**
  * @internal
  */
@@ -209,7 +210,7 @@ export class Base {
   /**
    * Save changes to a document persisted in the collection.
    *
-   * @param filter The filter used to select the document to save
+   * @param entity
    * @param options
    * @param options.upsert - When true, creates a new document if no document matches the query. Default value is false.
    */
