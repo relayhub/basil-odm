@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateDocumentTypes() #0 1`] = `
-"export class Doc extends basil.Base {
+"export class Doc extends $$basil.Base {
     constructor(params?: Partial<Doc>) {
         super();
         Object.assign(this, params);
     }
-    static getRuntimeSchema(): basil.RuntimeCollectionSchema<Doc, {}> {
+    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {}> {
         return {
             collectionName: "docs",
-            fields: new basil.FieldsSchema({
+            fields: new $$basil.FieldsSchema({
                 "kind": "object",
                 "props": {
                     "_id": {
@@ -86,7 +86,7 @@ exports[`generateDocumentTypes() #0 1`] = `
             edges: {},
         };
     }
-    _id: mongodb.ObjectId = new mongodb.ObjectId();
+    _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
     createdAt: Date = new Date();
     flag: boolean = false;
     status: "created" | "deleted" = "created";
@@ -102,17 +102,17 @@ exports[`generateDocumentTypes() #0 1`] = `
 `;
 
 exports[`generateDocumentTypes() #1 1`] = `
-"export class Doc extends basil.Base {
+"export class Doc extends $$basil.Base {
     constructor(params?: Partial<Doc>) {
         super();
         Object.assign(this, params);
     }
-    static getRuntimeSchema(): basil.RuntimeCollectionSchema<Doc, {
+    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {
         "user": User;
     }> {
         return {
             collectionName: "docs",
-            fields: new basil.FieldsSchema({
+            fields: new $$basil.FieldsSchema({
                 "kind": "object",
                 "props": {
                     "_id": {
@@ -141,18 +141,18 @@ exports[`generateDocumentTypes() #1 1`] = `
                 }, },
         };
     }
-    _id: mongodb.ObjectId = new mongodb.ObjectId();
-    userId: mongodb.ObjectId = new mongodb.ObjectId();
+    _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
+    userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
-export class User extends basil.Base {
+export class User extends $$basil.Base {
     constructor(params?: Partial<User>) {
         super();
         Object.assign(this, params);
     }
-    static getRuntimeSchema(): basil.RuntimeCollectionSchema<User, {}> {
+    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {}> {
         return {
             collectionName: "users",
-            fields: new basil.FieldsSchema({
+            fields: new $$basil.FieldsSchema({
                 "kind": "object",
                 "props": {
                     "_id": {
@@ -170,7 +170,7 @@ export class User extends basil.Base {
             edges: {},
         };
     }
-    _id: mongodb.ObjectId = new mongodb.ObjectId();
+    _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
 "
 `;

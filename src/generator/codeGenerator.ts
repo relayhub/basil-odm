@@ -11,8 +11,8 @@ const generateHeader = (importSource: string = defaultImportSource) => `/**
  * Do not make changes to this file directly
  */
 /* eslint-disable */
-import * as mongodb from 'mongodb';
-import * as basil from '${importSource}';
+import * as $$mongodb from 'mongodb';
+import * as $$basil from '${importSource}';
 
 `;
 
@@ -74,15 +74,15 @@ export function generateDocumentTypes(collections: CollectionDef[]): string {
     const ast = collection.fields.getSchemaAST();
 
     code += `
-      export class ${collection.entityName} extends basil.Base {
+      export class ${collection.entityName} extends $$basil.Base {
         constructor(params?: Partial<${collection.entityName}>) {
           super();
           Object.assign(this, params);
         }
-        static getRuntimeSchema(): basil.RuntimeCollectionSchema<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}> {
+        static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}> {
           return {
             collectionName: ${JSON.stringify(collection.collectionName)},
-            fields: new basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
+            fields: new $$basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
             indexes: ${JSON.stringify(collection.indexes, null, '  ')},
             options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
             edges: ${generateRuntimeEdgesInfo(collection, collectionMap)},

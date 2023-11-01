@@ -12,7 +12,7 @@ import { date } from '../schema/date';
 type Case = [string, FieldsSchema, string];
 
 const table: Case[] = [
-  ['ObjectId', createFieldsSchema({ _id: objectId() }), '{\n"_id": \nmongodb.ObjectId\n;\n}'],
+  ['ObjectId', createFieldsSchema({ _id: objectId() }), '{\n"_id": \n$$mongodb.ObjectId\n;\n}'],
 
   [
     'value types',
@@ -53,7 +53,7 @@ null
         _id: objectId(),
       },
     }),
-    `{\n"objectField": \n{\n"_id": \nmongodb.ObjectId\n;\n}\n;\n}`,
+    `{\n"objectField": \n{\n"_id": \n$$mongodb.ObjectId\n;\n}\n;\n}`,
   ],
 
   [

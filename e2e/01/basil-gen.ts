@@ -3,18 +3,18 @@
  * Do not make changes to this file directly
  */
 /* eslint-disable */
-import * as mongodb from 'mongodb';
-import * as basil from '../../src';
+import * as $$mongodb from 'mongodb';
+import * as $$basil from '../../src';
 
-export class BlogEntry extends basil.Base {
+export class BlogEntry extends $$basil.Base {
   constructor(params?: Partial<BlogEntry>) {
     super();
     Object.assign(this, params);
   }
-  static getRuntimeSchema(): basil.RuntimeCollectionSchema<BlogEntry, { user: User }> {
+  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<BlogEntry, { user: User }> {
     return {
       collectionName: 'blogEntries',
-      fields: new basil.FieldsSchema({
+      fields: new $$basil.FieldsSchema({
         kind: 'object',
         props: {
           _id: {
@@ -73,22 +73,22 @@ export class BlogEntry extends basil.Base {
       },
     };
   }
-  _id: mongodb.ObjectId = new mongodb.ObjectId();
+  _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
   title: string = '';
   content: string = '';
   createdAt: Date = new Date();
-  userId: mongodb.ObjectId = new mongodb.ObjectId();
+  userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
 
-export class User extends basil.Base {
+export class User extends $$basil.Base {
   constructor(params?: Partial<User>) {
     super();
     Object.assign(this, params);
   }
-  static getRuntimeSchema(): basil.RuntimeCollectionSchema<User, {}> {
+  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {}> {
     return {
       collectionName: 'users',
-      fields: new basil.FieldsSchema({
+      fields: new $$basil.FieldsSchema({
         kind: 'object',
         props: {
           _id: {
@@ -113,6 +113,6 @@ export class User extends basil.Base {
       edges: {},
     };
   }
-  _id: mongodb.ObjectId = new mongodb.ObjectId();
+  _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
   name: string = '';
 }
