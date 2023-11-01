@@ -26,7 +26,7 @@
     "typescript": "5.2.2"
   },
   "dependencies": {
-    "commander": "11.0.0",
+    "commander": "11.1.0",
     "find-config": "1.0.0",
     "jsonschema": "1.4.1",
     "pluralize": "8.0.0",
