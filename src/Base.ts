@@ -85,7 +85,7 @@ export class Base {
             } else {
               throw Error(
                 `Referenced document is not found:\n` +
-                  `  - collection: ${JSON.stringify(Target.getRuntimeSchema().collectionName)}\n` +
+                  `  - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
                   `  - reference field: ${JSON.stringify(referenceField)}\n` +
                   `  - reference value: ${JSON.stringify(referenceValues[i].toString())}\n` +
                   `  - edge field: ${JSON.stringify(edgeField)}\n` +
