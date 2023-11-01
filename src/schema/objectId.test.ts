@@ -7,8 +7,8 @@ test('objectId', () => {
     id: objectId,
   });
 
-  expect(schema.decode({ id: new ObjectId('000000000000') })).toEqual({
-    id: new ObjectId('000000000000'),
+  expect(schema.decode({ id: new ObjectId('00000000e4da394bb9e3efdb') })).toEqual({
+    id: new ObjectId('00000000e4da394bb9e3efdb'),
   });
 });
 
@@ -17,7 +17,7 @@ test('objectId()', () => {
     id: objectId(),
   });
 
-  expect(schema.decode({ id: new ObjectId('000000000000') })).toEqual({
-    id: new ObjectId('000000000000'),
+  expect(schema.decode({ id: new ObjectId('00000000e4da394bb9e3efdc') })).toEqual({
+    id: new ObjectId('00000000e4da394bb9e3efdc'),
   });
 });
