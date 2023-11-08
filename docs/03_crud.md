@@ -20,7 +20,7 @@ export const users = b.collection({
     createdAt: b.date(),
   },
   indexes: [
-    b.index({email: 1}, {unique: true}),
+    b.index({ email: 1 }, { unique: true }),
   ]
 });
 ```

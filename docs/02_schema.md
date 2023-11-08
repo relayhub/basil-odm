@@ -22,7 +22,7 @@ export const users = b.collection({
     createdAt: b.date(),
   },
   indexes: [
-    b.index({email: 1}, {unique: true}),
+    b.index({ email: 1 }, { unique: true }),
   ]
 });
 ```
@@ -44,7 +44,7 @@ export const users = b.collection({
   collectionName: 'users',
   entityName: 'UserEntity',
   fields: {
-    ...
+    // ...
   }
 });
 ```
@@ -412,7 +412,7 @@ const users = b.collection({
   fields: {
     _id: b.objectId(),
     
-    // This will be {city: string; street: string;} type
+    // This will be { city: string; street: string; } type
     address: b.shape({
       city: b.string(),
       street: b.string(),
@@ -421,7 +421,7 @@ const users = b.collection({
 });
 ```
 
-The initial value of this type field is an object with the initial values of several specified properties. For example, in the case of `b.shape({name: b.string()})`, `{name: ''}` is the initial value.
+The initial value of this type field is an object with the initial values of several specified properties. For example, in the case of `b.shape({ name: b.string() })`, `{ name: '' }` is the initial value.
 
 ### `arrayOf()`
 
@@ -477,8 +477,8 @@ const users = b.collection({
     createdAt: b.date(),
   },
   indexes: [
-    b.index({email: 1}, {unique: true}),
-    b.index({createdAt: -1}),
+    b.index({ email: 1 }, { unique: true }),
+    b.index({ createdAt: -1 }),
   ]
 });
 ```
@@ -486,7 +486,7 @@ const users = b.collection({
 Arguments:
 
  - `fields`: `Record<string, 1 | -1>`
-   Describe which fields to define indexes on. Ascending and descending order is defined by `1` and `-1` respectively. To create a composite index, specify multiple fields. Example: `index({a: 1, b: 1, c: 1})`
+   Describe which fields to define indexes on. Ascending and descending order is defined by `1` and `-1` respectively. To create a composite index, specify multiple fields. Example: `index({ a: 1, b: 1, c: 1 })`
  - `options?`:
    - `unique`: `boolean` If `true` is specified, [Unique Index](https://www.mongodb.com/docs/manual/core/index-unique/unique) will be set.
    - `background`: `boolean` If `true` is specified, creates the index in the background, yielding whenever possible.
