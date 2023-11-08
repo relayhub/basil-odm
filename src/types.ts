@@ -3,6 +3,7 @@ import * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 import { Edge } from './schema/edgeTypes';
 import type { BaseClass } from './Base';
+import type { BasilCollection } from './BasilCollection';
 
 export interface BasilSettings {
   connectionUri: string;
@@ -38,6 +39,7 @@ export type RuntimeCollectionSchema<Entity, Edges = unknown> = {
   _edgesType?: Edges;
   fields: FieldsSchema;
   collectionName: string;
+  Entity?: new () => Entity;
   indexes: Index[];
   options?: CollectionOptions;
   edges?: Record<string, RuntimeEdge>;
@@ -47,7 +49,9 @@ export type RuntimeEdge = RuntimeHasOne;
 
 export type RuntimeHasOne = {
   type: 'hasOne';
-  entity: BaseClass<unknown>;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  collection: BaseClass<unknown> | BasilCollection<unknown, unknown>;
   referenceField: string;
 };
 
