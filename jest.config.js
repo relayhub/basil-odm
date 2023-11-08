@@ -1,7 +1,5 @@
 module.exports = {
-  "transform": {
-    "^.+\\.tsx?$": "esbuild-jest"
-  },
+  preset: 'ts-jest',
   testRegex: "(src|e2e)/(.*)\\.(test|spec)\\.(tsx?)$",
   "globalSetup": "<rootDir>/test/globalSetup.ts",
   "globalTeardown": "<rootDir>/test/globalTeardown.ts",
