@@ -56,7 +56,7 @@ MongoDB allows you to set schema validation and indexes for a collection. Schema
 `prepare-db.ts`
 
 ```typescript
-import {disconnect, prepareDb} from 'basil-odm';
+import { disconnect, prepareDb } from 'basil-odm';
 import * as schema from './schema'; // import your schema
 
 (async () => {
@@ -80,8 +80,8 @@ Generating code from the schema gives completely type-safe models for accessing 
 `generate.ts`
 
 ```typescript
-import {generateCode} from 'basil-odm';
-import {join} from 'path';
+import { generateCode } from 'basil-odm';
+import { join } from 'path';
 import * as schema from './schema'; // import your schema
 
 generateCode({

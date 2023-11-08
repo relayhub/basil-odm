@@ -42,12 +42,12 @@ export class User extends basil.Base {
 
 You can access the `users` collection in MongoDB through this `User` class.
 
-### Create
+## Create
 
 You can also create an entity of a collection by instantiating the `User` class.
 
 ```typescript
-import {User} from './basil-gen'; // import generated models
+import { User } from './basil-gen'; // import generated models
 
 const user = new User();
 user.name = "Kubota Mitsunori";
@@ -57,7 +57,7 @@ user.email = "anatoo.jp@gmail.com";
 The constructor of an entity accepts a partial of that entity. This may be used to initialize properties one at a time.
 
 ```typescript
-import {User} from './basil-gen'; // import generated models
+import { User } from './basil-gen'; // import generated models
 
 const user = new User({
   name: 'Kubota Mitsunori',
@@ -65,10 +65,12 @@ const user = new User({
 });
 ```
 
+## Insert
+
 To make the created entities persistent, insert data into the collection using the `insertOne()` method.
 
 ```typescript
-import {User} from './basil-gen'; // import generated models
+import { User } from './basil-gen'; // import generated models
 
 (async () => {
   const user = new User({
@@ -80,10 +82,12 @@ import {User} from './basil-gen'; // import generated models
 })();
 ```
 
+## Find and save
+
 Entities can be retrieved by using the `findOne()` method, for example. To update an entity already in the collection, you can use the `save()` method.
 
 ```typescript
-import {User} from './basil-gen'; // import generated models
+import { User } from './basil-gen'; // import generated models
 
 (async () => {
   const user = await User.findOne({
@@ -95,5 +99,7 @@ import {User} from './basil-gen'; // import generated models
   await User.save(user);
 })();
 ```
+
+## Other operations
 
 To find the available methods, see [`Base` class reference](./api/classes/Base.md).
