@@ -31,8 +31,8 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
         throw Error(`Invalid edges field: ${edgeField}`);
       }
 
-      const { entity, referenceField } = edgeInfo;
-      const Target = entity as unknown as BasilCollection<{ _id: ObjectId }, object>; /* FIXME */
+      const { collection, referenceField } = edgeInfo;
+      const Target = collection as BasilCollection<{ _id: ObjectId }, object>;
 
       // reference values to refer other collection's `document._id` field
       const referenceValues = objects.map((object) => {

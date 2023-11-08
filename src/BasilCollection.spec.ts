@@ -209,7 +209,7 @@ describe('BasilCollection', () => {
       edges: {
         group: {
           type: 'hasOne' as const,
-          entity: Groups,
+          collection: Groups,
           referenceField: 'groupId' as const,
         },
       },

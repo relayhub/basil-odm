@@ -180,7 +180,7 @@ describe('Base', () => {
           edges: {
             group: {
               type: 'hasOne' as const,
-              entity: Group,
+              collection: Group,
               referenceField: 'groupId' as const,
             },
           },

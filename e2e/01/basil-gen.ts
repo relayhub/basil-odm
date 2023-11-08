@@ -67,7 +67,7 @@ export class BlogEntry extends $$basil.Base {
       edges: {
         user: {
           type: 'hasOne' as const,
-          entity: User,
+          collection: User,
           referenceField: 'userId',
         },
       },
@@ -116,3 +116,98 @@ export class User extends $$basil.Base {
   _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
   name: string = '';
 }
+
+export const db: {
+  blogEntries: $$basil.BasilCollection<BlogEntry, { user: User }>;
+  users: $$basil.BasilCollection<User, {}>;
+} = {
+  blogEntries: new $$basil.BasilCollection<BlogEntry, { user: User }>(() => ({
+    collectionName: 'blogEntries',
+    fields: new $$basil.FieldsSchema({
+      kind: 'object',
+      props: {
+        _id: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'objectId',
+          },
+        },
+        title: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'string',
+          },
+        },
+        content: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'string',
+          },
+        },
+        createdAt: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'date',
+          },
+        },
+        userId: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'objectId',
+          },
+        },
+      },
+      allowAdditionalProps: false,
+    }),
+    Entity: BlogEntry,
+    indexes: [
+      {
+        fields: {
+          createdAt: -1,
+        },
+        options: {},
+      },
+    ],
+    options: {},
+    edges: {
+      user: {
+        type: 'hasOne' as const,
+        collection: db['users'],
+        referenceField: 'userId',
+      },
+    },
+  })),
+
+  users: new $$basil.BasilCollection<User, {}>(() => ({
+    collectionName: 'users',
+    fields: new $$basil.FieldsSchema({
+      kind: 'object',
+      props: {
+        _id: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'objectId',
+          },
+        },
+        name: {
+          kind: 'field',
+          isOptional: false,
+          node: {
+            kind: 'string',
+          },
+        },
+      },
+      allowAdditionalProps: false,
+    }),
+    Entity: User,
+    indexes: [],
+    options: {},
+    edges: {},
+  })),
+};

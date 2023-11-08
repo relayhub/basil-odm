@@ -136,7 +136,7 @@ exports[`generateDocumentTypes() #1 1`] = `
             options: {},
             edges: { "user": {
                     type: "hasOne" as const,
-                    entity: User,
+                    collection: User,
                     referenceField: "userId"
                 }, },
         };

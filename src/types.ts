@@ -3,7 +3,7 @@ import * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 import { Edge } from './schema/edgeTypes';
 import type { BaseClass } from './Base';
-import { BasilCollection } from './BasilCollection';
+import type { BasilCollection } from './BasilCollection';
 
 export interface BasilSettings {
   connectionUri: string;
@@ -51,7 +51,7 @@ export type RuntimeHasOne = {
   type: 'hasOne';
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  entity: BaseClass<unknown> | BasilCollection<unknown, unknown>;
+  collection: BaseClass<unknown> | BasilCollection<unknown, unknown>;
   referenceField: string;
 };
 

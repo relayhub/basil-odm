@@ -59,7 +59,42 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
 export function generateTypeScriptFile(config: CodeGeneratorConfig): string {
   const collections = Object.values(config.schema);
 
-  return [generateHeader(config.importSource), generateDocumentTypes(collections), generateEnumsCode(collections)].join('');
+  return [generateHeader(config.importSource), generateDocumentTypes(collections), generateEnumsCode(collections), generateCollectionAccessObjects(collections)].join('');
+}
+
+export function generateCollectionAccessObjects(collections: CollectionDef[]): string {
+  const collectionMap = collections.reduce((map, collection) => {
+    map.set(collection.collectionName, collection);
+    return map;
+  }, new Map<string, CollectionDef>());
+
+  function generateDbType() {
+    let code = `{`;
+    for (const collection of collections) {
+      code += `${JSON.stringify(collection.collectionName)}: $$basil.BasilCollection<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}>,`;
+    }
+    code += `}\n\n`;
+    return code;
+  }
+
+  let code = `export const db: ${generateDbType()} = {`;
+
+  for (const collection of collections) {
+    code += `
+      ${JSON.stringify(collection.collectionName)}: new $$basil.BasilCollection<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}>(() => ({
+        collectionName: ${JSON.stringify(collection.collectionName)},
+        fields: new $$basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
+        Entity: ${collection.entityName},
+        indexes: ${JSON.stringify(collection.indexes, null, '  ')},
+        options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
+        edges: ${generateRuntimeEdgesInfoForCAOs(collection, collectionMap)},
+      })),
+    `;
+  }
+
+  code += `};\n\n`;
+
+  return code;
 }
 
 export function generateDocumentTypes(collections: CollectionDef[]): string {
@@ -116,6 +151,26 @@ function generateEdgesType(collection: CollectionDef, collectionMap: Map<string,
     .join('')}}`;
 }
 
+function generateRuntimeEdgesInfoForCAOs(collection: CollectionDef, collectionMap: Map<string, CollectionDef>) {
+  if (!collection.edges) {
+    return `{}`;
+  }
+
+  return `{${Object.entries(collection.edges)
+    .map(([key, edge]) => {
+      const referencedCollectionDef = collectionMap.get(edge.collection)!;
+      if (!referencedCollectionDef) {
+        throw Error(`Not defined collection: ${edge.collection}`);
+      }
+      return `${JSON.stringify(key)}: {
+  type: 'hasOne' as const,
+  collection: db[${JSON.stringify(referencedCollectionDef.collectionName)}],
+  referenceField: ${JSON.stringify(edge.referenceField)}
+},`;
+    })
+    .join('\n')}}`;
+}
+
 function generateRuntimeEdgesInfo(collection: CollectionDef, collectionMap: Map<string, CollectionDef>) {
   if (!collection.edges) {
     return `{}`;
@@ -129,7 +184,7 @@ function generateRuntimeEdgesInfo(collection: CollectionDef, collectionMap: Map<
       }
       return `${JSON.stringify(key)}: {
   type: 'hasOne' as const,
-  entity: ${referencedCollectionDef.entityName},
+  collection: ${referencedCollectionDef.entityName},
   referenceField: ${JSON.stringify(edge.referenceField)}
 },`;
     })

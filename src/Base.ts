@@ -48,8 +48,8 @@ export class Base {
         throw Error(`Invalid edges field: ${edgeField}`);
       }
 
-      const { entity, referenceField } = edgeInfo;
-      const Target = entity as BaseClass<{ _id: ObjectId }>; /* FIXME */
+      const { collection, referenceField } = edgeInfo;
+      const Target = collection as BaseClass<{ _id: ObjectId }>; /* FIXME */
 
       // reference values to refer other collection's `document._id` field
       const referenceValues = objects.map((object) => {
@@ -266,10 +266,10 @@ export class Base {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static insertOne<T extends { [key: string]: any }>(this: BaseClass<T>, entity: T, options: mongodb.InsertOneOptions = {}): Promise<mongodb.InsertOneResult<mongodb.WithId<T>>> {
-    const target = this.getRuntimeSchema();
+    const runtimeSchema = this.getRuntimeSchema();
 
-    return this.basil.useCollection(target, (collection) => {
-      const serializedDocument = target.fields.decode(entity) as mongodb.OptionalId<T>;
+    return this.basil.useCollection(runtimeSchema, (collection) => {
+      const serializedDocument = runtimeSchema.fields.decode(entity) as mongodb.OptionalId<T>;
       return collection.insertOne(serializedDocument, { ...options });
     });
   }
