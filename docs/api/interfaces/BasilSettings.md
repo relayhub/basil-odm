@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types.ts:8](https://github.com/anatoo/basil-odm/blob/b49f36c/src/types.ts#L8)
+[src/types.ts:11](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L11)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:6](https://github.com/anatoo/basil-odm/blob/b49f36c/src/types.ts#L6)
+[src/types.ts:9](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L9)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/types.ts:7](https://github.com/anatoo/basil-odm/blob/b49f36c/src/types.ts#L7)
+[src/types.ts:10](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L10)

@@ -23,7 +23,7 @@
 
 ### constructor
 
-• **new FieldsSchema**(`schemaRoot`)
+• **new FieldsSchema**(`schemaRoot`): [`FieldsSchema`](FieldsSchema.md)
 
 #### Parameters
 
@@ -31,9 +31,13 @@
 | :------ | :------ |
 | `schemaRoot` | `ObjectNode` |
 
+#### Returns
+
+[`FieldsSchema`](FieldsSchema.md)
+
 #### Defined in
 
-[src/schema/FieldsSchema.ts:114](https://github.com/anatoo/basil-odm/blob/b49f36c/src/schema/FieldsSchema.ts#L114)
+[src/schema/FieldsSchema.ts:114](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L114)
 
 ## Properties
 
@@ -43,7 +47,7 @@
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:112](https://github.com/anatoo/basil-odm/blob/b49f36c/src/schema/FieldsSchema.ts#L112)
+[src/schema/FieldsSchema.ts:112](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L112)
 
 ## Methods
 
@@ -63,7 +67,7 @@
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:122](https://github.com/anatoo/basil-odm/blob/b49f36c/src/schema/FieldsSchema.ts#L122)
+[src/schema/FieldsSchema.ts:122](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L122)
 
 ___
 
@@ -76,7 +80,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `document` | `Document` |
-| `source` | `Record`<`string`, `unknown`\> |
+| `source` | `Record`\<`string`, `unknown`\> |
 
 #### Returns
 
@@ -84,21 +88,21 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:126](https://github.com/anatoo/basil-odm/blob/b49f36c/src/schema/FieldsSchema.ts#L126)
+[src/schema/FieldsSchema.ts:126](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L126)
 
 ___
 
 ### generateBsonSchema
 
-▸ **generateBsonSchema**(): `Record`<`string`, `unknown`\>
+▸ **generateBsonSchema**(): `Record`\<`string`, `unknown`\>
 
 #### Returns
 
-`Record`<`string`, `unknown`\>
+`Record`\<`string`, `unknown`\>
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:130](https://github.com/anatoo/basil-odm/blob/b49f36c/src/schema/FieldsSchema.ts#L130)
+[src/schema/FieldsSchema.ts:130](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L130)
 
 ___
 
@@ -112,4 +116,4 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:118](https://github.com/anatoo/basil-odm/blob/b49f36c/src/schema/FieldsSchema.ts#L118)
+[src/schema/FieldsSchema.ts:118](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L118)

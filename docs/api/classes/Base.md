@@ -24,6 +24,7 @@
 - [findOne](Base.md#findone)
 - [getRuntimeSchema](Base.md#getruntimeschema)
 - [insertOne](Base.md#insertone)
+- [loadEdges](Base.md#loadedges)
 - [save](Base.md#save)
 - [updateMany](Base.md#updatemany)
 - [updateOne](Base.md#updateone)
@@ -32,7 +33,11 @@
 
 ### constructor
 
-• **new Base**()
+• **new Base**(): [`Base`](Base.md)
+
+#### Returns
+
+[`Base`](Base.md)
 
 ## Properties
 
@@ -42,13 +47,13 @@
 
 #### Defined in
 
-[src/Base.ts:18](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L18)
+[src/Base.ts:19](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L19)
 
 ## Methods
 
 ### aggregate
 
-▸ `Static` **aggregate**<`T`\>(`this`, `pipeline`, `options?`): `Promise`<`unknown`[]\>
+▸ **aggregate**\<`T`\>(`this`, `pipeline`, `options?`): `Promise`\<`unknown`[]\>
 
 Performs aggregate operations on collections.
 
@@ -64,23 +69,23 @@ Since the execution result will be an array of unknown type, it is recommended t
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
 | `pipeline` | `Document`[] | Pipeline array to be passed to aggregate operation |
 | `options` | `AggregateOptions` |  |
 
 #### Returns
 
-`Promise`<`unknown`[]\>
+`Promise`\<`unknown`[]\>
 
 #### Defined in
 
-[src/Base.ts:91](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L91)
+[src/Base.ts:164](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L164)
 
 ___
 
 ### count
 
-▸ `Static` **count**<`T`\>(`this`, `filter?`, `options?`): `Promise`<`number`\>
+▸ **count**\<`T`\>(`this`, `filter?`, `options?`): `Promise`\<`number`\>
 
 Gets the number of documents matching the filter.
 
@@ -94,23 +99,23 @@ Gets the number of documents matching the filter.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
-| `filter` | `Filter`<`T`\> | The filter for the count |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
+| `filter` | `Filter`\<`T`\> | The filter for the count |
 | `options` | `CountDocumentsOptions` | Optional settings for the command |
 
 #### Returns
 
-`Promise`<`number`\>
+`Promise`\<`number`\>
 
 #### Defined in
 
-[src/Base.ts:210](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L210)
+[src/Base.ts:283](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L283)
 
 ___
 
 ### deleteMany
 
-▸ `Static` **deleteMany**<`T`\>(`this`, `filter`, `options?`): `Promise`<`DeleteResult`\>
+▸ **deleteMany**\<`T`\>(`this`, `filter`, `options?`): `Promise`\<`DeleteResult`\>
 
 Delete documents that matches the filter.
 
@@ -124,23 +129,23 @@ Delete documents that matches the filter.
 
 | Name | Type |
 | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> |
-| `filter` | `Filter`<`T`\> |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> |
+| `filter` | `Filter`\<`T`\> |
 | `options` | `DeleteOptions` |
 
 #### Returns
 
-`Promise`<`DeleteResult`\>
+`Promise`\<`DeleteResult`\>
 
 #### Defined in
 
-[src/Base.ts:182](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L182)
+[src/Base.ts:255](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L255)
 
 ___
 
 ### deleteOne
 
-▸ `Static` **deleteOne**<`T`\>(`this`, `filter`, `options?`): `Promise`<`DeleteResult`\>
+▸ **deleteOne**\<`T`\>(`this`, `filter`, `options?`): `Promise`\<`DeleteResult`\>
 
 Delete the first document that matches the filter.
 
@@ -154,23 +159,23 @@ Delete the first document that matches the filter.
 
 | Name | Type |
 | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> |
-| `filter` | `Filter`<`T`\> |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> |
+| `filter` | `Filter`\<`T`\> |
 | `options` | `DeleteOptions` |
 
 #### Returns
 
-`Promise`<`DeleteResult`\>
+`Promise`\<`DeleteResult`\>
 
 #### Defined in
 
-[src/Base.ts:169](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L169)
+[src/Base.ts:242](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L242)
 
 ___
 
 ### findById
 
-▸ `Static` **findById**<`T`\>(`this`, `id`, `options?`): `Promise`<``null`` \| `T`\>
+▸ **findById**\<`T`\>(`this`, `id`, `options?`): `Promise`\<``null`` \| `T`\>
 
 Returns a document matching the passed id value. The id value is used to match the `_id` field.
 Returns null if the document is not found.
@@ -185,23 +190,23 @@ Returns null if the document is not found.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
 | `id` | `string` \| `ObjectId` |  |
-| `options` | `FindOptions`<`T`\> | Same value as the option passed to `findOne()` |
+| `options` | `FindOptions`\<`T`\> | Same value as the option passed to `findOne()` |
 
 #### Returns
 
-`Promise`<``null`` \| `T`\>
+`Promise`\<``null`` \| `T`\>
 
 #### Defined in
 
-[src/Base.ts:38](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L38)
+[src/Base.ts:111](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L111)
 
 ___
 
 ### findByIds
 
-▸ `Static` **findByIds**<`T`\>(`this`, `ids`, `options?`): `Promise`<`T`[]\>
+▸ **findByIds**\<`T`\>(`this`, `ids`, `options?`): `Promise`\<`T`[]\>
 
 Finds documents matching an array of ids.
 
@@ -215,23 +220,23 @@ Finds documents matching an array of ids.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
 | `ids` | readonly (`string` \| `ObjectId`)[] | An array of ObjectId or string |
-| `options` | [`FindByIdsOptions`](../README.md#findbyidsoptions)<`T`\> |  |
+| `options` | [`FindByIdsOptions`](../README.md#findbyidsoptions)\<`T`\> |  |
 
 #### Returns
 
-`Promise`<`T`[]\>
+`Promise`\<`T`[]\>
 
 #### Defined in
 
-[src/Base.ts:62](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L62)
+[src/Base.ts:135](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L135)
 
 ___
 
 ### findMany
 
-▸ `Static` **findMany**<`T`\>(`this`, `filter`, `options?`): `Promise`<`T`[]\>
+▸ **findMany**\<`T`\>(`this`, `filter`, `options?`): `Promise`\<`T`[]\>
 
 Fetches documents that matches the filter.
 
@@ -245,23 +250,23 @@ Fetches documents that matches the filter.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
-| `filter` | `Filter`<`T`\> | The filter used to select the document |
-| `options` | `FindOptions`<`T`\> |  |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
+| `filter` | `Filter`\<`T`\> | The filter used to select the document |
+| `options` | `FindOptions`\<`T`\> |  |
 
 #### Returns
 
-`Promise`<`T`[]\>
+`Promise`\<`T`[]\>
 
 #### Defined in
 
-[src/Base.ts:125](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L125)
+[src/Base.ts:198](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L198)
 
 ___
 
 ### findOne
 
-▸ `Static` **findOne**<`T`\>(`this`, `filter`, `options?`): `Promise`<``null`` \| `T`\>
+▸ **findOne**\<`T`\>(`this`, `filter`, `options?`): `Promise`\<``null`` \| `T`\>
 
 Fetches the first document that matches the filter.
 
@@ -275,37 +280,37 @@ Fetches the first document that matches the filter.
 
 | Name | Type |
 | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> |
-| `filter` | `Filter`<`T`\> |
-| `options` | `FindOptions`<`T`\> |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> |
+| `filter` | `Filter`\<`T`\> |
+| `options` | `FindOptions`\<`T`\> |
 
 #### Returns
 
-`Promise`<``null`` \| `T`\>
+`Promise`\<``null`` \| `T`\>
 
 #### Defined in
 
-[src/Base.ts:104](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L104)
+[src/Base.ts:177](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L177)
 
 ___
 
 ### getRuntimeSchema
 
-▸ `Static` **getRuntimeSchema**(): [`RuntimeCollectionSchema`](../README.md#runtimecollectionschema)<`unknown`\>
+▸ **getRuntimeSchema**(): [`RuntimeCollectionSchema`](../README.md#runtimecollectionschema)\<`unknown`, `unknown`\>
 
 #### Returns
 
-[`RuntimeCollectionSchema`](../README.md#runtimecollectionschema)<`unknown`\>
+[`RuntimeCollectionSchema`](../README.md#runtimecollectionschema)\<`unknown`, `unknown`\>
 
 #### Defined in
 
-[src/Base.ts:23](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L23)
+[src/Base.ts:24](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L24)
 
 ___
 
 ### insertOne
 
-▸ `Static` **insertOne**<`T`\>(`this`, `entity`, `options?`): `Promise`<`InsertOneResult`<`WithId`<`T`\>\>\>
+▸ **insertOne**\<`T`\>(`this`, `entity`, `options?`): `Promise`\<`InsertOneResult`\<`WithId`\<`T`\>\>\>
 
 Inserts a passed entity into the collection.
 
@@ -319,23 +324,53 @@ Inserts a passed entity into the collection.
 
 | Name | Type |
 | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> |
 | `entity` | `T` |
 | `options` | `InsertOneOptions` |
 
 #### Returns
 
-`Promise`<`InsertOneResult`<`WithId`<`T`\>\>\>
+`Promise`\<`InsertOneResult`\<`WithId`\<`T`\>\>\>
 
 #### Defined in
 
-[src/Base.ts:195](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L195)
+[src/Base.ts:268](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L268)
+
+___
+
+### loadEdges
+
+▸ **loadEdges**\<`Entity`, `Edges`, `EdgeKey`\>(`this`, `objects`, `edges`): `Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Entity` | `Entity` |
+| `Edges` | `Edges` |
+| `EdgeKey` | extends `string` \| `number` \| `symbol` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`Entity`, `Edges`\> |
+| `objects` | `Entity`[] |
+| `edges` | `Record`\<`EdgeKey`, ``true``\> |
+
+#### Returns
+
+`Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
+
+#### Defined in
+
+[src/Base.ts:32](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L32)
 
 ___
 
 ### save
 
-▸ `Static` **save**<`T`\>(`this`, `entity`, `options?`): `Promise`<`Document` \| `UpdateResult`<`Document`\>\>
+▸ **save**\<`T`\>(`this`, `entity`, `options?`): `Promise`\<`Document` \| `UpdateResult`\<`Document`\>\>
 
 Save changes to a document persisted in the collection.
 
@@ -349,23 +384,23 @@ Save changes to a document persisted in the collection.
 
 | Name | Type |
 | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> |
 | `entity` | `T` |
 | `options` | `ReplaceOptions` |
 
 #### Returns
 
-`Promise`<`Document` \| `UpdateResult`<`Document`\>\>
+`Promise`\<`Document` \| `UpdateResult`\<`Document`\>\>
 
 #### Defined in
 
-[src/Base.ts:144](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L144)
+[src/Base.ts:217](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L217)
 
 ___
 
 ### updateMany
 
-▸ `Static` **updateMany**<`T`\>(`this`, `filter`, `update`, `options?`): `Promise`<`Document` \| `UpdateResult`<`Document`\>\>
+▸ **updateMany**\<`T`\>(`this`, `filter`, `update`, `options?`): `Promise`\<`Document` \| `UpdateResult`\<`Document`\>\>
 
 Update multiple documents in a collection.
 
@@ -379,24 +414,24 @@ Update multiple documents in a collection.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
-| `filter` | `Filter`<`T`\> | The filter used to select the documents to update |
-| `update` | `UpdateFilter`<`T`\> | The update operations to be applied to the documents |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
+| `filter` | `Filter`\<`T`\> | The filter used to select the documents to update |
+| `update` | `UpdateFilter`\<`T`\> | The update operations to be applied to the documents |
 | `options` | `UpdateOptions` | Optional settings for the command |
 
 #### Returns
 
-`Promise`<`Document` \| `UpdateResult`<`Document`\>\>
+`Promise`\<`Document` \| `UpdateResult`\<`Document`\>\>
 
 #### Defined in
 
-[src/Base.ts:223](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L223)
+[src/Base.ts:296](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L296)
 
 ___
 
 ### updateOne
 
-▸ `Static` **updateOne**<`T`\>(`this`, `filter`, `update`, `options?`): `Promise`<`UpdateResult`<`Document`\>\>
+▸ **updateOne**\<`T`\>(`this`, `filter`, `update`, `options?`): `Promise`\<`UpdateResult`\<`Document`\>\>
 
 Update a single document in a collection.
 
@@ -410,15 +445,15 @@ Update a single document in a collection.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)<`T`\> | - |
-| `filter` | `Filter`<`T`\> | The filter used to select the document to update |
-| `update` | `UpdateFilter`<`T`\> \| `Partial`<`T`\> | The update operations to be applied to the document |
+| `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
+| `filter` | `Filter`\<`T`\> | The filter used to select the document to update |
+| `update` | `UpdateFilter`\<`T`\> \| `Partial`\<`T`\> | The update operations to be applied to the document |
 | `options` | `UpdateOptions` | Optional settings for the command |
 
 #### Returns
 
-`Promise`<`UpdateResult`<`Document`\>\>
+`Promise`\<`UpdateResult`\<`Document`\>\>
 
 #### Defined in
 
-[src/Base.ts:241](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Base.ts#L241)
+[src/Base.ts:314](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L314)

@@ -42,7 +42,11 @@
 
 ### constructor
 
-• **new Basil**()
+• **new Basil**(): [`Basil`](Basil.md)
+
+#### Returns
+
+[`Basil`](Basil.md)
 
 ## Properties
 
@@ -52,7 +56,7 @@
 
 #### Defined in
 
-[src/Basil.ts:8](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L8)
+[src/Basil.ts:8](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L8)
 
 ___
 
@@ -62,7 +66,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:11](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L11)
+[src/Basil.ts:11](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L11)
 
 ___
 
@@ -72,7 +76,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:9](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L9)
+[src/Basil.ts:9](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L9)
 
 ___
 
@@ -82,13 +86,13 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:12](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L12)
+[src/Basil.ts:12](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L12)
 
 ## Accessors
 
 ### client
 
-• `Private` `get` **client**(): `MongoClient`
+• `get` **client**(): `MongoClient`
 
 #### Returns
 
@@ -96,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:49](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L49)
+[src/Basil.ts:49](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L49)
 
 ___
 
@@ -110,7 +114,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:61](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L61)
+[src/Basil.ts:61](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L61)
 
 ___
 
@@ -124,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:57](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L57)
+[src/Basil.ts:57](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L57)
 
 ___
 
@@ -138,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:65](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L65)
+[src/Basil.ts:65](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L65)
 
 ___
 
@@ -152,7 +156,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:41](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L41)
+[src/Basil.ts:41](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L41)
 
 ## Methods
 
@@ -172,27 +176,27 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:14](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L14)
+[src/Basil.ts:14](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L14)
 
 ___
 
 ### disconnect
 
-▸ **disconnect**(): `Promise`<`void`\>
+▸ **disconnect**(): `Promise`\<`void`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Defined in
 
-[src/Basil.ts:69](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L69)
+[src/Basil.ts:69](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L69)
 
 ___
 
 ### flushQueue
 
-▸ `Private` **flushQueue**(): `void`
+▸ **flushQueue**(): `void`
 
 #### Returns
 
@@ -200,27 +204,27 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:88](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L88)
+[src/Basil.ts:88](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L88)
 
 ___
 
 ### getDatabase
 
-▸ **getDatabase**(): `Promise`<`Db`\>
+▸ **getDatabase**(): `Promise`\<`Db`\>
 
 #### Returns
 
-`Promise`<`Db`\>
+`Promise`\<`Db`\>
 
 #### Defined in
 
-[src/Basil.ts:120](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L120)
+[src/Basil.ts:120](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L120)
 
 ___
 
 ### handleClose
 
-▸ `Private` **handleClose**(): `void`
+▸ **handleClose**(): `void`
 
 #### Returns
 
@@ -228,7 +232,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:29](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L29)
+[src/Basil.ts:29](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L29)
 
 ___
 
@@ -242,13 +246,13 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:37](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L37)
+[src/Basil.ts:37](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L37)
 
 ___
 
 ### loadConfig
 
-▸ **loadConfig**(`configPath?`): `Promise`<`void`\>
+▸ **loadConfig**(`configPath?`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -258,17 +262,17 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Defined in
 
-[src/Basil.ts:33](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L33)
+[src/Basil.ts:33](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L33)
 
 ___
 
 ### queue
 
-▸ `Private` **queue**(`callback`): `void`
+▸ **queue**(`callback`): `void`
 
 #### Parameters
 
@@ -282,13 +286,13 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:73](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L73)
+[src/Basil.ts:73](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L73)
 
 ___
 
 ### useCollection
 
-▸ **useCollection**<`T`, `R`\>(`target`, `callback`): `Promise`<`R`\>
+▸ **useCollection**\<`T`, `R`\>(`target`, `callback`): `Promise`\<`R`\>
 
 #### Type parameters
 
@@ -301,22 +305,22 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `target` | [`RuntimeCollectionSchema`](../README.md#runtimecollectionschema)<`unknown`\> |
-| `callback` | (`collection`: `Collection`<`T`\>) => `R` \| `Promise`<`R`\> |
+| `target` | [`RuntimeCollectionSchema`](../README.md#runtimecollectionschema)\<`unknown`\> |
+| `callback` | (`collection`: `Collection`\<`T`\>) => `R` \| `Promise`\<`R`\> |
 
 #### Returns
 
-`Promise`<`R`\>
+`Promise`\<`R`\>
 
 #### Defined in
 
-[src/Basil.ts:133](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L133)
+[src/Basil.ts:133](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L133)
 
 ___
 
 ### useDatabase
 
-▸ **useDatabase**<`T`\>(`callback`): `Promise`<`T`\>
+▸ **useDatabase**\<`T`\>(`callback`): `Promise`\<`T`\>
 
 #### Type parameters
 
@@ -328,21 +332,21 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `callback` | (`db`: `Db`) => `T` \| `Promise`<`T`\> |
+| `callback` | (`db`: `Db`) => `T` \| `Promise`\<`T`\> |
 
 #### Returns
 
-`Promise`<`T`\>
+`Promise`\<`T`\>
 
 #### Defined in
 
-[src/Basil.ts:106](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L106)
+[src/Basil.ts:106](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L106)
 
 ___
 
 ### connect
 
-▸ `Static` **connect**(`configPath?`): `Promise`<[`Basil`](Basil.md)\>
+▸ **connect**(`configPath?`): `Promise`\<[`Basil`](Basil.md)\>
 
 #### Parameters
 
@@ -352,17 +356,17 @@ ___
 
 #### Returns
 
-`Promise`<[`Basil`](Basil.md)\>
+`Promise`\<[`Basil`](Basil.md)\>
 
 #### Defined in
 
-[src/Basil.ts:159](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L159)
+[src/Basil.ts:159](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L159)
 
 ___
 
 ### getInstance
 
-▸ `Static` **getInstance**(): [`Basil`](Basil.md)
+▸ **getInstance**(): [`Basil`](Basil.md)
 
 #### Returns
 
@@ -370,4 +374,4 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:155](https://github.com/anatoo/basil-odm/blob/b49f36c/src/Basil.ts#L155)
+[src/Basil.ts:155](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L155)
