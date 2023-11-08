@@ -1,4 +1,4 @@
-import { BlogEntry, User, db } from './basil-gen';
+import { BlogEntry, User, db, UserStatus } from './basil-gen';
 import { Basil } from '../../src';
 
 jest.setTimeout(15000);
@@ -38,13 +38,25 @@ describe('e2e/01', () => {
     expect(loaded.user).toBeTruthy();
   });
 
-  describe('collection accessor objects', () => {
-    it('should exists', () => {
-      expect(db).toBeTruthy();
-      expect(db.users).toBeTruthy();
-      expect(db.blogEntries).toBeTruthy();
-    });
+  it('should exports db', () => {
+    expect(db).toBeTruthy();
+    expect(db.users).toBeTruthy();
+    expect(db.blogEntries).toBeTruthy();
+  });
 
+  it('should exports enums', () => {
+    expect(UserStatus).toBeTruthy();
+    expect(UserStatus.ACTIVE).toBeTruthy();
+    expect(UserStatus.INACTIVE).toBeTruthy();
+
+    // type check
+    const _ = () => {
+      const _status0: UserStatus = 'active';
+      const _status1: UserStatus = 'inactive';
+    };
+  });
+
+  describe('collection accessor objects', () => {
     it('should works normally', async () => {
       const count = await db.users.count();
       expect(typeof count).toBe('number');

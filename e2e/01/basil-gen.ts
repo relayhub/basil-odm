@@ -3,53 +3,56 @@
  * Do not make changes to this file directly
  */
 /* eslint-disable */
-import * as $$mongodb from 'mongodb';
-import * as $$basil from '../../src';
+import * as $$mongodb from "mongodb";
+import * as $$basil from "../../src";
 
 export class BlogEntry extends $$basil.Base {
   constructor(params?: Partial<BlogEntry>) {
     super();
     Object.assign(this, params);
   }
-  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<BlogEntry, { user: User }> {
+  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<
+    BlogEntry,
+    { user: User }
+  > {
     return {
-      collectionName: 'blogEntries',
+      collectionName: "blogEntries",
       fields: new $$basil.FieldsSchema({
-        kind: 'object',
+        kind: "object",
         props: {
           _id: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'objectId',
+              kind: "objectId",
             },
           },
           title: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'string',
+              kind: "string",
             },
           },
           content: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'string',
+              kind: "string",
             },
           },
           createdAt: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'date',
+              kind: "date",
             },
           },
           userId: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'objectId',
+              kind: "objectId",
             },
           },
         },
@@ -66,16 +69,16 @@ export class BlogEntry extends $$basil.Base {
       options: {},
       edges: {
         user: {
-          type: 'hasOne' as const,
+          type: "hasOne" as const,
           collection: User,
-          referenceField: 'userId',
+          referenceField: "userId",
         },
       },
     };
   }
   _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
-  title: string = '';
-  content: string = '';
+  title: string = "";
+  content: string = "";
   createdAt: Date = new Date();
   userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
@@ -87,22 +90,34 @@ export class User extends $$basil.Base {
   }
   static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {}> {
     return {
-      collectionName: 'users',
+      collectionName: "users",
       fields: new $$basil.FieldsSchema({
-        kind: 'object',
+        kind: "object",
         props: {
           _id: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'objectId',
+              kind: "objectId",
             },
           },
           name: {
-            kind: 'field',
+            kind: "field",
             isOptional: false,
             node: {
-              kind: 'string',
+              kind: "string",
+            },
+          },
+          status: {
+            kind: "field",
+            isOptional: false,
+            node: {
+              kind: "enum",
+              values: {
+                ACTIVE: "active",
+                INACTIVE: "inactive",
+              },
+              name: "UserStatus",
             },
           },
         },
@@ -114,51 +129,55 @@ export class User extends $$basil.Base {
     };
   }
   _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
-  name: string = '';
+  name: string = "";
+  status: "active" | "inactive" = "active";
 }
+
+export const UserStatus = { ACTIVE: "active", INACTIVE: "inactive" } as const;
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 
 export const db: {
   blogEntries: $$basil.BasilCollection<BlogEntry, { user: User }>;
   users: $$basil.BasilCollection<User, {}>;
 } = {
   blogEntries: new $$basil.BasilCollection<BlogEntry, { user: User }>(() => ({
-    collectionName: 'blogEntries',
+    collectionName: "blogEntries",
     fields: new $$basil.FieldsSchema({
-      kind: 'object',
+      kind: "object",
       props: {
         _id: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'objectId',
+            kind: "objectId",
           },
         },
         title: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'string',
+            kind: "string",
           },
         },
         content: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'string',
+            kind: "string",
           },
         },
         createdAt: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'date',
+            kind: "date",
           },
         },
         userId: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'objectId',
+            kind: "objectId",
           },
         },
       },
@@ -176,30 +195,42 @@ export const db: {
     options: {},
     edges: {
       user: {
-        type: 'hasOne' as const,
-        collection: db['users'],
-        referenceField: 'userId',
+        type: "hasOne" as const,
+        collection: db["users"],
+        referenceField: "userId",
       },
     },
   })),
 
   users: new $$basil.BasilCollection<User, {}>(() => ({
-    collectionName: 'users',
+    collectionName: "users",
     fields: new $$basil.FieldsSchema({
-      kind: 'object',
+      kind: "object",
       props: {
         _id: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'objectId',
+            kind: "objectId",
           },
         },
         name: {
-          kind: 'field',
+          kind: "field",
           isOptional: false,
           node: {
-            kind: 'string',
+            kind: "string",
+          },
+        },
+        status: {
+          kind: "field",
+          isOptional: false,
+          node: {
+            kind: "enum",
+            values: {
+              ACTIVE: "active",
+              INACTIVE: "inactive",
+            },
+            name: "UserStatus",
           },
         },
       },

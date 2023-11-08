@@ -1,4 +1,4 @@
-import { collection, objectId, date, string, index, hasOne } from '../../src';
+import { collection, objectId, date, string, index, hasOne, enums } from '../../src';
 export const BlogEntries = collection({
   collectionName: 'blogEntries',
   fields: {
@@ -22,5 +22,12 @@ export const Users = collection({
   fields: {
     _id: objectId,
     name: string,
+    status: enums({
+      name: 'UserStatus',
+      values: {
+        ACTIVE: 'active',
+        INACTIVE: 'inactive',
+      },
+    }),
   },
 });
