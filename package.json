@@ -42,7 +42,7 @@
   },
   "scripts": {
     "test": "jest",
-    "prepare-test": "npx tsx ./e2e/*/generate.ts",
+    "prepare-test": "npx tsx ./src/cli.ts gen --schema e2e/01/schema.ts --output e2e/01/basil-gen.ts --import-source ../../src",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
