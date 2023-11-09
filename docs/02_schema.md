@@ -53,29 +53,43 @@ export const users = b.collection({
 
 MongoDB allows you to set schema validation and indexes for a collection. Schema validation allows you to restrict what fields a document in that collection should have.
 
+```bash
+$ npx basil prepare-db --schema ./schema.ts
+```
+
+If nothing goes wrong, schema validation and index are set for each collection in the database. Even if the database already has a collection with schema validation and index set, Basil ODM will successfully reconfigure the schema validation and indexes.
+
+To programmatically apply the schema to the database, use the `prepareDb()` function.
+
 `prepare-db.ts`
 
 ```typescript
 import { disconnect, prepareDb } from 'basil-odm';
 import * as schema from './schema'; // import your schema
 
-(async () => {
+const prepare = async () => {
   await prepareDb(schema);
   await disconnect();
-})();
+};
+
+prepare();
 ```
 
 ```bash
 $ npx tsx ./prepare-db.ts
 ```
 
-> INFO: We use [`tsx`](https://www.npmjs.com/package/tsx) to run TypeScript, but `ts-node` and others should also work.
-
-If nothing goes wrong, schema validation and index are set for each collection in the database. Even if the database already has a collection with schema validation and index set, Basil ODM will successfully reconfigure the schema validation and indexes.
-
 ### Generate models from defined schema
 
 Generating code from the schema gives completely type-safe models for accessing the database.
+
+```bash
+$ npx basil gen --schema ./schema.ts --output ./basil-gen.ts
+```
+
+If nothing goes wrong, TypeScript code will be generated in the specified file path.
+
+To programmatically generate models, you can use the `generateCode()` function.
 
 `generate.ts`
 
@@ -93,8 +107,6 @@ generateCode({
 ```bash
 $ npx tsx ./generate.ts
 ```
-
-If nothing goes wrong, TypeScript code will be generated in the specified file path.
 
 Refer to [Operations with generated models](./03_crud.md) for details on the generated code.
 

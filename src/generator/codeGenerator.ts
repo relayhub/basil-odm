@@ -196,11 +196,16 @@ export function generateTypeFromSchema(root: FieldsSchemaRoot) {
 }
 
 interface CodeGeneratorConfig {
-  outputFile: string;
+  outputFile?: string;
   schema: DefinedSchema;
   importSource?: string;
 }
 
 export function generateCode(config: CodeGeneratorConfig) {
-  writeFileSync(config.outputFile, prettier(generateTypeScriptFile(config)));
+  const code = prettier(generateTypeScriptFile(config));
+  if (config.outputFile) {
+    writeFileSync(config.outputFile, code);
+  } else {
+    console.log(code);
+  }
 }

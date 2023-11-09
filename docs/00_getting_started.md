@@ -44,43 +44,16 @@ The schema describes what fields and indexes are in the documents of the collect
 
 ## Apply the defined schema to the database
 
-`prepare-db.ts`
-
-```typescript
-import {disconnect, prepareDb} from 'basil-odm';
-import * as schema from './schema'; // import your schema
-
-const prepare = async () => {
-  await prepareDb(schema);
-  await disconnect();
-};
-
-prepare();
-```
-
 ```bash
-$ npx tsx ./prepare-db.ts
+$ npx basil prepare-db --schema ./schema.ts
 ```
 
-If nothing goes wrong, create  collections described by schema in the database and set schema validation and indexes.
+If nothing goes wrong, create collections described by schema in the database and set schema validation and indexes.
 
 ## Generate models from the schema
 
-`generate.ts`
-
-```typescript
-import {generateCode} from 'basil-odm';
-import {join} from 'path';
-import * as schema from './schema'; // import your schema
-
-generateCode({
-  schema: schema,
-  outputFile: join(__dirname, 'basil-gen.ts'),
-});
-```
-
 ```bash
-$ npx tsx ./generate.ts
+$ npx basil gen --schema ./schema.ts --output ./basil-gen.ts
 ```
 
 TypeScript models for accessing the database will be generated in `basil-gen.ts`.
@@ -92,7 +65,7 @@ Through the generated code, you can query and store data in MongoDB collections.
 ### `insertOne()`
 
 ```typescript
-import {BlogEntry} from './basil-gen'; // import from generated code
+import { BlogEntry } from './basil-gen'; // import from generated code
 
 (async () => {
   const entry = new BlogEntry({
@@ -108,10 +81,10 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 ### `findMany()`
 
 ```typescript
-import {BlogEntry} from './basil-gen'; // import from generated code
+import { BlogEntry } from './basil-gen'; // import from generated code
 
 (async () => {
-  const entreis = await BlogEntry.findMany({}, {limit: 10});
+  const entreis = await BlogEntry.findMany({}, { limit: 10 });
   
   console.log(entries);
 })();
@@ -120,7 +93,7 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 ### `save()`
 
 ```typescript
-import {BlogEntry} from './basil-gen'; // import from generated code
+import { BlogEntry } from './basil-gen'; // import from generated code
 
 (async () => {
   const entry = BlogEntry.findOne({
@@ -135,7 +108,7 @@ import {BlogEntry} from './basil-gen'; // import from generated code
 ### `deleteOne()`
 
 ```typescript
-import {BlogEntry} from './basil-gen'; // import from generated code
+import { BlogEntry } from './basil-gen'; // import from generated code
 
 (async () => {
   await BlogEntry.deleteOne({
