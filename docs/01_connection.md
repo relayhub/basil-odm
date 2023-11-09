@@ -15,7 +15,7 @@ module.exports = {
 To configure without placing a configuration file, call the `configure()` method before accessing database.
 
 ```typescript
-import {configure} from 'basil-odm';
+import { configure } from 'basil-odm';
 
 configure({
   databaseName: 'mydb',
@@ -33,7 +33,7 @@ No need to explicitly call a function for the connection. The connection is auto
  To get a [MongoClient](https://mongodb.github.io/node-mongodb-native/5.7/classes/MongoClient.html) instance, refer to the `basil.client` property.
 
 ```typescript
-import {basil} from 'basil-odm';
+import { basil } from 'basil-odm';
 
 const mongoClient = basil.client;
 ```
@@ -43,7 +43,7 @@ const mongoClient = basil.client;
 When terminating an application, you must explicitly call `disconnect()` function.
 
 ```typescript
-import {disconnect} from 'basil-odm';
+import { disconnect } from 'basil-odm';
 
 disconnect().then(() => {
   console.log("close");
