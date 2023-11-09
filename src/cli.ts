@@ -31,6 +31,7 @@ program
   .description('Generate code from your schema')
   .option('--schema <path>', 'specify schema file name')
   .option('--output <path>', 'specify output file name')
+  .option('--import-source <source>', 'specify the path to load instead of the basil package in the generated code. default: basil')
   .action(async (options) => {
     const imported = await loadSchemaFile(options);
     const schema = parseSchema(imported);
@@ -42,6 +43,7 @@ program
     generateCode({
       schema,
       outputFile: options.output,
+      importSource: options.importSource,
     });
   });
 
