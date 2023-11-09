@@ -1,5 +1,4 @@
 import { SchemaNode } from './schema/astTypes';
-import mongodb from 'mongodb';
 import { isObjectId } from './utils';
 
 export interface ValidationMessage {
