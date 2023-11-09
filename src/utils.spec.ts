@@ -5,7 +5,7 @@ import { index } from './schema/createIndex';
 describe('ensureCollection()', () => {
   it('works normally', async () => {
     const mockCollection = {
-      createIndex: jest.fn().mockImplementation((fields, options) => Promise.resolve('result')) as mongodb.Collection['createIndex'],
+      createIndex: jest.fn().mockImplementation(() => Promise.resolve('result')) as mongodb.Collection['createIndex'],
     } as mongodb.Collection;
 
     const mockDb = {
