@@ -1,3 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env npx tsx
 
-require(__dirname + '/../dist/src/cli.js');
+const { program } = require(__dirname + '/../dist/src/cli.js');
+program.parse();

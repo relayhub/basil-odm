@@ -1,13 +1,10 @@
 import { createSettings, validateConfig } from './Config';
 
 test('createParams()', async () => {
-  const params = await createSettings(
-    {
-      connectionUri: '',
-      database: 'foo',
-    },
-    { configPath: __dirname + '/../../basil.config.cjs' }
-  );
+  const params = createSettings({
+    connectionUri: '',
+    database: 'foo',
+  });
   expect(params.connectionUri).toBe('');
 });
 

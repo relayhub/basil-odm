@@ -1,5 +1,5 @@
 import invariant from 'tiny-invariant';
-import { BasilSettings } from './types';
+import { ResolvedConfig } from './types';
 import { validate } from 'jsonschema';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -46,26 +46,27 @@ export async function loadConfig(
   }: {
     silent?: boolean;
   } = {}
-): Promise<BasilSettings> {
+): Promise<ResolvedConfig> {
   invariant(configPath, 'Couldn\'t find "basil.config.cjs" file.');
 
   if (!silent) {
     console.log('Load config file:', configPath);
   }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const config = await import(configPath);
-  validateConfig(config.default);
 
-  return await createSettings(config.default, { configPath });
+  try {
+    const config = await import(configPath);
+    validateConfig(config.default);
+    return createSettings(config.default);
+  } catch (e) {
+    console.log('Failed to load config file:', configPath);
+    throw e;
+  }
 }
 
-export async function createSettings(config: Config, { configPath }: { configPath: string }): Promise<BasilSettings> {
+export function createSettings(config: Config): ResolvedConfig {
   return {
     connectionUri: config.connectionUri,
     databaseName: config.database,
-    clientOptions: config.mongoClientOptions || {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
+    clientOptions: config.mongoClientOptions ?? {},
   };
 }

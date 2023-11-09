@@ -1,17 +1,17 @@
 import * as mongodb from 'mongodb';
-import { BasilSettings, RuntimeCollectionSchema } from './types';
+import { ResolvedConfig, RuntimeCollectionSchema } from './types';
 import { loadConfig } from './Config';
 
 type ClientCallbackQueue = ((client: mongodb.MongoClient) => void)[];
 
 export class Basil {
   _client?: mongodb.MongoClient;
-  _settings?: BasilSettings;
+  _settings?: ResolvedConfig;
 
   _queue: ClientCallbackQueue = [];
   _timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
-  configure(settings: BasilSettings) {
+  configure(settings: ResolvedConfig) {
     if (this._settings) {
       console.warn('This instance is already configured.');
       return;
@@ -38,7 +38,7 @@ export class Basil {
     return !!this._settings;
   }
 
-  get settings(): BasilSettings {
+  get settings(): ResolvedConfig {
     if (!this._settings) {
       throw Error('Not configured. Call configure() or loadConfig().');
     }
@@ -172,7 +172,7 @@ export const basil: Basil = new Basil();
  *
  * @param settings
  */
-export function configure(settings: BasilSettings): void {
+export function configure(settings: ResolvedConfig): void {
   basil.configure(settings);
 }
 

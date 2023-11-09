@@ -3,7 +3,7 @@ export { prepareDb } from './utils';
 export { loadConfig, validateConfig, createSettings } from './Config';
 export { Base, FindByIdsOptions, BaseClass } from './Base';
 export { BasilCollection } from './BasilCollection';
-export { BasilSettings, RuntimeCollectionSchema, Index, CollectionOptions, CollectionDef, DefinedSchema, IndexOptions, IndexFields } from './types';
+export { ResolvedConfig, RuntimeCollectionSchema, Index, CollectionOptions, CollectionDef, DefinedSchema, IndexOptions, IndexFields } from './types';
 export { collection } from './schema/collection';
 export { createFieldsSchema, FieldsSchema } from './schema/FieldsSchema';
 export { getSchemaFragment } from './schema/utils';

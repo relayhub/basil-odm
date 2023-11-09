@@ -5,7 +5,7 @@ import { Edge } from './schema/edgeTypes';
 import type { BaseClass } from './Base';
 import type { BasilCollection } from './BasilCollection';
 
-export interface BasilSettings {
+export interface ResolvedConfig {
   connectionUri: string;
   databaseName: string;
   clientOptions: MongoClientOptions;
@@ -25,7 +25,10 @@ export type Index = {
 
 export type CollectionOptions = Omit<mongodb.CreateCollectionOptions & Record<string, unknown>, 'validator'>;
 
+export const collectionDefSymbol = Symbol.for('collectionDef');
+
 export type CollectionDef = {
+  [collectionDefSymbol]: true;
   fields: FieldsSchema;
   collectionName: string;
   indexes: Index[];

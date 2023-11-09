@@ -1,29 +1,82 @@
 import * as pack from '../package.json';
 import { program } from 'commander';
 import { loadConfig } from './Config';
-import * as util from 'util';
+import { inspect } from 'util';
+import { resolve } from 'path';
+import { generateCode } from './generator/codeGenerator';
+import { CollectionDef, collectionDefSymbol } from './types';
+import { prepareDb } from './utils';
+import { disconnect } from './Basil';
 
-const header = `Basil ODM v${pack.version}
-`;
-
-program.name('Basil ODM').option('--config <path>', 'specify config file name', 'basil.config.cjs').version(pack.version, '-v, --version');
-
-program
-  .command('dump-config')
-  .description('Dump config file')
-  .action(async () => {
-    console.log(header);
-    console.log('Try to load config file:', program.opts().config);
-    const config = await loadConfig();
-    console.log(util.inspect(config));
-  });
+program.name('Basil CLI').option('--config <path>', 'specify config file name', 'basil.config.cjs').version(pack.version, '-v, --version');
 
 program
   .command('prepare-db')
   .description('Prepare database from your schema')
-  .action(() => {
-    // TODO
-    console.log('run hoge command');
+  .option('--schema <path>', 'specify schema file name')
+  .action(async (options) => {
+    const importedSchema = await loadSchemaFile(options);
+    const schema = parseSchema(importedSchema);
+    const config = await loadConfig(resolve(program.opts().config));
+
+    console.log('Loaded config:');
+    console.log(inspect(config));
+
+    await prepareDb(schema, config);
+    await disconnect();
   });
 
-program.parse();
+program
+  .command('gen')
+  .description('Generate code from your schema')
+  .option('--schema <path>', 'specify schema file name')
+  .option('--output <path>', 'specify output file name')
+  .action(async (options) => {
+    const imported = await loadSchemaFile(options);
+    const schema = parseSchema(imported);
+
+    if (Object.keys(schema).length === 0) {
+      throw Error('No collection definition found in schema file.');
+    }
+
+    generateCode({
+      schema,
+      outputFile: options.output,
+    });
+  });
+
+function parseSchema(imported: Record<string, unknown>): Record<string, CollectionDef> {
+  const schema: Record<string, CollectionDef> = {};
+  for (const [key, value] of Object.entries(imported)) {
+    if (typeof value !== 'object' || value === null) {
+      continue;
+    }
+
+    if ((value as CollectionDef)[collectionDefSymbol]) {
+      schema[key] = value as CollectionDef;
+    }
+  }
+
+  return schema;
+}
+
+async function loadSchemaFile(options: { schema?: string }): Promise<Record<string, unknown>> {
+  if (typeof options.schema !== 'string') {
+    throw Error('Schema file name is required. Pass --schema <path> option.');
+  }
+
+  const path = resolve(options.schema);
+  const schema = await import(path);
+
+  if (schema === null) {
+    throw Error(`Failed to load schema: ${JSON.stringify(options.schema)}`);
+  }
+
+  return schema;
+}
+
+export { program };
+
+if (require.main === module) {
+  program.parse();
+}

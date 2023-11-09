@@ -1,7 +1,7 @@
 import mongodb, { ObjectId } from 'mongodb';
 import { format } from 'prettier';
-import { Basil } from './Basil';
-import { Index, RuntimeCollectionSchema, DefinedSchema, CollectionOptions } from './types';
+import { Basil, basil } from './Basil';
+import { Index, RuntimeCollectionSchema, DefinedSchema, CollectionOptions, ResolvedConfig } from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(
@@ -42,8 +42,14 @@ export async function collectionExists(db: mongodb.Db, collectionName: string) {
   return (await db.listCollections({ name: collectionName }).toArray()).length > 0;
 }
 
-export const prepareDb = async (schema: DefinedSchema) => {
-  const basil = await Basil.connect();
+export const prepareDb = async (schema: DefinedSchema, config?: ResolvedConfig) => {
+  const basil = Basil.getInstance();
+
+  if (config) {
+    await basil.configure(config);
+  } else {
+    await basil.loadConfig();
+  }
   const collections = Object.values(schema);
 
   await Promise.all(

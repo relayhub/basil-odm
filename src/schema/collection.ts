@@ -1,4 +1,4 @@
-import { CollectionDef, Index, CollectionOptions } from '../types';
+import { CollectionDef, Index, CollectionOptions, collectionDefSymbol } from '../types';
 import { createFieldsSchema } from './FieldsSchema';
 import { ObjectSchemaSource } from './types';
 import { Edge } from './edgeTypes';
@@ -14,6 +14,7 @@ interface Props {
 
 export function collection(props: Props): CollectionDef {
   return {
+    [collectionDefSymbol]: true,
     collectionName: props.collectionName,
     entityName: props.entityName || getDefaultEntityName(props.collectionName),
     fields: createFieldsSchema(props.fields || {}),
