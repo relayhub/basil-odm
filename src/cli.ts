@@ -4,9 +4,9 @@ import { loadConfig } from './Config';
 import { inspect } from 'util';
 import { resolve } from 'path';
 import { generateCode } from './generator/codeGenerator';
-import { CollectionDef, collectionDefSymbol } from './types';
 import { prepareDb } from './utils';
 import { disconnect } from './Basil';
+import { parseSchema } from './parseSchema';
 
 program.name('Basil CLI').option('--config <path>', 'specify config file name', 'basil.config.cjs').version(pack.version, '-v, --version');
 
@@ -46,21 +46,6 @@ program
       importSource: options.importSource,
     });
   });
-
-function parseSchema(imported: Record<string, unknown>): Record<string, CollectionDef> {
-  const schema: Record<string, CollectionDef> = {};
-  for (const [key, value] of Object.entries(imported)) {
-    if (typeof value !== 'object' || value === null) {
-      continue;
-    }
-
-    if ((value as CollectionDef)[collectionDefSymbol]) {
-      schema[key] = value as CollectionDef;
-    }
-  }
-
-  return schema;
-}
 
 async function loadSchemaFile(options: { schema?: string }): Promise<Record<string, unknown>> {
   if (typeof options.schema !== 'string') {
