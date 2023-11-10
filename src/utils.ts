@@ -17,25 +17,34 @@ export async function ensureCollection(
     options: CollectionOptions;
   }
 ) {
+  const label = `[${collectionName}]`;
+  console.log(`${label} Ensuring ${JSON.stringify(collectionName)} collection`);
   if (await collectionExists(db, collectionName)) {
+    console.log(`${label} ${JSON.stringify(collectionName)} collection is already exists.`);
     await db.command({
       collMod: collectionName,
       validator: { $jsonSchema: jsonSchema },
     });
+    console.log(`${label} Updated ${JSON.stringify(collectionName)} collection`);
   } else {
     await db.createCollection(collectionName, {
       validator: { $jsonSchema: jsonSchema },
       ...options,
     });
+    console.log(`${label} Created ${JSON.stringify(collectionName)} collection`);
   }
 
   const collection = await db.collection(collectionName);
 
+  console.log(`${label} Start to prepare indexes`);
   await Promise.all(
     indexes.map(async (index) => {
+      console.log(`${label} Prepare index: ${JSON.stringify(index)}`);
       await collection.createIndex(index.fields, index.options ?? {});
     })
   );
+
+  console.log(`${label} Finished to ensure ${JSON.stringify(collectionName)} collection`);
 }
 
 export async function collectionExists(db: mongodb.Db, collectionName: string) {
@@ -52,16 +61,15 @@ export const prepareDb = async (schema: DefinedSchema, config?: ResolvedConfig) 
   }
   const collections = Object.values(schema);
 
+  const db = await basil.getDatabase();
+
   await Promise.all(
     collections.map(async (collection) => {
       const bsonSchema = collection.fields.generateBsonSchema();
-
-      await basil.useDatabase(async (db) => {
-        await ensureCollection(db, collection.collectionName, {
-          jsonSchema: bsonSchema,
-          indexes: collection.indexes,
-          options: collection.options ?? {},
-        });
+      await ensureCollection(db, collection.collectionName, {
+        jsonSchema: bsonSchema,
+        indexes: collection.indexes,
+        options: collection.options ?? {},
       });
     })
   );
