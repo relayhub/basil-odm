@@ -77,7 +77,7 @@ export function generateCollectionAccessObjects(collections: CollectionDef[]): s
     return code;
   }
 
-  let code = `export const db: ${generateDbType()} = {`;
+  let code = `const $$db: ${generateDbType()} = {`;
 
   for (const collection of collections) {
     code += `
@@ -93,6 +93,7 @@ export function generateCollectionAccessObjects(collections: CollectionDef[]): s
   }
 
   code += `};\n\n`;
+  code += `export default $$db;\n\n`;
 
   return code;
 }
@@ -164,7 +165,7 @@ function generateRuntimeEdgesInfoForCAOs(collection: CollectionDef, collectionMa
       }
       return `${JSON.stringify(key)}: {
   type: 'hasOne' as const,
-  collection: db[${JSON.stringify(referencedCollectionDef.collectionName)}],
+  collection: $$db[${JSON.stringify(referencedCollectionDef.collectionName)}],
   referenceField: ${JSON.stringify(edge.referenceField)}
 },`;
     })

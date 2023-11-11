@@ -1,4 +1,4 @@
-import { BlogEntry, User, db, UserStatus } from './basil-gen';
+import db, { BlogEntry, User, UserStatus } from './basil-gen';
 import { Basil } from '../../src';
 
 jest.setTimeout(15000);
@@ -38,7 +38,7 @@ describe('e2e/01', () => {
     expect(loaded.user).toBeTruthy();
   });
 
-  it('should exports db', () => {
+  it('should exports collection accessor objects as default export', () => {
     expect(db).toBeTruthy();
     expect(db.users).toBeTruthy();
     expect(db.blogEntries).toBeTruthy();

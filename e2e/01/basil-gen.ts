@@ -136,7 +136,7 @@ export class User extends $$basil.Base {
 export const UserStatus = { ACTIVE: "active", INACTIVE: "inactive" } as const;
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 
-export const db: {
+const $$db: {
   blogEntries: $$basil.BasilCollection<BlogEntry, { user: User }>;
   users: $$basil.BasilCollection<User, {}>;
 } = {
@@ -196,7 +196,7 @@ export const db: {
     edges: {
       user: {
         type: "hasOne" as const,
-        collection: db["users"],
+        collection: $$db["users"],
         referenceField: "userId",
       },
     },
@@ -242,3 +242,5 @@ export const db: {
     edges: {},
   })),
 };
+
+export default $$db;
