@@ -130,6 +130,11 @@ export class Basil {
     });
   }
 
+  async getCollection<T extends mongodb.Document>(collectionName: string): Promise<mongodb.Collection<T>> {
+    const db = await this.getDatabase();
+    return db.collection<T>(collectionName);
+  }
+
   useCollection<T extends mongodb.Document, R>(target: RuntimeCollectionSchema<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
     const name = typeof target === 'string' ? target : target.collectionName;
 

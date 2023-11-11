@@ -91,24 +91,24 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param id
    * @param options Same value as the option passed to `findOne()`
    */
-  findById(id: string | mongodb.ObjectId, options: mongodb.FindOptions<Entity> = {}): Promise<Entity | null> {
+  async findById(id: string | mongodb.ObjectId, options: mongodb.FindOptions<Entity> = {}): Promise<Entity | null> {
     const runtimeSchema = this.getRuntimeSchema();
+    if (!runtimeSchema.Entity) {
+      throw Error('This should not happen.');
+    }
+
     const hasObjectId = runtimeSchema.fields.getSchemaAST().props['_id']?.node.kind === 'objectId';
+    const collection = await this.getMongoCollection();
+    const _id = hasObjectId ? new mongodb.ObjectId(id) : id;
 
-    return this.basil
-      .useCollection(runtimeSchema, async (collection) => {
-        const _id = hasObjectId ? new mongodb.ObjectId(id) : id;
-        const result = await collection.findOne<Entity>({ _id: _id as ObjectId }, options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await collection.findOne({ _id } as any /* FIXME */, options);
 
-        return result ? (runtimeSchema.fields.encode(result, {}) as Entity) : null;
-      })
-      .then((result) => {
-        if (!runtimeSchema.Entity) {
-          throw Error('This should not happen.');
-        }
+    if (!result) {
+      return null;
+    }
 
-        return result ? Object.assign(new runtimeSchema.Entity(), result) : result;
-      });
+    return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(result, {}));
   }
 
   /**
@@ -119,30 +119,26 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param options.filter - Filter to query documents
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  findByIds(ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<Entity> = {}): Promise<Entity[]> {
+  async findByIds(ids: readonly (string | mongodb.ObjectId)[], options: FindByIdsOptions<Entity> = {}): Promise<Entity[]> {
     const runtimeSchema = this.getRuntimeSchema();
+
     const hasObjectId = runtimeSchema.fields.getSchemaAST().props['_id']?.node.kind === 'objectId';
+    const collection = await this.getMongoCollection();
 
     const filter = {
       ...options.filter,
       _id: { $in: ids.map((id) => (hasObjectId ? new mongodb.ObjectId(id) : id)) },
     };
 
-    return basil.useCollection(runtimeSchema, async (collection) => {
-      const cursor = await collection.find(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-      const documents = (await cursor.toArray()) as any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const cursor = await collection.find(filter as any, options);
+    const documents = await cursor.toArray();
 
-      return documents
-        .map((document) => {
-          return runtimeSchema.fields.encode(document as any, {}) as Entity; // eslint-disable-line @typescript-eslint/no-explicit-any
-        })
-        .map((document) => {
-          if (!runtimeSchema.Entity) {
-            throw Error('This should not happen.');
-          }
-
-          return Object.assign(new runtimeSchema.Entity(), document);
-        });
+    return documents.map((document) => {
+      if (!runtimeSchema.Entity) {
+        throw Error('This should not happen.');
+      }
+      return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(document, {}));
     });
   }
 
@@ -154,10 +150,9 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param pipeline - Pipeline array to be passed to aggregate operation
    * @param options
    */
-  aggregate(pipeline: mongodb.Document[], options: mongodb.AggregateOptions = {}): Promise<unknown[]> {
-    return basil.useCollection(this.getRuntimeSchema(), async (collection) => {
-      return (await collection.aggregate(pipeline, options)).toArray();
-    });
+  async aggregate(pipeline: mongodb.Document[], options: mongodb.AggregateOptions = {}): Promise<unknown[]> {
+    const collection = await this.getMongoCollection();
+    return (await collection.aggregate(pipeline, options)).toArray();
   }
 
   /**
@@ -166,21 +161,20 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param filter
    * @param options
    */
-  findOne(filter: mongodb.Filter<Entity>, options: mongodb.FindOptions<Entity> = {}): Promise<Entity | null> {
+  async findOne(filter: mongodb.Filter<Entity>, options: mongodb.FindOptions<Entity> = {}): Promise<Entity | null> {
     const runtimeSchema = this.getRuntimeSchema();
+    if (!runtimeSchema.Entity) {
+      throw Error('This should not happen.');
+    }
 
-    return basil
-      .useCollection<Entity, Entity | null>(runtimeSchema, async (collection) => {
-        const result = await collection.findOne<Entity>(filter, options);
-        return result ? (runtimeSchema.fields.encode(result, {}) as Entity) : null;
-      })
-      .then((result) => {
-        if (!runtimeSchema.Entity) {
-          throw Error('This should not happen.');
-        }
+    const collection = await this.getMongoCollection();
 
-        return result ? Object.assign(new runtimeSchema.Entity(), result) : result;
-      });
+    const result = await collection.findOne<Entity>(filter, options);
+    if (!result) {
+      return null;
+    }
+
+    return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(result, {}));
   }
 
   /**
@@ -191,20 +185,25 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param options.limit Limit to returned documents count
    * @param options.skip Number of returning documents to skip
    */
-  findMany<Entity extends mongodb.Document>(filter: mongodb.Filter<Entity>, options: mongodb.FindOptions<Entity> = {}): Promise<Entity[]> {
+  async findMany<Entity extends mongodb.Document>(filter: mongodb.Filter<Entity>, options: mongodb.FindOptions<Entity> = {}): Promise<Entity[]> {
     const runtimeSchema = this.getRuntimeSchema();
-    return this.basil.useCollection(runtimeSchema, async (collection) => {
-      const cursor = await collection.find(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-      const documents = await cursor.toArray();
+    if (!runtimeSchema.Entity) {
+      throw Error('This should not happen.');
+    }
+    const Entity = runtimeSchema.Entity;
+    const collection = await this.getMongoCollection();
 
-      return documents.map((document) => {
-        if (!runtimeSchema.Entity) {
-          throw Error('This should not happen.');
-        }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const cursor = await collection.find(filter as any, options);
+    const documents = await cursor.toArray();
 
-        return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(document, {}) as Entity);
-      });
+    return documents.map((document) => {
+      return Object.assign(new Entity(), runtimeSchema.fields.encode(document, {}) as Entity);
     });
+  }
+
+  getMongoCollection(): Promise<mongodb.Collection<Entity>> {
+    return this.basil.getCollection<Entity>(this.getRuntimeSchema().collectionName);
   }
 
   /**
@@ -214,22 +213,22 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param options
    * @param options.upsert - When true, creates a new document if no document matches the query. Default value is false.
    */
-  save(entity: Entity, options: mongodb.ReplaceOptions = {}): Promise<mongodb.UpdateResult | mongodb.Document> {
+  async save(entity: Entity, options: mongodb.ReplaceOptions = {}): Promise<mongodb.UpdateResult | mongodb.Document> {
     const runtimeSchema = this.getRuntimeSchema();
+    const collection = await this.getMongoCollection();
 
-    return this.basil.useCollection<Entity, mongodb.UpdateResult | mongodb.Document>(runtimeSchema, async (collection) => {
-      const payload = {
-        query: { _id: entity._id },
-        entity,
-      };
-      const result: mongodb.UpdateResult | mongodb.Document = await collection.replaceOne(payload.query as any, runtimeSchema.fields.decode(payload.entity) as Entity, options); // eslint-disable-line @typescript-eslint/no-explicit-any
+    const query = { _id: entity._id };
+    const result: mongodb.UpdateResult | mongodb.Document = await collection.replaceOne(
+      query as any /* FIXME */, // eslint-disable-line @typescript-eslint/no-explicit-any
+      runtimeSchema.fields.decode(entity) as Entity,
+      options
+    );
 
-      if (result.matchedCount === 0) {
-        throw Error('"save()" failed. Matched count is zero.');
-      }
+    if (result.matchedCount === 0) {
+      throw Error('"save()" failed. Matched count is zero.');
+    }
 
-      return result;
-    });
+    return result;
   }
 
   /**
@@ -238,11 +237,9 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param filter
    * @param options
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  deleteOne<Entity extends { [key: string]: any }>(filter: mongodb.Filter<Entity>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
-    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
-      return collection.deleteOne(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-    });
+  async deleteOne(filter: mongodb.Filter<Entity>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
+    const collection = await this.getMongoCollection();
+    return collection.deleteOne(filter, options);
   }
 
   /**
@@ -252,10 +249,9 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param options
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  deleteMany(filter: mongodb.Filter<Entity>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
-    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
-      return collection.deleteMany(filter as any, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-    });
+  async deleteMany(filter: mongodb.Filter<Entity>, options: mongodb.DeleteOptions = {}): Promise<mongodb.DeleteResult> {
+    const collection = await this.getMongoCollection();
+    return collection.deleteMany(filter, options);
   }
 
   /**
@@ -264,14 +260,12 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param entity
    * @param options
    */
-  insertOne(entity: Entity, options: mongodb.InsertOneOptions = {}): Promise<mongodb.InsertOneResult<mongodb.WithId<Entity>>> {
-    const target = this.getRuntimeSchema();
+  async insertOne(entity: Entity, options: mongodb.InsertOneOptions = {}): Promise<mongodb.InsertOneResult<Entity>> {
+    const runtimeSchema = this.getRuntimeSchema();
+    const collection = await this.getMongoCollection();
 
-    return this.basil.useCollection(target, (collection) => {
-      const serializedDocument = target.fields.decode(entity) as mongodb.OptionalId<Entity>;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return collection.insertOne(serializedDocument as any, { ...options });
-    });
+    const serializedDocument = runtimeSchema.fields.decode(entity) as mongodb.OptionalUnlessRequiredId<Entity>;
+    return collection.insertOne(serializedDocument, options);
   }
 
   /**
@@ -280,10 +274,9 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param filter The filter for the count
    * @param options Optional settings for the command
    */
-  count(filter: Filter<Entity> = {}, options: CountDocumentsOptions = {}): Promise<number> {
-    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
-      return collection.countDocuments(filter, options);
-    });
+  async count(filter: Filter<Entity> = {}, options: CountDocumentsOptions = {}): Promise<number> {
+    const collection = await this.getMongoCollection();
+    return collection.countDocuments(filter, options);
   }
 
   /**
@@ -293,10 +286,9 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param update The update operations to be applied to the documents
    * @param options Optional settings for the command
    */
-  updateMany(filter: mongodb.Filter<Entity>, update: mongodb.UpdateFilter<Entity>, options: mongodb.UpdateOptions = {}): Promise<mongodb.UpdateResult | mongodb.Document> {
-    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
-      return collection.updateMany(filter as any, update as any /* FIXME */, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-    });
+  async updateMany(filter: mongodb.Filter<Entity>, update: mongodb.UpdateFilter<Entity>, options: mongodb.UpdateOptions = {}): Promise<mongodb.UpdateResult | mongodb.Document> {
+    const collection = await this.getMongoCollection();
+    return collection.updateMany(filter, update, options);
   }
 
   /**
@@ -306,9 +298,8 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param update The update operations to be applied to the document
    * @param options Optional settings for the command
    */
-  updateOne(filter: mongodb.Filter<Entity>, update: mongodb.UpdateFilter<Entity> | Partial<Entity>, options: mongodb.UpdateOptions = {}): Promise<mongodb.UpdateResult> {
-    return this.basil.useCollection(this.getRuntimeSchema(), (collection) => {
-      return collection.updateOne(filter as any, update, options); // eslint-disable-line @typescript-eslint/no-explicit-any
-    });
+  async updateOne(filter: mongodb.Filter<Entity>, update: mongodb.UpdateFilter<Entity> | Partial<Entity>, options: mongodb.UpdateOptions = {}): Promise<mongodb.UpdateResult> {
+    const collection = await this.getMongoCollection();
+    return collection.updateOne(filter, update, options);
   }
 }

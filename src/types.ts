@@ -52,9 +52,8 @@ export type RuntimeEdge = RuntimeHasOne;
 
 export type RuntimeHasOne = {
   type: 'hasOne';
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  collection: BaseClass<unknown> | BasilCollection<unknown, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collection: BaseClass<unknown> | BasilCollection<any, unknown>;
   referenceField: string;
 };
 
