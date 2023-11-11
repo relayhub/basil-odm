@@ -9,6 +9,7 @@ import { record } from '../schema/record';
 import { hasOne } from '../schema/edges';
 import { CollectionDef } from '../types';
 import { format } from '../testUtils';
+import { shape } from '../schema/FieldsSchema';
 
 const table: {
   collections: CollectionDef[];
@@ -23,9 +24,9 @@ const table: {
           flag: boolean(),
           status: enums({ values: ['created', 'deleted'] }),
           name: string(),
-          sub: {
+          sub: shape({
             name: string(),
-          },
+          }),
           record: record(string),
         },
       }),

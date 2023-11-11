@@ -1,10 +1,9 @@
-import { arrayOf, createFieldsSchema, union } from './FieldsSchema';
+import { arrayOf, createFieldsSchema, union, shape } from './FieldsSchema';
 import { ObjectId } from 'mongodb';
 import { literal } from './literal';
 import { nullable } from './nullable';
 import { string } from './string';
 import { objectId } from './objectId';
-import { object } from './object';
 import { enums } from './enums';
 
 test('schema()', () => {
@@ -101,27 +100,6 @@ test('schema()', () => {
   }
 
   {
-    const schema = createFieldsSchema({ obj: object() });
-    expect(schema.decode({ obj: { myName: 'foobar' } })).toEqual({
-      obj: { myName: 'foobar' },
-    });
-    expect(schema.encode({ obj: { myName: 'foobar' } })).toEqual({
-      obj: { myName: 'foobar' },
-    });
-    expect(schema.generateBsonSchema()).toEqual({
-      bsonType: 'object',
-      required: ['obj'],
-      properties: {
-        obj: {
-          bsonType: 'object',
-          additionalProperties: true,
-        },
-      },
-      additionalProperties: false,
-    });
-  }
-
-  {
     const schema = createFieldsSchema({ type: enums({ values: [1, '2', 3] }) });
     expect(schema.decode({ type: 1 })).toEqual({ type: 1 });
     expect(() => schema.decode({ type: 0 })).toThrow(Error);
@@ -141,9 +119,11 @@ test('schema()', () => {
 test('Nullable', () => {
   {
     const schema = createFieldsSchema({
-      body: nullable({
-        name: string(),
-      }),
+      body: nullable(
+        shape({
+          name: string(),
+        })
+      ),
     });
 
     expect(schema.decode({ body: { name: 'bar' } })).toEqual({

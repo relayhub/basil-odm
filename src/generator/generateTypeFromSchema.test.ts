@@ -1,4 +1,4 @@
-import { createFieldsSchema, FieldsSchema, union } from '../schema/FieldsSchema';
+import { createFieldsSchema, FieldsSchema, union, arrayOf, shape } from '../schema/FieldsSchema';
 import { enums } from '../schema/enums';
 import { generateTypeFromSchema } from './codeGenerator';
 import { literal } from '../schema/literal';
@@ -49,9 +49,9 @@ null
   [
     'nested',
     createFieldsSchema({
-      objectField: {
+      objectField: shape({
         _id: objectId(),
-      },
+      }),
     }),
     `{\n"objectField": \n{\n"_id": \n$$mongodb.ObjectId\n;\n}\n;\n}`,
   ],
@@ -59,7 +59,7 @@ null
   [
     'array(string)',
     createFieldsSchema({
-      arrayField: [string()],
+      arrayField: arrayOf(string()),
     }),
     `{\n"arrayField": \nArray<string>\n;\n}`,
   ],

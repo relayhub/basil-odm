@@ -1,45 +1,15 @@
-import { getSchemaFragment } from './utils';
-import { literal } from './literal';
-import { Document, Entity, ObjectSchemaSource, SchemaFragment, SchemaFragmentAggregate, SchemaLike } from './types';
+import { Document, Entity, ObjectSchemaSource, SchemaFragment } from './types';
 import { Field, FieldsSchemaRoot } from './astTypes';
 import { createDocument, createEntity } from '../extract';
 import { generateBsonSchema } from '../generateBsonSchema';
-import { getSchemaFragmentSymbol, optionalPropertyFlag, schemaFragmentFrag } from './symbols';
-
-(String.prototype as unknown as SchemaFragmentAggregate)[getSchemaFragmentSymbol] = function (this: string) {
-  return literal(this);
-};
-
-(Number.prototype as unknown as SchemaFragmentAggregate)[getSchemaFragmentSymbol] = function (this: number) {
-  return literal(this);
-};
-
-(Boolean.prototype as unknown as SchemaFragmentAggregate)[getSchemaFragmentSymbol] = function (this: boolean) {
-  return literal(this);
-};
-
-(Array.prototype as unknown as SchemaFragmentAggregate)[getSchemaFragmentSymbol] = function (this: Array<unknown>) {
-  if (this.length === 0) {
-    throw Error('You must pass one element at least into array.');
-  }
-
-  if (this.length > 1) {
-    throw Error('You must pass one element into array on building schema.');
-  }
-
-  return arrayOf(this[0] as SchemaLike);
-};
-
-(Object.prototype as unknown as SchemaFragmentAggregate)[getSchemaFragmentSymbol] = function () {
-  return shape(this as unknown as ObjectSchemaSource);
-};
+import { optionalPropertyFlag, schemaFragmentFrag } from './symbols';
 
 // entityが余分なプロパティを持っていても許す
 export function shape<T extends ObjectSchemaSource>(source: T): SchemaFragment {
   const object: Record<string, SchemaFragment> = {};
 
   Object.keys(source).forEach((key: string) => {
-    object[key] = getSchemaFragment(source[key]);
+    object[key] = source[key];
   });
 
   return {
@@ -65,9 +35,7 @@ export function shape<T extends ObjectSchemaSource>(source: T): SchemaFragment {
   };
 }
 
-export function arrayOf<T extends SchemaLike>(item: T): SchemaFragment {
-  const fragment = getSchemaFragment(item);
-
+export function arrayOf<T extends SchemaFragment>(fragment: T): SchemaFragment {
   return {
     [schemaFragmentFrag]: true,
 
@@ -85,8 +53,8 @@ class Union implements SchemaFragment {
 
   [schemaFragmentFrag] = true as const;
 
-  constructor(schemas: SchemaLike[]) {
-    this.schemaFragments = schemas.map((schema) => getSchemaFragment(schema));
+  constructor(schemaFragments: SchemaFragment[]) {
+    this.schemaFragments = schemaFragments;
   }
 
   buildASTNode() {
@@ -136,6 +104,6 @@ export function arrayOfShape<T extends ObjectSchemaSource>(object: T): SchemaFra
   return arrayOf(shape(object));
 }
 
-export function union(...schemas: SchemaLike[]): SchemaFragment {
+export function union(...schemas: SchemaFragment[]): SchemaFragment {
   return new Union(schemas);
 }

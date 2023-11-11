@@ -1,10 +1,7 @@
-import { SchemaFragment, SchemaLike } from './types';
-import { getSchemaFragment } from './utils';
+import { SchemaFragment } from './types';
 import { optionalPropertyFlag, schemaFragmentFrag } from './symbols';
 
-export function nullable<T extends SchemaLike>(schemaLike: T): SchemaFragment {
-  const fragment = getSchemaFragment(schemaLike);
-
+export function nullable<T extends SchemaFragment>(fragment: T): SchemaFragment {
   return {
     [schemaFragmentFrag]: true,
 
