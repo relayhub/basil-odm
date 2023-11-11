@@ -5,7 +5,7 @@ import { Edge } from './edgeTypes';
 import { getDefaultEntityName } from '../generator/utils';
 interface Props {
   collectionName: string;
-  fields?: ObjectSchemaSource;
+  fields?: ObjectSchemaSource<unknown>;
   indexes?: Index[];
   entityName?: string;
   options?: CollectionOptions;

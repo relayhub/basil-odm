@@ -1,10 +1,11 @@
 import { enums } from '../schema/enums';
-import { createFieldsSchema, union } from '../schema/FieldsSchema';
+import { createFieldsSchema } from '../schema/FieldsSchema';
 import { aggregateEnums, generateType } from './utils';
 import { record } from '../schema/record';
 import { string } from '../schema/string';
 import { boolean } from '../schema/boolean';
 import { objectId } from '../schema/objectId';
+import { union } from '../schema/union';
 
 describe('aggregateEnums()', () => {
   it('should works normally', () => {

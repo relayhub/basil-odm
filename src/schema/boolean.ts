@@ -1,7 +1,7 @@
 import { SchemaFragment } from './types';
 import { schemaFragmentFrag } from './symbols';
 
-function originalBoolean(): SchemaFragment {
+function originalBoolean(): SchemaFragment<boolean> {
   return {
     [schemaFragmentFrag]: true,
 
@@ -13,4 +13,4 @@ function originalBoolean(): SchemaFragment {
   };
 }
 
-export const boolean: typeof originalBoolean & SchemaFragment = Object.assign(originalBoolean, originalBoolean());
+export const boolean: typeof originalBoolean & SchemaFragment<boolean> = Object.assign(originalBoolean, originalBoolean());

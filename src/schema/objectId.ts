@@ -1,7 +1,8 @@
 import { SchemaFragment } from './types';
 import { schemaFragmentFrag } from './symbols';
+import { ObjectId } from 'mongodb';
 
-function originalObjectId(): SchemaFragment {
+function originalObjectId(): SchemaFragment<ObjectId> {
   return {
     [schemaFragmentFrag]: true,
 
@@ -13,4 +14,4 @@ function originalObjectId(): SchemaFragment {
   };
 }
 
-export const objectId: typeof originalObjectId & SchemaFragment = Object.assign(originalObjectId, originalObjectId());
+export const objectId: typeof originalObjectId & SchemaFragment<ObjectId> = Object.assign(originalObjectId, originalObjectId());

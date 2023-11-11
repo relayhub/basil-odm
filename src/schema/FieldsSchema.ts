@@ -5,20 +5,14 @@ import { generateBsonSchema } from '../generateBsonSchema';
 import { optionalPropertyFlag, schemaFragmentFrag } from './symbols';
 
 // entityが余分なプロパティを持っていても許す
-export function shape<T extends ObjectSchemaSource>(source: T): SchemaFragment {
-  const object: Record<string, SchemaFragment> = {};
-
-  Object.keys(source).forEach((key: string) => {
-    object[key] = source[key];
-  });
-
+export function shape<T>(object: ObjectSchemaSource<T>): SchemaFragment<T> {
   return {
     [schemaFragmentFrag]: true,
 
     buildASTNode(): FieldsSchemaRoot {
       const props: Record<string, Field> = {};
 
-      for (const [key, value] of Object.entries(object)) {
+      for (const [key, value] of Object.entries<SchemaFragment<unknown>>(object)) {
         props[key] = {
           kind: 'field',
           isOptional: !!value[optionalPropertyFlag],
@@ -29,13 +23,13 @@ export function shape<T extends ObjectSchemaSource>(source: T): SchemaFragment {
       return {
         kind: 'object',
         props,
-        allowAdditionalProps: Object.keys(props).length === 0,
+        allowAdditionalProps: Object.keys(props).length === 0, // TODO: 後で直すかも
       };
     },
   };
 }
 
-export function arrayOf<T extends SchemaFragment>(fragment: T): SchemaFragment {
+export function arrayOf<T>(fragment: SchemaFragment<T>): SchemaFragment<T[]> {
   return {
     [schemaFragmentFrag]: true,
 
@@ -48,24 +42,7 @@ export function arrayOf<T extends SchemaFragment>(fragment: T): SchemaFragment {
   };
 }
 
-class Union implements SchemaFragment {
-  schemaFragments: SchemaFragment[];
-
-  [schemaFragmentFrag] = true as const;
-
-  constructor(schemaFragments: SchemaFragment[]) {
-    this.schemaFragments = schemaFragments;
-  }
-
-  buildASTNode() {
-    return {
-      kind: 'union' as const,
-      items: this.schemaFragments.map((fragment) => fragment.buildASTNode()),
-    };
-  }
-}
-
-export function createFieldsSchema(source: ObjectSchemaSource) {
+export function createFieldsSchema<T>(source: ObjectSchemaSource<T>): FieldsSchema<T> {
   const fragment = shape(source);
   const node = fragment.buildASTNode();
 
@@ -73,10 +50,12 @@ export function createFieldsSchema(source: ObjectSchemaSource) {
     throw Error('Invalid state. This is bug.');
   }
 
-  return new FieldsSchema(node);
+  return new FieldsSchema<T>(node);
 }
 
-export class FieldsSchema {
+export class FieldsSchema<T> {
+  _type?: T;
+
   _schemaRoot: FieldsSchemaRoot;
 
   constructor(schemaRoot: FieldsSchemaRoot) {
@@ -100,10 +79,6 @@ export class FieldsSchema {
   }
 }
 
-export function arrayOfShape<T extends ObjectSchemaSource>(object: T): SchemaFragment {
+export function arrayOfShape<T>(object: ObjectSchemaSource<T>): SchemaFragment<T[]> {
   return arrayOf(shape(object));
-}
-
-export function union(...schemas: SchemaFragment[]): SchemaFragment {
-  return new Union(schemas);
 }

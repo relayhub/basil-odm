@@ -1,7 +1,7 @@
 import { SchemaFragment } from './types';
 import { optionalPropertyFlag, schemaFragmentFrag } from './symbols';
 
-export function nullable<T extends SchemaFragment>(fragment: T): SchemaFragment {
+export function nullable<T>(fragment: SchemaFragment<T>): SchemaFragment<null | T> {
   return {
     [schemaFragmentFrag]: true,
 

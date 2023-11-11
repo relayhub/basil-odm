@@ -29,7 +29,7 @@ export const collectionDefSymbol = Symbol.for('collectionDef');
 
 export type CollectionDef = {
   [collectionDefSymbol]: true;
-  fields: FieldsSchema;
+  fields: FieldsSchema<unknown>;
   collectionName: string;
   indexes: Index[];
   entityName: string;
@@ -40,7 +40,7 @@ export type CollectionDef = {
 export type RuntimeCollectionSchema<Entity, Edges = unknown> = {
   _type?: Entity;
   _edgesType?: Edges;
-  fields: FieldsSchema;
+  fields: FieldsSchema<unknown>;
   collectionName: string;
   Entity?: new () => Entity;
   indexes: Index[];

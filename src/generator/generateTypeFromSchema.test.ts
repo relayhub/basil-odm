@@ -1,4 +1,4 @@
-import { createFieldsSchema, FieldsSchema, union, arrayOf, shape } from '../schema/FieldsSchema';
+import { createFieldsSchema, FieldsSchema, arrayOf, shape } from '../schema/FieldsSchema';
 import { enums } from '../schema/enums';
 import { generateTypeFromSchema } from './codeGenerator';
 import { literal } from '../schema/literal';
@@ -8,8 +8,9 @@ import { string } from '../schema/string';
 import { number } from '../schema/number';
 import { boolean } from '../schema/boolean';
 import { date } from '../schema/date';
+import { union } from '../schema/union';
 
-type Case = [string, FieldsSchema, string];
+type Case = [string, FieldsSchema<unknown>, string];
 
 const table: Case[] = [
   ['ObjectId', createFieldsSchema({ _id: objectId() }), '{\n"_id": \n$$mongodb.ObjectId\n;\n}'],

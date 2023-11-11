@@ -1,7 +1,7 @@
 import { SchemaFragment } from './types';
 import { schemaFragmentFrag } from './symbols';
 
-function originalDate(): SchemaFragment {
+function originalDate(): SchemaFragment<Date> {
   return {
     [schemaFragmentFrag]: true,
 
@@ -11,4 +11,4 @@ function originalDate(): SchemaFragment {
   };
 }
 
-export const date: typeof originalDate & SchemaFragment = Object.assign(originalDate, originalDate());
+export const date: typeof originalDate & SchemaFragment<Date> = Object.assign(originalDate, originalDate());

@@ -2,7 +2,7 @@ import { schemaFragmentFrag } from './symbols';
 import { SchemaFragment } from './types';
 import { inspect } from 'util';
 
-export function enums(props: { name?: string; values: Record<string, Value> | Record<number, Value> }): SchemaFragment {
+export function enums<T>(props: { name?: string; values: { [K in keyof T]: T[K] } }): SchemaFragment<T[keyof T]> {
   const { values, name } = props;
 
   return new Enum({
@@ -23,7 +23,7 @@ interface Props {
   name?: string;
 }
 
-class Enum implements SchemaFragment {
+class Enum<T> implements SchemaFragment<T> {
   values: Record<string, Value>;
   name?: string;
 
