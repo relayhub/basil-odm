@@ -24,4 +24,12 @@ describe('Basil', () => {
       });
     });
   });
+
+  describe('transaction()', () => {
+    it('should works normally', async () => {
+      await basil.transaction({}, (session) => {
+        // empty
+      });
+    });
+  });
 });

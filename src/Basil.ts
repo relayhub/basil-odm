@@ -5,7 +5,7 @@ import { loadConfig } from './Config';
 type ClientCallbackQueue = ((client: mongodb.MongoClient) => void)[];
 
 export class Basil {
-  _client?: mongodb.MongoClient;
+  _mongoClient?: mongodb.MongoClient;
   _settings?: ResolvedConfig;
 
   _queue: ClientCallbackQueue = [];
@@ -20,10 +20,31 @@ export class Basil {
     Object.freeze(settings);
     this._settings = settings;
 
-    this._client = new mongodb.MongoClient(settings.connectionUri, settings.clientOptions);
-    this._client.addListener('close', this.handleClose);
+    this._mongoClient = new mongodb.MongoClient(settings.connectionUri, settings.clientOptions);
+    this._mongoClient.addListener('close', this.handleClose);
 
     this.flushQueue();
+  }
+
+  async transaction(
+    {
+      transactionOptions = {},
+      sessionOptions = {},
+    }: {
+      sessionOptions?: mongodb.ClientSessionOptions;
+      transactionOptions?: mongodb.TransactionOptions;
+    },
+    callback: (session: mongodb.ClientSession) => Promise<void> | void
+  ): Promise<void> {
+    const session = this.mongoClient.startSession(sessionOptions);
+
+    try {
+      await session.withTransaction(async () => {
+        await callback(session);
+      }, transactionOptions);
+    } finally {
+      await session.endSession();
+    }
   }
 
   private handleClose = () => {
@@ -46,12 +67,12 @@ export class Basil {
     return this._settings;
   }
 
-  private get client(): mongodb.MongoClient {
-    if (!this._client) {
+  get mongoClient(): mongodb.MongoClient {
+    if (!this._mongoClient) {
       throw Error('Not configured. Call configure() or loadConfig().');
     }
 
-    return this._client;
+    return this._mongoClient;
   }
 
   get connectionUri() {
@@ -67,12 +88,12 @@ export class Basil {
   }
 
   async disconnect(): Promise<void> {
-    await this.client.close();
+    await this.mongoClient.close();
   }
 
   private queue(callback: (client: mongodb.MongoClient) => void): void {
-    if (this._client) {
-      callback(this._client);
+    if (this._mongoClient) {
+      callback(this._mongoClient);
     } else {
       if (this._queue.length === 0) {
         this._timeoutIds.push(
@@ -86,7 +107,7 @@ export class Basil {
   }
 
   private flushQueue(): void {
-    if (!this._client) {
+    if (!this._mongoClient) {
       throw Error('Invalid state');
     }
 
@@ -98,7 +119,7 @@ export class Basil {
     while (this._queue.length > 0) {
       const callback = this._queue.shift();
       if (callback) {
-        callback(this._client);
+        callback(this._mongoClient);
       }
     }
   }

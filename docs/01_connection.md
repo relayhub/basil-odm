@@ -30,12 +30,18 @@ No need to explicitly call a function for the connection. The connection is auto
 
 ## Retrieve the MongoClient instance
 
- To get a [MongoClient](https://mongodb.github.io/node-mongodb-native/5.7/classes/MongoClient.html) instance, refer to the `basil.client` property.
+ To get a [MongoClient](https://mongodb.github.io/node-mongodb-native/5.7/classes/MongoClient.html) instance, refer to the `basil.mongoClient` property.
 
 ```typescript
-import { basil } from 'basil-odm';
+import { basil, configure } from 'basil-odm';
 
-const mongoClient = basil.client;
+configure({
+  databaseName: 'mydb',
+  connectionUri: 'mongodb://localhost:27017',
+  clientOptions: {},
+});
+
+const mongoClient = basil.mongoClient;
 ```
 
 ## Disconnect

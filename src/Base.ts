@@ -108,20 +108,19 @@ export class Base {
    * @param id
    * @param options Same value as the option passed to `findOne()`
    */
-  static findById<T extends { _id: ObjectId | string }>(this: BaseClass<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
+  static async findById<T extends { _id: ObjectId | string }>(this: BaseClass<T>, id: string | mongodb.ObjectId, options: mongodb.FindOptions<T> = {}): Promise<T | null> {
     const target = this.getRuntimeSchema();
     const hasObjectId = target.fields.getSchemaAST().props['_id']?.node.kind === 'objectId';
+    const collection = await this.basil.getCollection<T>(target.collectionName);
 
-    return this.basil
-      .useCollection(target, async (collection) => {
-        const _id = hasObjectId ? new mongodb.ObjectId(id) : id;
-        const result = await collection.findOne<T>({ _id: _id as ObjectId }, options);
+    const _id = hasObjectId ? new mongodb.ObjectId(id) : id;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await collection.findOne({ _id } as any /* FIXME */, options);
+    if (!result) {
+      return null;
+    }
 
-        return result ? (target.fields.encode(result, {}) as T) : null;
-      })
-      .then((result) => {
-        return result ? Object.assign(new this(), result) : result;
-      });
+    return Object.assign(new this(), target.fields.encode(result, {}));
   }
 
   /**
