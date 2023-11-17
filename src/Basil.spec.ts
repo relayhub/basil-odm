@@ -1,4 +1,5 @@
 import { basil } from './Basil';
+import { ObjectId } from 'mongodb';
 
 jest.setTimeout(15000);
 
@@ -27,9 +28,28 @@ describe('Basil', () => {
 
   describe('transaction()', () => {
     it('should works normally', async () => {
-      await basil.transaction({}, (session) => {
-        // empty
+      const col = await basil.getCollection('test');
+      const doc = { _id: new ObjectId() };
+      await basil.transaction({}, async (session) => {
+        await col.insertOne(doc, { writeConcern: { w: 'majority' } });
       });
+      const fetched = await col.findOne({ _id: doc._id });
+      expect(fetched).not.toBe(null);
+    });
+
+    it('should rollback on abort', async () => {
+      const col = await basil.getCollection('test');
+      const doc = { _id: new ObjectId() };
+      try {
+        await basil.transaction({}, async (session) => {
+          await col.insertOne(doc, { session });
+          throw Error('abort');
+        });
+      } catch (e) {
+        // do nothing
+      }
+      const fetched = await col.findOne({ _id: doc._id });
+      expect(fetched).toBe(null);
     });
   });
 });
