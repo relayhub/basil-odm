@@ -1,5 +1,5 @@
 import type { MongoClientOptions, CreateIndexesOptions } from 'mongodb';
-import * as mongodb from 'mongodb';
+import type * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 import { Edge } from './schema/edgeTypes';
 import type { BaseClass } from './Base';
@@ -65,3 +65,20 @@ export type RuntimeHasMany = {
 };
 
 export type DefinedSchema = Record<string, CollectionDef> | CollectionDef[];
+
+export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
+
+export type EdgeOptions<Entity> =
+  | true
+  | {
+      order?: mongodb.Sort;
+      skip?: number;
+      filter?: mongodb.Filter<Entity>;
+      limit?: number;
+    };
+
+export type EdgesOptions<SubsetEdges, Entity> = {
+  edges: {
+    [K in keyof SubsetEdges]: EdgeOptions<Entity>;
+  };
+};

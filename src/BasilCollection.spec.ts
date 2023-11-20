@@ -230,16 +230,16 @@ describe('BasilCollection', () => {
       user.groupId = group._id;
       await Users.insertOne(user);
 
-      const [loaded] = await Users.loadEdges([user], { edges: { group: true } });
+      const [loaded] = await Users._loadEdges([user], { edges: { group: true } });
       expect(loaded.group._id.equals(group._id)).toBe(true);
 
       expect(async () => {
         // type check
-        await Users.loadEdges([], { edges: {} });
-        await Users.loadEdges([], { edges: { group: true } });
+        await Users._loadEdges([], { edges: {} });
+        await Users._loadEdges([], { edges: { group: true } });
 
         // @ts-expect-error invalid edge key "foobar"
-        await Users.loadEdges([], { edges: { foobar: true } });
+        await Users._loadEdges([], { edges: { foobar: true } });
       }).toBeTruthy();
     });
 
@@ -253,8 +253,28 @@ describe('BasilCollection', () => {
         writeConcern: { w: 'majority' },
       });
 
-      const [loaded] = await Groups.loadEdges([group], { edges: { users: true } });
+      const [loaded] = await Groups._loadEdges([group], { edges: { users: true } });
       expect(typeof loaded.users.length).toBe('number');
+    });
+
+    it('should works normally for hasMany() edge and limit option', async () => {
+      const group = new Group();
+      await Groups.insertOne(group);
+
+      for (let i = 0; i < 20; i++) {
+        const user = new User();
+        user.groupId = group._id;
+        await Users.insertOne(user, {
+          writeConcern: { w: 'majority' },
+        });
+      }
+
+      const [loaded] = await Groups._loadEdges([group], {
+        edges: {
+          users: { limit: 10 },
+        },
+      });
+      expect(loaded.users.length).toBe(10);
     });
 
     it('should works for findById() with edges options', async () => {

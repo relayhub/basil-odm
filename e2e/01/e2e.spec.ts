@@ -78,7 +78,7 @@ describe('e2e/01', () => {
         writeConcern: { w: 'majority' },
       });
 
-      const [loaded] = await db.users.loadEdges([user], { edges: { blogEntries: true } });
+      const [loaded] = await db.users._loadEdges([user], { edges: { blogEntries: true } });
       expect(loaded.blogEntries).toBeTruthy();
     });
   });

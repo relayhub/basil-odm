@@ -1,16 +1,8 @@
 import { basil } from './Basil';
-import { RuntimeCollectionSchema } from './types';
+import { RuntimeCollectionSchema, EdgesOptions, FindByIdsOptions } from './types';
+import * as mongodb from 'mongodb';
 import { ObjectId, Filter, CountDocumentsOptions } from 'mongodb';
 import { isObjectId } from './utils';
-import * as mongodb from 'mongodb';
-
-export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
-
-type EdgeOptions<T> = {
-  edges: {
-    [K in keyof T]: true;
-  };
-};
 
 export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
   basil = basil;
@@ -24,13 +16,16 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
     this.getRuntimeSchema = getRuntimeSchema;
   }
 
-  /** @interface */
-  async loadEdges<Key extends keyof Edges = never>(objects: Entity[], options: EdgeOptions<{ [key in Key]: Edges[key] }>): Promise<(Entity & { [key in Key]: Edges[key] })[]> {
+  /** @internal */
+  async _loadEdges<Key extends keyof Edges = never>(
+    objects: Entity[],
+    options: EdgesOptions<{ [key in Key]: Edges[key] }, Entity>
+  ): Promise<(Entity & { [key in Key]: Edges[key] })[]> {
     const promises: Promise<unknown>[] = [];
 
-    for (const [edgeField, value] of Object.entries(options.edges)) {
-      if (!value) {
-        throw Error(`Invalid edges field value: edges[${JSON.stringify(edgeField)}] => ${JSON.stringify(value)}`);
+    for (const [edgeField, edgeOptions] of Object.entries(options.edges)) {
+      if (!edgeOptions) {
+        throw Error(`Invalid edges field value: edges[${JSON.stringify(edgeField)}] => ${JSON.stringify(edgeOptions)}`);
       }
 
       const edgeInfo = this.getRuntimeSchema().edges?.[edgeField];
@@ -45,10 +40,14 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
 
         for (const object of objects) {
           const id = (object as { _id: ObjectId })._id;
+          const options = edgeOptions === true ? {} : edgeOptions;
           const promise = (async () => {
-            const result = await collection.findMany({
-              [referenceField]: id,
-            });
+            const result = await collection.findMany(
+              {
+                [referenceField]: id,
+              },
+              options
+            );
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (object as any)[edgeField] = result;
           })();
@@ -120,7 +119,7 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    */
   async findById<Key extends keyof Edges = never>(
     id: string | mongodb.ObjectId,
-    options: Partial<EdgeOptions<{ [key in Key]: Edges[key] }>> & mongodb.FindOptions<Entity> = {}
+    options: Partial<EdgesOptions<{ [key in Key]: Edges[key] }, Entity>> & mongodb.FindOptions<Entity> = {}
   ): Promise<(Entity & { [key in Key]: Edges[key] }) | null> {
     const runtimeSchema = this.getRuntimeSchema();
     if (!runtimeSchema.Entity) {
@@ -144,7 +143,7 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
       return entity as Entity & { [key in Key]: Edges[key] }; /* FIXME */
     }
 
-    const [loadedEntity] = await this.loadEdges([entity], { edges: options.edges ?? {} });
+    const [loadedEntity] = await this._loadEdges([entity], { edges: options.edges ?? {} });
 
     return loadedEntity;
   }
