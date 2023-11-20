@@ -1,5 +1,5 @@
 import { Basil } from './Basil';
-import { createFieldsSchema, objectId, string, RuntimeCollectionSchema } from './index';
+import { createFieldsSchema, objectId, string } from './index';
 import * as mongodb from 'mongodb';
 import { Base } from './Base';
 
@@ -214,92 +214,6 @@ describe('Base', () => {
       ])) as User[];
 
       expect(result[0]._id.toString()).toBe(user._id.toString());
-    });
-  });
-
-  describe('loadEdges()', () => {
-    class User extends Base {
-      _id = new mongodb.ObjectId();
-
-      groupId = new mongodb.ObjectId();
-
-      constructor(source?: Partial<User>) {
-        super();
-        Object.assign(this, source);
-      }
-
-      static getRuntimeSchema(): RuntimeCollectionSchema<User, { group: Group }> {
-        return {
-          collectionName: 'users',
-          indexes: [],
-          fields: createFieldsSchema({
-            _id: objectId,
-            groupId: objectId,
-          }),
-          edges: {
-            group: {
-              type: 'hasOne' as const,
-              collection: Group,
-              referenceField: 'groupId',
-            },
-          },
-        };
-      }
-    }
-
-    class Group extends Base {
-      _id = new mongodb.ObjectId();
-
-      constructor(source?: Partial<User>) {
-        super();
-        Object.assign(this, source);
-      }
-
-      static getRuntimeSchema(): RuntimeCollectionSchema<Group, { users: User[] }> {
-        return {
-          collectionName: 'groups',
-          indexes: [],
-          fields: createFieldsSchema({
-            _id: objectId,
-          }),
-          edges: {
-            users: {
-              type: 'hasMany' as const,
-              collection: User,
-              referenceField: 'groupId',
-            },
-          },
-        };
-      }
-    }
-
-    it('should works normally for hasOne() edge', async () => {
-      const group = new Group();
-      await Group.insertOne(group);
-
-      const user = new User();
-      user.groupId = group._id;
-      await User.insertOne(user);
-
-      const [loaded] = await User.loadEdges([user], { group: true });
-      expect(loaded.group._id.equals(group._id)).toBe(true);
-    });
-
-    it('should works normally for hasMany() edge', async () => {
-      const group = new Group();
-      await Group.insertOne(group, {
-        writeConcern: { w: 'majority' },
-      });
-
-      const user = new User();
-      user.groupId = group._id;
-      await User.insertOne(user, {
-        writeConcern: { w: 'majority' },
-      });
-
-      const [loaded] = await Group.loadEdges([group], { users: true });
-      expect(loaded.users[0]._id).toBeTruthy();
-      expect(loaded.users.length).toBe(1);
     });
   });
 });

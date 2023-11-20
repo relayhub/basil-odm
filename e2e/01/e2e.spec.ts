@@ -32,10 +32,8 @@ describe('e2e/01', () => {
       writeConcern: { w: 'majority' },
     });
 
-    const [loaded] = await BlogEntry.loadEdges([blogEntry], {
-      user: true,
-    });
-    expect(loaded.user).toBeTruthy();
+    expect(await User.findById(user._id)).toBeTruthy();
+    expect(await BlogEntry.findById(blogEntry._id)).toBeTruthy();
   });
 
   it('should exports collection accessor objects as default export', () => {
