@@ -24,7 +24,8 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
     this.getRuntimeSchema = getRuntimeSchema;
   }
 
-  async loadEdges<E extends { [key in Key]: Edges[key] }, Key extends keyof Edges>(objects: Entity[], options: EdgeOptions<E>): Promise<(Entity & E)[]> {
+  /** @interface */
+  async loadEdges<Key extends keyof Edges = never>(objects: Entity[], options: EdgeOptions<{ [key in Key]: Edges[key] }>): Promise<(Entity & { [key in Key]: Edges[key] })[]> {
     const promises: Promise<unknown>[] = [];
 
     for (const [edgeField, value] of Object.entries(options.edges)) {
@@ -107,7 +108,7 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
     }
 
     await Promise.all(promises);
-    return objects as (Entity & E)[];
+    return objects as (Entity & { [key in Key]: Edges[key] })[];
   }
 
   /**
@@ -117,10 +118,10 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param id
    * @param options Same value as the option passed to `findOne()`
    */
-  async findById<E extends { [key in Key]: Edges[key] }, Key extends keyof Edges>(
+  async findById<Key extends keyof Edges = never>(
     id: string | mongodb.ObjectId,
-    options: Partial<EdgeOptions<E>> & mongodb.FindOptions<Entity> = {}
-  ): Promise<(Entity & E) | null> {
+    options: Partial<EdgeOptions<{ [key in Key]: Edges[key] }>> & mongodb.FindOptions<Entity> = {}
+  ): Promise<(Entity & { [key in Key]: Edges[key] }) | null> {
     const runtimeSchema = this.getRuntimeSchema();
     if (!runtimeSchema.Entity) {
       throw Error('This should not happen.');
@@ -140,10 +141,10 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
     const entity: Entity = Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(result, {}));
 
     if (!options.edges) {
-      return entity as Entity & E; /* FIXME */
+      return entity as Entity & { [key in Key]: Edges[key] }; /* FIXME */
     }
 
-    const [loadedEntity] = await this.loadEdges<E, Key>([entity], { edges: options.edges ?? {} });
+    const [loadedEntity] = await this.loadEdges([entity], { edges: options.edges ?? {} });
 
     return loadedEntity;
   }

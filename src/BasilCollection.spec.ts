@@ -232,6 +232,15 @@ describe('BasilCollection', () => {
 
       const [loaded] = await Users.loadEdges([user], { edges: { group: true } });
       expect(loaded.group._id.equals(group._id)).toBe(true);
+
+      expect(async () => {
+        // type check
+        await Users.loadEdges([], { edges: {} });
+        await Users.loadEdges([], { edges: { group: true } });
+
+        // @ts-expect-error invalid edge key "foobar"
+        await Users.loadEdges([], { edges: { foobar: true } });
+      }).toBeTruthy();
     });
 
     it('should works normally for hasMany() edge', async () => {
