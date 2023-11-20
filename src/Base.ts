@@ -48,53 +48,73 @@ export class Base {
         throw Error(`Invalid edges field: ${edgeField}`);
       }
 
-      const { collection, referenceField } = edgeInfo;
-      const Target = collection as BaseClass<{ _id: ObjectId }>; /* FIXME */
+      if (edgeInfo.type === 'hasMany') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const collection = edgeInfo.collection as BaseClass<any /* FIXME */>;
+        const referenceField = edgeInfo.referenceField;
 
-      // reference values to refer other collection's `document._id` field
-      const referenceValues = objects.map((object) => {
-        const key = referenceField as keyof Entity;
-        const value = object[key] as unknown;
-        if (!isObjectId(value)) {
-          throw Error(
-            `Invalid reference field: reference field value is not ObjectId\n` +
-              ` - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
-              ` - edge field: ${JSON.stringify(edgeField)}\n` +
-              ` - reference field: ${JSON.stringify(referenceField)}`
-          );
+        for (const object of objects) {
+          const id = (object as { _id: ObjectId })._id;
+          const promise = (async () => {
+            const result = await collection.findMany({
+              [referenceField]: id,
+            });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (object as any)[edgeField] = result;
+          })();
+          promises.push(promise);
         }
-        return value;
-      });
+      } else if (edgeInfo.type === 'hasOne') {
+        const { collection, referenceField } = edgeInfo;
+        const Target = collection as BaseClass<{ _id: ObjectId }>; /* FIXME */
 
-      promises.push(
-        (async () => {
-          const referencedDocumentMap = new Map<string, unknown>();
-
-          // collect referenced documents
-          const targets = await Target.findByIds(referenceValues);
-          for (const target of targets) {
-            referencedDocumentMap.set(target._id.toString(), target);
+        // reference values to refer other collection's `document._id` field
+        const referenceValues = objects.map((object) => {
+          const key = referenceField as keyof Entity;
+          const value = object[key] as unknown;
+          if (!isObjectId(value)) {
+            throw Error(
+              `Invalid reference field: reference field value is not ObjectId\n` +
+                ` - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
+                ` - edge field: ${JSON.stringify(edgeField)}\n` +
+                ` - reference field: ${JSON.stringify(referenceField)}`
+            );
           }
+          return value;
+        });
 
-          for (let i = 0; i < objects.length; i++) {
-            const key = referenceValues[i].toString();
-            if (referencedDocumentMap.has(key)) {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              objects[i][edgeField] = referencedDocumentMap.get(key);
-            } else {
-              throw Error(
-                `Referenced document is not found:\n` +
-                  `  - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
-                  `  - reference field: ${JSON.stringify(referenceField)}\n` +
-                  `  - reference value: ${JSON.stringify(referenceValues[i].toString())}\n` +
-                  `  - edge field: ${JSON.stringify(edgeField)}\n` +
-                  `  - referenced collection: ${JSON.stringify(Target.getRuntimeSchema().collectionName)}\n`
-              );
+        promises.push(
+          (async () => {
+            const referencedDocumentMap = new Map<string, unknown>();
+
+            // collect referenced documents
+            const targets = await Target.findByIds(referenceValues);
+            for (const target of targets) {
+              referencedDocumentMap.set(target._id.toString(), target);
             }
-          }
-        })()
-      );
+
+            for (let i = 0; i < objects.length; i++) {
+              const key = referenceValues[i].toString();
+              if (referencedDocumentMap.has(key)) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                objects[i][edgeField] = referencedDocumentMap.get(key);
+              } else {
+                throw Error(
+                  `Referenced document is not found:\n` +
+                    `  - collection: ${JSON.stringify(runtimeSchema.collectionName)}\n` +
+                    `  - reference field: ${JSON.stringify(referenceField)}\n` +
+                    `  - reference value: ${JSON.stringify(referenceValues[i].toString())}\n` +
+                    `  - edge field: ${JSON.stringify(edgeField)}\n` +
+                    `  - referenced collection: ${JSON.stringify(Target.getRuntimeSchema().collectionName)}\n`
+                );
+              }
+            }
+          })()
+        );
+      } else {
+        throw Error(`Unknown edge type: ${JSON.stringify(edgeInfo)}`);
+      }
     }
 
     await Promise.all(promises);

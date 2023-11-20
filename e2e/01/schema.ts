@@ -1,4 +1,4 @@
-import { collection, objectId, date, string, index, hasOne, enums } from '../../src';
+import { collection, objectId, date, string, index, hasOne, enums, hasMany } from '../../src';
 export const BlogEntries = collection({
   collectionName: 'blogEntries',
   fields: {
@@ -28,6 +28,12 @@ export const Users = collection({
         ACTIVE: 'active',
         INACTIVE: 'inactive',
       },
+    }),
+  },
+  edges: {
+    blogEntries: hasMany({
+      collection: 'blogEntries',
+      referenceField: 'userId',
     }),
   },
 });

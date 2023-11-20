@@ -88,7 +88,10 @@ export class User extends $$basil.Base {
     super();
     Object.assign(this, params);
   }
-  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {}> {
+  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<
+    User,
+    { blogEntries: BlogEntry[] }
+  > {
     return {
       collectionName: "users",
       fields: new $$basil.FieldsSchema({
@@ -125,7 +128,13 @@ export class User extends $$basil.Base {
       }),
       indexes: [],
       options: {},
-      edges: {},
+      edges: {
+        blogEntries: {
+          type: "hasMany" as const,
+          collection: BlogEntry,
+          referenceField: "userId",
+        },
+      },
     };
   }
   _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
@@ -138,7 +147,7 @@ export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 
 const $$db: {
   blogEntries: $$basil.BasilCollection<BlogEntry, { user: User }>;
-  users: $$basil.BasilCollection<User, {}>;
+  users: $$basil.BasilCollection<User, { blogEntries: BlogEntry[] }>;
 } = {
   blogEntries: new $$basil.BasilCollection<BlogEntry, { user: User }>(() => ({
     collectionName: "blogEntries",
@@ -202,45 +211,53 @@ const $$db: {
     },
   })),
 
-  users: new $$basil.BasilCollection<User, {}>(() => ({
-    collectionName: "users",
-    fields: new $$basil.FieldsSchema({
-      kind: "object",
-      props: {
-        _id: {
-          kind: "field",
-          isOptional: false,
-          node: {
-            kind: "objectId",
-          },
-        },
-        name: {
-          kind: "field",
-          isOptional: false,
-          node: {
-            kind: "string",
-          },
-        },
-        status: {
-          kind: "field",
-          isOptional: false,
-          node: {
-            kind: "enum",
-            values: {
-              ACTIVE: "active",
-              INACTIVE: "inactive",
+  users: new $$basil.BasilCollection<User, { blogEntries: BlogEntry[] }>(
+    () => ({
+      collectionName: "users",
+      fields: new $$basil.FieldsSchema({
+        kind: "object",
+        props: {
+          _id: {
+            kind: "field",
+            isOptional: false,
+            node: {
+              kind: "objectId",
             },
-            name: "UserStatus",
           },
+          name: {
+            kind: "field",
+            isOptional: false,
+            node: {
+              kind: "string",
+            },
+          },
+          status: {
+            kind: "field",
+            isOptional: false,
+            node: {
+              kind: "enum",
+              values: {
+                ACTIVE: "active",
+                INACTIVE: "inactive",
+              },
+              name: "UserStatus",
+            },
+          },
+        },
+        allowAdditionalProps: false,
+      }),
+      Entity: User,
+      indexes: [],
+      options: {},
+      edges: {
+        blogEntries: {
+          type: "hasMany" as const,
+          collection: $$db["blogEntries"],
+          referenceField: "userId",
         },
       },
-      allowAdditionalProps: false,
-    }),
-    Entity: User,
-    indexes: [],
-    options: {},
-    edges: {},
-  })),
+    })
+  ),
 };
 
 export default $$db;

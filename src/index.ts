@@ -15,7 +15,7 @@ export { number } from './schema/number';
 export { objectId } from './schema/objectId';
 export { date } from './schema/date';
 export { record } from './schema/record';
-export { hasOne } from './schema/edges';
+export { hasOne, hasMany } from './schema/edges';
 export { generateCode } from './generator/codeGenerator';
 export { optionalPropertyFlag, schemaFragmentFrag } from './schema/symbols';
 export { index } from './schema/createIndex';

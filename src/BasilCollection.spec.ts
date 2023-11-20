@@ -179,13 +179,20 @@ describe('BasilCollection', () => {
       }
     }
 
-    const Groups = new BasilCollection<Group, object>(() => ({
+    const Groups: BasilCollection<Group, { users: User[] }> = new BasilCollection(() => ({
       collectionName: 'groups',
       indexes: [],
       Entity: Group,
       fields: createFieldsSchema({
         _id: objectId,
       }),
+      edges: {
+        users: {
+          type: 'hasMany' as const,
+          collection: Users,
+          referenceField: 'groupId',
+        },
+      },
     }));
     class User extends Base {
       _id = new mongodb.ObjectId();
@@ -198,7 +205,7 @@ describe('BasilCollection', () => {
       }
     }
 
-    const Users = new BasilCollection<User, { group: Group }>(() => ({
+    const Users: BasilCollection<User, { group: Group }> = new BasilCollection(() => ({
       collectionName: 'users',
       indexes: [],
       Entity: User,
@@ -215,7 +222,7 @@ describe('BasilCollection', () => {
       },
     }));
 
-    it('should works normally', async () => {
+    it('should works normally for hasOne() edge', async () => {
       const group = new Group();
       await Groups.insertOne(group);
 
@@ -223,8 +230,38 @@ describe('BasilCollection', () => {
       user.groupId = group._id;
       await Users.insertOne(user);
 
-      const [loaded] = await Users.loadEdges([user], { group: true });
+      const [loaded] = await Users.loadEdges([user], { edges: { group: true } });
       expect(loaded.group._id.equals(group._id)).toBe(true);
+    });
+
+    it('should works normally for hasMany() edge', async () => {
+      const group = new Group();
+      await Groups.insertOne(group);
+
+      const user = new User();
+      user.groupId = group._id;
+      await Users.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const [loaded] = await Groups.loadEdges([group], { edges: { users: true } });
+      expect(typeof loaded.users.length).toBe('number');
+    });
+
+    it('should works for findById() with edges options', async () => {
+      const group = new Group();
+      await Groups.insertOne(group, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const user = new User();
+      user.groupId = group._id;
+      await Users.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const loadedGroup = await Groups.findById(group._id, { edges: { users: true } });
+      expect(typeof loadedGroup?.users.length).toBe('number');
     });
   });
 

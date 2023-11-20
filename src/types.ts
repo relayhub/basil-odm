@@ -48,10 +48,17 @@ export type RuntimeCollectionSchema<Entity, Edges = unknown> = {
   edges?: Record<string, RuntimeEdge>;
 };
 
-export type RuntimeEdge = RuntimeHasOne;
+export type RuntimeEdge = RuntimeHasOne | RuntimeHasMany;
 
 export type RuntimeHasOne = {
   type: 'hasOne';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collection: BaseClass<unknown> | BasilCollection<any, unknown>;
+  referenceField: string;
+};
+
+export type RuntimeHasMany = {
+  type: 'hasMany';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   collection: BaseClass<unknown> | BasilCollection<any, unknown>;
   referenceField: string;

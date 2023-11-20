@@ -69,5 +69,19 @@ describe('e2e/01', () => {
       const fetchedUser = await db.users.findById(user._id);
       expect(user._id.equals(fetchedUser?._id)).toBe(true);
     });
+
+    it('should works with edge loading', async () => {
+      const user = new User();
+      const blogEntry = new BlogEntry({
+        userId: user._id,
+      });
+
+      await db.blogEntries.insertOne(blogEntry, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const [loaded] = await db.users.loadEdges([user], { edges: { blogEntries: true } });
+      expect(loaded.blogEntries).toBeTruthy();
+    });
   });
 });
