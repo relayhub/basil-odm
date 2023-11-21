@@ -1,4 +1,3 @@
-import type { MongoClientOptions, CreateIndexesOptions } from 'mongodb';
 import type * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 import { Edge } from './schema/edgeTypes';
@@ -8,7 +7,7 @@ import type { BasilCollection } from './BasilCollection';
 export interface ResolvedConfig {
   connectionUri: string;
   databaseName: string;
-  clientOptions: MongoClientOptions;
+  clientOptions: mongodb.MongoClientOptions;
 }
 
 export type IndexFields = { [key: string]: -1 | 1 };
@@ -16,7 +15,7 @@ export type IndexFields = { [key: string]: -1 | 1 };
 export type IndexOptions = {
   unique?: boolean;
   sparse?: boolean;
-} & CreateIndexesOptions;
+} & mongodb.CreateIndexesOptions;
 
 export type Index = {
   fields: IndexFields;
@@ -75,12 +74,7 @@ export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T
 
 export type EdgeOptions<Entity> =
   | true
-  | {
-      order?: mongodb.Sort;
-      skip?: number;
-      filter?: mongodb.Filter<Entity>;
-      limit?: number;
-    };
+  | mongodb.FindOptions<Entity extends mongodb.Document ? mongodb.Document : Record<string, never>>;
 
 export type EdgesOptions<SubsetEdges, Entity> = {
   edges: {

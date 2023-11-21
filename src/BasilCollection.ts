@@ -261,6 +261,10 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
     });
   }
 
+  /**
+   * Returns a collection object.
+   * @returns MongoDB native driver's collection object
+   */
   getMongoCollection(): Promise<mongodb.Collection<Entity>> {
     return this.basil.getCollection<Entity>(this.getRuntimeSchema().collectionName);
   }
