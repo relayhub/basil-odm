@@ -184,7 +184,9 @@ describe('Base', () => {
       await User.insertOne(users[1]);
       await User.insertOne(users[2]);
 
-      expect((await User.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length).toBe(1);
+      expect(
+        (await User.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length
+      ).toBe(1);
     });
   });
 

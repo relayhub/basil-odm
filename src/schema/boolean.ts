@@ -13,4 +13,7 @@ function originalBoolean(): SchemaFragment<boolean> {
   };
 }
 
-export const boolean: typeof originalBoolean & SchemaFragment<boolean> = Object.assign(originalBoolean, originalBoolean());
+export const boolean: typeof originalBoolean & SchemaFragment<boolean> = Object.assign(
+  originalBoolean,
+  originalBoolean()
+);

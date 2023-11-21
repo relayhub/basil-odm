@@ -23,7 +23,10 @@ export type Index = {
   options?: IndexOptions;
 };
 
-export type CollectionOptions = Omit<mongodb.CreateCollectionOptions & Record<string, unknown>, 'validator'>;
+export type CollectionOptions = Omit<
+  mongodb.CreateCollectionOptions & Record<string, unknown>,
+  'validator'
+>;
 
 export const collectionDefSymbol = Symbol.for('collectionDef');
 
@@ -66,7 +69,9 @@ export type RuntimeHasMany = {
 
 export type DefinedSchema = Record<string, CollectionDef> | CollectionDef[];
 
-export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & { filter?: mongodb.Filter<T> };
+export type FindByIdsOptions<T extends mongodb.Document> = mongodb.FindOptions<T> & {
+  filter?: mongodb.Filter<T>;
+};
 
 export type EdgeOptions<Entity> =
   | true

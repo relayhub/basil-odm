@@ -8,7 +8,10 @@ import { prepareDb } from './utils';
 import { disconnect } from './Basil';
 import { parseSchema } from './parseSchema';
 
-program.name('Basil CLI').option('--config <path>', 'specify config file name', 'basil.config.cjs').version(pack.version, '-v, --version');
+program
+  .name('Basil CLI')
+  .option('--config <path>', 'specify config file name', 'basil.config.cjs')
+  .version(pack.version, '-v, --version');
 
 program
   .command('prepare-db')
@@ -31,7 +34,10 @@ program
   .description('Generate code from your schema')
   .option('--schema <path>', 'specify schema file name')
   .option('--output <path>', 'specify output file name')
-  .option('--import-source <source>', 'specify the path to load instead of the basil package in the generated code. default: basil')
+  .option(
+    '--import-source <source>',
+    'specify the path to load instead of the basil package in the generated code. default: basil'
+  )
   .action(async (options) => {
     const imported = await loadSchemaFile(options);
     const schema = parseSchema(imported);

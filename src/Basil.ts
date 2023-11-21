@@ -98,7 +98,9 @@ export class Basil {
       if (this._queue.length === 0) {
         this._timeoutIds.push(
           setTimeout(() => {
-            throw Error('TIMEOUT: Maybe Basil is not initialized. Call configure() or loadConfig().');
+            throw Error(
+              'TIMEOUT: Maybe Basil is not initialized. Call configure() or loadConfig().'
+            );
           }, 5000)
         );
       }
@@ -151,12 +153,17 @@ export class Basil {
     });
   }
 
-  async getCollection<T extends mongodb.Document>(collectionName: string): Promise<mongodb.Collection<T>> {
+  async getCollection<T extends mongodb.Document>(
+    collectionName: string
+  ): Promise<mongodb.Collection<T>> {
     const db = await this.getDatabase();
     return db.collection<T>(collectionName);
   }
 
-  useCollection<T extends mongodb.Document, R>(target: RuntimeCollectionSchema<unknown>, callback: (collection: mongodb.Collection<T>) => R | Promise<R>): Promise<R> {
+  useCollection<T extends mongodb.Document, R>(
+    target: RuntimeCollectionSchema<unknown>,
+    callback: (collection: mongodb.Collection<T>) => R | Promise<R>
+  ): Promise<R> {
     const name = typeof target === 'string' ? target : target.collectionName;
 
     return new Promise((resolve, reject) => {

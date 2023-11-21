@@ -17,7 +17,13 @@ export {
   EdgeOptions,
 } from './types';
 export { collection } from './schema/collection';
-export { createFieldsSchema, FieldsSchema, shape, arrayOf, arrayOfShape } from './schema/FieldsSchema';
+export {
+  createFieldsSchema,
+  FieldsSchema,
+  shape,
+  arrayOf,
+  arrayOfShape,
+} from './schema/FieldsSchema';
 export { string } from './schema/string';
 export { enums } from './schema/enums';
 export { literal } from './schema/literal';

@@ -2,11 +2,18 @@ import { SchemaNode, FieldsSchemaRoot, LiteralValue } from './schema/astTypes';
 import { inspect } from 'util';
 import { isObjectId } from './utils';
 
-export function createDocument(entity: Record<string, unknown>, rootNode: FieldsSchemaRoot): Record<string, unknown> {
+export function createDocument(
+  entity: Record<string, unknown>,
+  rootNode: FieldsSchemaRoot
+): Record<string, unknown> {
   return extract(entity, rootNode, []) as Record<string, unknown>;
 }
 
-export function createEntity<T extends Record<string, unknown>>(source: T, document: Record<string, unknown>, rootNode: FieldsSchemaRoot): T {
+export function createEntity<T extends Record<string, unknown>>(
+  source: T,
+  document: Record<string, unknown>,
+  rootNode: FieldsSchemaRoot
+): T {
   const object = extract(document, rootNode, []);
   return Object.assign(source, object);
 }
@@ -53,7 +60,11 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): unk
       const record: Record<string, unknown> = {};
       for (const [name, field] of Object.entries(node.props)) {
         try {
-          record[name] = extract((target as Record<string, unknown>) /* FIXME */[name], field.node, [...paths, name]);
+          record[name] = extract(
+            (target as Record<string, unknown>) /* FIXME */[name],
+            field.node,
+            [...paths, name]
+          );
         } catch (error) {
           if (!field.isOptional) {
             throw error;
@@ -142,6 +153,10 @@ export function extract(target: unknown, node: SchemaNode, paths: string[]): unk
   }
 
   function error(message = 'ERROR: extractDocument() fail') {
-    return Error(`${message}\npath = ${JSON.stringify(paths)}\ntarget = ${inspect(target)}\nschema = ${inspect(node)}`);
+    return Error(
+      `${message}\npath = ${JSON.stringify(paths)}\ntarget = ${inspect(target)}\nschema = ${inspect(
+        node
+      )}`
+    );
   }
 }

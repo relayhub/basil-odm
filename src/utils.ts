@@ -1,7 +1,13 @@
 import mongodb, { ObjectId } from 'mongodb';
 import { format } from 'prettier';
 import { Basil } from './Basil';
-import { Index, RuntimeCollectionSchema, DefinedSchema, CollectionOptions, ResolvedConfig } from './types';
+import {
+  Index,
+  RuntimeCollectionSchema,
+  DefinedSchema,
+  CollectionOptions,
+  ResolvedConfig,
+} from './types';
 
 // コレクションとスキーマとインデックスを設定
 export async function ensureCollection(

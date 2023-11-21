@@ -53,7 +53,9 @@ export function parseSchema(target: Record<string, unknown>): DefinedSchema {
             }
 
             const collection = collectionMap.get(edge.collection);
-            const fieldNameSet = new Set<string>(Object.keys(collection!.fields.getSchemaAST().props));
+            const fieldNameSet = new Set<string>(
+              Object.keys(collection!.fields.getSchemaAST().props)
+            );
             if (!fieldNameSet.has(edge.referenceField)) {
               throw Error(`Reference field not found: ${JSON.stringify(edge.referenceField)}`);
             }

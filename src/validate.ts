@@ -55,7 +55,8 @@ export function validate(target: unknown, node: SchemaNode, paths: string[]): Va
       const targetObject = target as Record<string, unknown>;
 
       for (const [name, field] of Object.entries(node.props)) {
-        const shouldIgnore = field.isOptional && (targetObject[name] === null || targetObject[name] === undefined);
+        const shouldIgnore =
+          field.isOptional && (targetObject[name] === null || targetObject[name] === undefined);
         if (!shouldIgnore) {
           errors.push(...validate(targetObject[name], field.node, [...paths, name]));
         }

@@ -14,4 +14,7 @@ function originalObjectId(): SchemaFragment<ObjectId> {
   };
 }
 
-export const objectId: typeof originalObjectId & SchemaFragment<ObjectId> = Object.assign(originalObjectId, originalObjectId());
+export const objectId: typeof originalObjectId & SchemaFragment<ObjectId> = Object.assign(
+  originalObjectId,
+  originalObjectId()
+);

@@ -316,7 +316,9 @@ describe('BasilCollection', () => {
       await Users.insertOne(users[1]);
       await Users.insertOne(users[2]);
 
-      expect((await Users.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length).toBe(1);
+      expect(
+        (await Users.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length
+      ).toBe(1);
     });
   });
 
