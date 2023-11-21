@@ -214,10 +214,11 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param filter
    * @param options
    */
-  async findOne(
+  async findOne<Key extends keyof Edges = never>(
     filter: mongodb.Filter<Entity>,
-    options: mongodb.FindOptions<Entity> = {}
-  ): Promise<Entity | null> {
+    options: Partial<EdgesOptions<{ [key in Key]: Edges[key] }, Entity>> &
+      mongodb.FindOptions<Entity> = {}
+  ): Promise<(Entity & { [key in Key]: Edges[key] }) | null> {
     const runtimeSchema = this.getRuntimeSchema();
     if (!runtimeSchema.Entity) {
       throw Error('This should not happen.');
@@ -230,7 +231,18 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
       return null;
     }
 
-    return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(result, {}));
+    const entity: Entity = Object.assign(
+      new runtimeSchema.Entity(),
+      runtimeSchema.fields.encode(result, {})
+    );
+
+    if (!options.edges) {
+      return entity as Entity & { [key in Key]: Edges[key] }; /* FIXME */
+    }
+
+    const [loadedEntity] = await this._loadEdges([entity], { edges: options.edges ?? {} });
+
+    return loadedEntity;
   }
 
   /**
@@ -241,10 +253,11 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param options.limit Limit to returned documents count
    * @param options.skip Number of returning documents to skip
    */
-  async findMany<Entity extends mongodb.Document>(
+  async findMany<Key extends keyof Edges = never>(
     filter: mongodb.Filter<Entity>,
-    options: mongodb.FindOptions<Entity> = {}
-  ): Promise<Entity[]> {
+    options: Partial<EdgesOptions<{ [key in Key]: Edges[key] }, Entity>> &
+      mongodb.FindOptions<Entity> = {}
+  ): Promise<(Entity & { [key in Key]: Edges[key] })[]> {
     const runtimeSchema = this.getRuntimeSchema();
     if (!runtimeSchema.Entity) {
       throw Error('This should not happen.');
@@ -252,13 +265,15 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
     const Entity = runtimeSchema.Entity;
     const collection = await this.getMongoCollection();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const cursor = await collection.find(filter as any, options);
-    const documents = await cursor.toArray();
-
-    return documents.map((document) => {
-      return Object.assign(new Entity(), runtimeSchema.fields.encode(document, {}) as Entity);
+    const entities = (await (await collection.find(filter, options)).toArray()).map((document) => {
+      return Object.assign(new Entity(), runtimeSchema.fields.encode(document, {}));
     });
+
+    if (!options.edges) {
+      return entities as (Entity & { [key in Key]: Edges[key] })[]; /* FIXME */
+    }
+
+    return await this._loadEdges(entities, { edges: options.edges ?? {} });
   }
 
   /**
