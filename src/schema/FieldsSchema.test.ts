@@ -1,11 +1,9 @@
 import { arrayOf, createFieldsSchema, shape } from './FieldsSchema';
 import { ObjectId } from 'mongodb';
-import { literal } from './literal';
 import { nullable } from './nullable';
 import { string } from './string';
 import { objectId } from './objectId';
 import { enums } from './enums';
-import { union } from './union';
 
 test('schema()', () => {
   {

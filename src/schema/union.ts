@@ -1,7 +1,9 @@
 import { SchemaFragment } from './types';
 import { schemaFragmentFrag } from './symbols';
 
-export function union<T extends SchemaFragment<unknown>[]>(...schemas: T): SchemaFragment<InferSchemaFragmentType<T[number]>> {
+export function union<T extends SchemaFragment<unknown>[]>(
+  ...schemas: T
+): SchemaFragment<InferSchemaFragmentType<T[number]>> {
   return {
     [schemaFragmentFrag]: true,
 
@@ -14,4 +16,6 @@ export function union<T extends SchemaFragment<unknown>[]>(...schemas: T): Schem
   };
 }
 
-type InferSchemaFragmentType<T extends SchemaFragment<unknown>> = T extends SchemaFragment<infer U> ? U : never;
+type InferSchemaFragmentType<T extends SchemaFragment<unknown>> = T extends SchemaFragment<infer U>
+  ? U
+  : never;

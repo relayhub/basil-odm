@@ -11,4 +11,7 @@ function originalNumber(): SchemaFragment<number> {
   };
 }
 
-export const number: typeof originalNumber & SchemaFragment<number> = Object.assign(originalNumber, originalNumber());
+export const number: typeof originalNumber & SchemaFragment<number> = Object.assign(
+  originalNumber,
+  originalNumber()
+);

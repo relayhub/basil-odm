@@ -31,7 +31,11 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
       if (enumsMap.has(node.name)) {
         const storedNode = enumsMap.get(node.name) as Enum;
         if (storedNode !== node && JSON.stringify(storedNode) !== JSON.stringify(node)) {
-          throw Error(`These enums node has same name but different object: ${inspect(node)} ${inspect(storedNode)}`);
+          throw Error(
+            `These enums node has same name but different object: ${inspect(node)} ${inspect(
+              storedNode
+            )}`
+          );
         }
       } else {
         enumsMap.set(node.name, node);
@@ -59,7 +63,12 @@ export function generateEnumsCode(collections: CollectionDef[]): string {
 export function generateTypeScriptFile(config: CodeGeneratorConfig): string {
   const collections = Object.values(config.schema);
 
-  return [generateHeader(config.importSource), generateDocumentTypes(collections), generateEnumsCode(collections), generateCollectionAccessObjects(collections)].join('');
+  return [
+    generateHeader(config.importSource),
+    generateDocumentTypes(collections),
+    generateEnumsCode(collections),
+    generateCollectionAccessObjects(collections),
+  ].join('');
 }
 
 export function generateCollectionAccessObjects(collections: CollectionDef[]): string {
@@ -71,7 +80,9 @@ export function generateCollectionAccessObjects(collections: CollectionDef[]): s
   function generateDbType() {
     let code = `{`;
     for (const collection of collections) {
-      code += `${JSON.stringify(collection.collectionName)}: $$basil.BasilCollection<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}>,`;
+      code += `${JSON.stringify(collection.collectionName)}: $$basil.BasilCollection<${
+        collection.entityName
+      }, ${generateEdgesType(collection, collectionMap)}>,`;
     }
     code += `}\n\n`;
     return code;
@@ -81,9 +92,15 @@ export function generateCollectionAccessObjects(collections: CollectionDef[]): s
 
   for (const collection of collections) {
     code += `
-      ${JSON.stringify(collection.collectionName)}: new $$basil.BasilCollection<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}>(() => ({
+      ${JSON.stringify(collection.collectionName)}: new $$basil.BasilCollection<${
+      collection.entityName
+    }, ${generateEdgesType(collection, collectionMap)}>(() => ({
         collectionName: ${JSON.stringify(collection.collectionName)},
-        fields: new $$basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
+        fields: new $$basil.FieldsSchema(${JSON.stringify(
+          collection.fields.getSchemaAST(),
+          null,
+          '  '
+        )}),
         Entity: ${collection.entityName},
         indexes: ${JSON.stringify(collection.indexes, null, '  ')},
         options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
@@ -115,10 +132,16 @@ export function generateDocumentTypes(collections: CollectionDef[]): string {
           super();
           Object.assign(this, params);
         }
-        static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<${collection.entityName}, ${generateEdgesType(collection, collectionMap)}> {
+        static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<${
+          collection.entityName
+        }, ${generateEdgesType(collection, collectionMap)}> {
           return {
             collectionName: ${JSON.stringify(collection.collectionName)},
-            fields: new $$basil.FieldsSchema(${JSON.stringify(collection.fields.getSchemaAST(), null, '  ')}),
+            fields: new $$basil.FieldsSchema(${JSON.stringify(
+              collection.fields.getSchemaAST(),
+              null,
+              '  '
+            )}),
             indexes: ${JSON.stringify(collection.indexes, null, '  ')},
             options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
             edges: ${generateRuntimeEdgesInfo(collection, collectionMap)},
@@ -147,12 +170,23 @@ function generateEdgesType(collection: CollectionDef, collectionMap: Map<string,
       if (!referencedCollectionDef) {
         throw Error(`Not defined collection: ${edge.collection}`);
       }
-      return `${JSON.stringify(name)}: ${referencedCollectionDef.entityName}, `;
+
+      switch (edge.type) {
+        case 'hasOne':
+          return `${JSON.stringify(name)}: ${referencedCollectionDef.entityName}, `;
+        case 'hasMany':
+          return `${JSON.stringify(name)}: ${referencedCollectionDef.entityName}[], `;
+      }
+
+      throw Error('Unknown edge type: ' + JSON.stringify(edge));
     })
     .join('')}}`;
 }
 
-function generateRuntimeEdgesInfoForCAOs(collection: CollectionDef, collectionMap: Map<string, CollectionDef>) {
+function generateRuntimeEdgesInfoForCAOs(
+  collection: CollectionDef,
+  collectionMap: Map<string, CollectionDef>
+) {
   if (!collection.edges) {
     return `{}`;
   }
@@ -163,16 +197,31 @@ function generateRuntimeEdgesInfoForCAOs(collection: CollectionDef, collectionMa
       if (!referencedCollectionDef) {
         throw Error(`Not defined collection: ${edge.collection}`);
       }
-      return `${JSON.stringify(key)}: {
+
+      switch (edge.type) {
+        case 'hasOne':
+          return `${JSON.stringify(key)}: {
   type: 'hasOne' as const,
   collection: $$db[${JSON.stringify(referencedCollectionDef.collectionName)}],
   referenceField: ${JSON.stringify(edge.referenceField)}
 },`;
+        case 'hasMany':
+          return `${JSON.stringify(key)}: {
+  type: 'hasMany' as const,
+  collection: $$db[${JSON.stringify(referencedCollectionDef.collectionName)}],
+  referenceField: ${JSON.stringify(edge.referenceField)}
+},`;
+      }
+
+      throw Error('Unknown edge type: ' + JSON.stringify(edge));
     })
     .join('\n')}}`;
 }
 
-function generateRuntimeEdgesInfo(collection: CollectionDef, collectionMap: Map<string, CollectionDef>) {
+function generateRuntimeEdgesInfo(
+  collection: CollectionDef,
+  collectionMap: Map<string, CollectionDef>
+) {
   if (!collection.edges) {
     return `{}`;
   }
@@ -183,11 +232,23 @@ function generateRuntimeEdgesInfo(collection: CollectionDef, collectionMap: Map<
       if (!referencedCollectionDef) {
         throw Error(`Not defined collection: ${edge.collection}`);
       }
-      return `${JSON.stringify(key)}: {
+
+      switch (edge.type) {
+        case 'hasOne':
+          return `${JSON.stringify(key)}: {
   type: 'hasOne' as const,
   collection: ${referencedCollectionDef.entityName},
   referenceField: ${JSON.stringify(edge.referenceField)}
 },`;
+        case 'hasMany':
+          return `${JSON.stringify(key)}: {
+  type: 'hasMany' as const,
+  collection: ${referencedCollectionDef.entityName},
+  referenceField: ${JSON.stringify(edge.referenceField)}
+},`;
+      }
+
+      throw Error('Unknown edge type: ' + JSON.stringify(edge));
     })
     .join('\n')}}`;
 }

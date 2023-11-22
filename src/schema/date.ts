@@ -11,4 +11,7 @@ function originalDate(): SchemaFragment<Date> {
   };
 }
 
-export const date: typeof originalDate & SchemaFragment<Date> = Object.assign(originalDate, originalDate());
+export const date: typeof originalDate & SchemaFragment<Date> = Object.assign(
+  originalDate,
+  originalDate()
+);

@@ -1,5 +1,5 @@
 import { Basil } from './Basil';
-import { createFieldsSchema, objectId, string, RuntimeCollectionSchema } from './index';
+import { createFieldsSchema, objectId, string } from './index';
 import * as mongodb from 'mongodb';
 import { Base } from './Base';
 
@@ -73,7 +73,9 @@ describe('Base', () => {
       const user = new User();
       expect(await User.findById(user._id)).toBe(null);
 
-      await User.insertOne(user);
+      await User.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
 
       {
         const result = await User.findById(user._id);
@@ -85,7 +87,9 @@ describe('Base', () => {
     it('should works with string "_id"', async () => {
       const user = new User2({ _id: 'foobar' });
       expect(await User2.findById(user._id)).toBe(null);
-      await User2.insertOne(user);
+      await User2.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
       expect(await User2.findById('foobar')).toBeTruthy();
     });
   });
@@ -95,7 +99,9 @@ describe('Base', () => {
       const user = new User();
       expect(await User.findById(user._id)).toBe(null);
 
-      await User.insertOne(user);
+      await User.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
 
       {
         const result = await User.findOne({ _id: user._id });
@@ -158,68 +164,6 @@ describe('Base', () => {
     });
   });
 
-  describe('loadEdges()', () => {
-    class User extends Base {
-      _id = new mongodb.ObjectId();
-
-      groupId = new mongodb.ObjectId();
-
-      constructor(source?: Partial<User>) {
-        super();
-        Object.assign(this, source);
-      }
-
-      static getRuntimeSchema(): RuntimeCollectionSchema<User, { group: Group }> {
-        return {
-          collectionName: 'users',
-          indexes: [],
-          fields: createFieldsSchema({
-            _id: objectId,
-            groupId: objectId,
-          }),
-          edges: {
-            group: {
-              type: 'hasOne' as const,
-              collection: Group,
-              referenceField: 'groupId' as const,
-            },
-          },
-        };
-      }
-    }
-
-    class Group extends Base {
-      _id = new mongodb.ObjectId();
-
-      constructor(source?: Partial<User>) {
-        super();
-        Object.assign(this, source);
-      }
-
-      static getRuntimeSchema() {
-        return {
-          collectionName: 'groups',
-          indexes: [],
-          fields: createFieldsSchema({
-            _id: objectId,
-          }),
-        };
-      }
-    }
-
-    it('should works normally', async () => {
-      const group = new Group();
-      await Group.insertOne(group);
-
-      const user = new User();
-      user.groupId = group._id;
-      await User.insertOne(user);
-
-      const [loaded] = await User.loadEdges([user], { group: true });
-      expect(loaded.group._id.equals(group._id)).toBe(true);
-    });
-  });
-
   describe('findByIds()', () => {
     it('should works normally', async () => {
       const users = [new User(), new User(), new User()];
@@ -240,7 +184,9 @@ describe('Base', () => {
       await User.insertOne(users[1]);
       await User.insertOne(users[2]);
 
-      expect((await User.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length).toBe(1);
+      expect(
+        (await User.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length
+      ).toBe(1);
     });
   });
 

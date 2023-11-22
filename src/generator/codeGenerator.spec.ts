@@ -6,7 +6,7 @@ import { date } from '../schema/date';
 import { boolean } from '../schema/boolean';
 import { string } from '../schema/string';
 import { record } from '../schema/record';
-import { hasOne } from '../schema/edges';
+import { hasOne, hasMany } from '../schema/edges';
 import { CollectionDef } from '../types';
 import { format } from '../testUtils';
 import { shape } from '../schema/FieldsSchema';
@@ -51,6 +51,29 @@ const table: {
         collectionName: 'users',
         fields: {
           _id: objectId(),
+        },
+      }),
+    ],
+  },
+  {
+    collections: [
+      collection({
+        collectionName: 'docs',
+        fields: {
+          _id: objectId(),
+          userId: objectId(),
+        },
+      }),
+      collection({
+        collectionName: 'users',
+        fields: {
+          _id: objectId(),
+        },
+        edges: {
+          docs: hasMany({
+            collection: 'docs',
+            referenceField: 'userId',
+          }),
         },
       }),
     ],

@@ -35,13 +35,35 @@ export function parseSchema(target: Record<string, unknown>): DefinedSchema {
       }
 
       for (const edge of Object.values(collectionDef.edges)) {
-        if (!collectionMap.has(edge.collection)) {
-          throw Error(`Edge collection not found: ${JSON.stringify(edge.collection)}`);
+        switch (edge.type) {
+          case 'hasOne': {
+            if (!collectionMap.has(edge.collection)) {
+              throw Error(`Edge collection not found: ${JSON.stringify(edge.collection)}`);
+            }
+
+            if (!fieldNameSet.has(edge.referenceField)) {
+              throw Error(`Reference field not found: ${JSON.stringify(edge.referenceField)}`);
+            }
+            continue;
+          }
+
+          case 'hasMany': {
+            if (!collectionMap.has(edge.collection)) {
+              throw Error(`Edge collection not found: ${JSON.stringify(edge.collection)}`);
+            }
+
+            const collection = collectionMap.get(edge.collection);
+            const fieldNameSet = new Set<string>(
+              Object.keys(collection!.fields.getSchemaAST().props)
+            );
+            if (!fieldNameSet.has(edge.referenceField)) {
+              throw Error(`Reference field not found: ${JSON.stringify(edge.referenceField)}`);
+            }
+            continue;
+          }
         }
 
-        if (!fieldNameSet.has(edge.referenceField)) {
-          throw Error(`Reference field not found: ${JSON.stringify(edge.referenceField)}`);
-        }
+        throw Error('Unknown edge type: ' + JSON.stringify(edge));
       }
     }
   }

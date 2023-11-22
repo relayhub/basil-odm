@@ -174,3 +174,77 @@ export class User extends $$basil.Base {
 }
 "
 `;
+
+exports[`generateDocumentTypes() #2 1`] = `
+"export class Doc extends $$basil.Base {
+    constructor(params?: Partial<Doc>) {
+        super();
+        Object.assign(this, params);
+    }
+    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {}> {
+        return {
+            collectionName: "docs",
+            fields: new $$basil.FieldsSchema({
+                "kind": "object",
+                "props": {
+                    "_id": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    },
+                    "userId": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    }
+                },
+                "allowAdditionalProps": false
+            }),
+            indexes: [],
+            options: {},
+            edges: {},
+        };
+    }
+    _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
+    userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();
+}
+export class User extends $$basil.Base {
+    constructor(params?: Partial<User>) {
+        super();
+        Object.assign(this, params);
+    }
+    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {
+        "docs": Doc[];
+    }> {
+        return {
+            collectionName: "users",
+            fields: new $$basil.FieldsSchema({
+                "kind": "object",
+                "props": {
+                    "_id": {
+                        "kind": "field",
+                        "isOptional": false,
+                        "node": {
+                            "kind": "objectId"
+                        }
+                    }
+                },
+                "allowAdditionalProps": false
+            }),
+            indexes: [],
+            options: {},
+            edges: { "docs": {
+                    type: "hasMany" as const,
+                    collection: Doc,
+                    referenceField: "userId"
+                }, },
+        };
+    }
+    _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
+}
+"
+`;

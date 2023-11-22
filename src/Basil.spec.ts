@@ -31,7 +31,7 @@ describe('Basil', () => {
       const col = await basil.getCollection('test');
       const doc = { _id: new ObjectId() };
       await basil.transaction({}, async (session) => {
-        await col.insertOne(doc, { writeConcern: { w: 'majority' } });
+        await col.insertOne(doc, { session });
       });
       const fetched = await col.findOne({ _id: doc._id });
       expect(fetched).not.toBe(null);

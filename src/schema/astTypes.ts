@@ -1,6 +1,14 @@
 export type FieldsSchemaRoot = ObjectNode;
 
-export type SchemaNode = ObjectNode | ArrayNode | Union | Value | Literal | Enum | Reference | RecordNode;
+export type SchemaNode =
+  | ObjectNode
+  | ArrayNode
+  | Union
+  | Value
+  | Literal
+  | Enum
+  | Reference
+  | RecordNode;
 
 export type ObjectNode = {
   kind: 'object';
@@ -52,7 +60,15 @@ export type Enum = {
   name?: string;
 };
 
-export type Value = StringValue | NumberValue | ObjectIdValue | NullValue | BooleanValue | DateValue | TimestampValue | BinaryValue;
+export type Value =
+  | StringValue
+  | NumberValue
+  | ObjectIdValue
+  | NullValue
+  | BooleanValue
+  | DateValue
+  | TimestampValue
+  | BinaryValue;
 
 export type StringValue = {
   kind: 'string';

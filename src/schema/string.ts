@@ -14,4 +14,7 @@ function originalString(options: { maxLength?: number } = {}): SchemaFragment<st
   };
 }
 
-export const string: typeof originalString & SchemaFragment<string> = Object.assign(originalString, originalString());
+export const string: typeof originalString & SchemaFragment<string> = Object.assign(
+  originalString,
+  originalString()
+);

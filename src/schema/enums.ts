@@ -2,7 +2,10 @@ import { schemaFragmentFrag } from './symbols';
 import { SchemaFragment } from './types';
 import { inspect } from 'util';
 
-export function enums<T>(props: { name?: string; values: { [K in keyof T]: T[K] } }): SchemaFragment<T[keyof T]> {
+export function enums<T>(props: {
+  name?: string;
+  values: { [K in keyof T]: T[K] };
+}): SchemaFragment<T[keyof T]> {
   const { values, name } = props;
 
   return new Enum({
@@ -34,8 +37,15 @@ class Enum<T> implements SchemaFragment<T> {
     this.name = props.name;
 
     Object.values(values).forEach((value) => {
-      if (typeof value !== 'string' && typeof value !== 'boolean' && typeof value !== 'number' && value !== null) {
-        throw Error(`Enum values must be a string, boolean, number, or null. Got "${inspect(value)}".`);
+      if (
+        typeof value !== 'string' &&
+        typeof value !== 'boolean' &&
+        typeof value !== 'number' &&
+        value !== null
+      ) {
+        throw Error(
+          `Enum values must be a string, boolean, number, or null. Got "${inspect(value)}".`
+        );
       }
     });
 

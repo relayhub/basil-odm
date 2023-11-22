@@ -167,6 +167,53 @@ describe('BasilCollection', () => {
       const users = await Users.findMany({});
       expect(users.length).toBe(2);
     });
+
+    it('should works with edges options', async () => {
+      class User {
+        _id: ObjectId = new ObjectId();
+        name: string = '';
+        parentId: ObjectId = new ObjectId();
+
+        constructor(source?: Partial<User>) {
+          Object.assign(this, source);
+        }
+      }
+      const Users: BasilCollection<User, { parent: User }> = new BasilCollection(() => ({
+        collectionName: 'users',
+        indexes: [],
+        Entity: User,
+        fields: createFieldsSchema({
+          _id: objectId,
+          name: string,
+          parentId: objectId,
+        }),
+        edges: {
+          parent: {
+            type: 'hasOne' as const,
+            collection: Users,
+            referenceField: 'parentId',
+          },
+        },
+      }));
+      const parent = new User({
+        name: 'parent',
+      });
+      const child = new User({
+        name: 'child',
+        parentId: parent._id,
+      });
+      await Users.insertOne(parent, {
+        writeConcern: { w: 'majority' },
+      });
+      await Users.insertOne(child, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const users = await Users.findById(child._id, {
+        edges: { parent: true },
+      });
+      expect(users?.parent).toBeTruthy();
+    });
   });
 
   describe('loadEdges()', () => {
@@ -179,13 +226,20 @@ describe('BasilCollection', () => {
       }
     }
 
-    const Groups = new BasilCollection<Group, object>(() => ({
+    const Groups: BasilCollection<Group, { users: User[] }> = new BasilCollection(() => ({
       collectionName: 'groups',
       indexes: [],
       Entity: Group,
       fields: createFieldsSchema({
         _id: objectId,
       }),
+      edges: {
+        users: {
+          type: 'hasMany' as const,
+          collection: Users,
+          referenceField: 'groupId',
+        },
+      },
     }));
     class User extends Base {
       _id = new mongodb.ObjectId();
@@ -198,7 +252,7 @@ describe('BasilCollection', () => {
       }
     }
 
-    const Users = new BasilCollection<User, { group: Group }>(() => ({
+    const Users: BasilCollection<User, { group: Group }> = new BasilCollection(() => ({
       collectionName: 'users',
       indexes: [],
       Entity: User,
@@ -215,7 +269,7 @@ describe('BasilCollection', () => {
       },
     }));
 
-    it('should works normally', async () => {
+    it('should works normally for hasOne() edge', async () => {
       const group = new Group();
       await Groups.insertOne(group);
 
@@ -223,8 +277,67 @@ describe('BasilCollection', () => {
       user.groupId = group._id;
       await Users.insertOne(user);
 
-      const [loaded] = await Users.loadEdges([user], { group: true });
+      const [loaded] = await Users._loadEdges([user], { edges: { group: true } });
       expect(loaded.group._id.equals(group._id)).toBe(true);
+
+      expect(async () => {
+        // type check
+        await Users._loadEdges([], { edges: {} });
+        await Users._loadEdges([], { edges: { group: true } });
+
+        // @ts-expect-error invalid edge key "foobar"
+        await Users._loadEdges([], { edges: { foobar: true } });
+      }).toBeTruthy();
+    });
+
+    it('should works normally for hasMany() edge', async () => {
+      const group = new Group();
+      await Groups.insertOne(group);
+
+      const user = new User();
+      user.groupId = group._id;
+      await Users.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const [loaded] = await Groups._loadEdges([group], { edges: { users: true } });
+      expect(typeof loaded.users.length).toBe('number');
+    });
+
+    it('should works normally for hasMany() edge and limit option', async () => {
+      const group = new Group();
+      await Groups.insertOne(group);
+
+      for (let i = 0; i < 20; i++) {
+        const user = new User();
+        user.groupId = group._id;
+        await Users.insertOne(user, {
+          writeConcern: { w: 'majority' },
+        });
+      }
+
+      const [loaded] = await Groups._loadEdges([group], {
+        edges: {
+          users: { limit: 10 },
+        },
+      });
+      expect(loaded.users.length).toBe(10);
+    });
+
+    it('should works for findById() with edges options', async () => {
+      const group = new Group();
+      await Groups.insertOne(group, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const user = new User();
+      user.groupId = group._id;
+      await Users.insertOne(user, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const loadedGroup = await Groups.findById(group._id, { edges: { users: true } });
+      expect(typeof loadedGroup?.users.length).toBe('number');
     });
   });
 
@@ -250,7 +363,9 @@ describe('BasilCollection', () => {
       await Users.insertOne(users[1]);
       await Users.insertOne(users[2]);
 
-      expect((await Users.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length).toBe(1);
+      expect(
+        (await Users.findByIds([ids[0], ids[1]], { filter: { name: 'John Doe' } })).length
+      ).toBe(1);
     });
   });
 
