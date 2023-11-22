@@ -24,7 +24,6 @@
 - [findOne](Base.md#findone)
 - [getRuntimeSchema](Base.md#getruntimeschema)
 - [insertOne](Base.md#insertone)
-- [loadEdges](Base.md#loadedges)
 - [save](Base.md#save)
 - [updateMany](Base.md#updatemany)
 - [updateOne](Base.md#updateone)
@@ -47,7 +46,7 @@
 
 #### Defined in
 
-[src/Base.ts:19](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L19)
+[src/Base.ts:20](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L20)
 
 ## Methods
 
@@ -79,7 +78,7 @@ Since the execution result will be an array of unknown type, it is recommended t
 
 #### Defined in
 
-[src/Base.ts:164](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L164)
+[src/Base.ts:100](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L100)
 
 ___
 
@@ -109,7 +108,7 @@ Gets the number of documents matching the filter.
 
 #### Defined in
 
-[src/Base.ts:283](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L283)
+[src/Base.ts:252](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L252)
 
 ___
 
@@ -139,7 +138,7 @@ Delete documents that matches the filter.
 
 #### Defined in
 
-[src/Base.ts:255](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L255)
+[src/Base.ts:216](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L216)
 
 ___
 
@@ -169,7 +168,7 @@ Delete the first document that matches the filter.
 
 #### Defined in
 
-[src/Base.ts:242](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L242)
+[src/Base.ts:199](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L199)
 
 ___
 
@@ -200,7 +199,7 @@ Returns null if the document is not found.
 
 #### Defined in
 
-[src/Base.ts:111](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L111)
+[src/Base.ts:40](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L40)
 
 ___
 
@@ -222,7 +221,7 @@ Finds documents matching an array of ids.
 | :------ | :------ | :------ |
 | `this` | [`BaseClass`](../README.md#baseclass)\<`T`, `unknown`\> | - |
 | `ids` | readonly (`string` \| `ObjectId`)[] | An array of ObjectId or string |
-| `options` | [`FindByIdsOptions`](../README.md#findbyidsoptions)\<`T`\> |  |
+| `options` | `FindByIdsOptions`\<`T`\> |  |
 
 #### Returns
 
@@ -230,7 +229,7 @@ Finds documents matching an array of ids.
 
 #### Defined in
 
-[src/Base.ts:135](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L135)
+[src/Base.ts:67](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L67)
 
 ___
 
@@ -260,7 +259,7 @@ Fetches documents that matches the filter.
 
 #### Defined in
 
-[src/Base.ts:198](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L198)
+[src/Base.ts:142](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L142)
 
 ___
 
@@ -290,7 +289,7 @@ Fetches the first document that matches the filter.
 
 #### Defined in
 
-[src/Base.ts:177](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L177)
+[src/Base.ts:117](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L117)
 
 ___
 
@@ -304,7 +303,7 @@ ___
 
 #### Defined in
 
-[src/Base.ts:24](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L24)
+[src/Base.ts:25](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L25)
 
 ___
 
@@ -334,37 +333,7 @@ Inserts a passed entity into the collection.
 
 #### Defined in
 
-[src/Base.ts:268](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L268)
-
-___
-
-### loadEdges
-
-▸ **loadEdges**\<`Entity`, `Edges`, `EdgeKey`\>(`this`, `objects`, `edges`): `Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Entity` | `Entity` |
-| `Edges` | `Edges` |
-| `EdgeKey` | extends `string` \| `number` \| `symbol` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `this` | [`BaseClass`](../README.md#baseclass)\<`Entity`, `Edges`\> |
-| `objects` | `Entity`[] |
-| `edges` | `Record`\<`EdgeKey`, ``true``\> |
-
-#### Returns
-
-`Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
-
-#### Defined in
-
-[src/Base.ts:32](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L32)
+[src/Base.ts:233](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L233)
 
 ___
 
@@ -394,7 +363,7 @@ Save changes to a document persisted in the collection.
 
 #### Defined in
 
-[src/Base.ts:217](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L217)
+[src/Base.ts:165](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L165)
 
 ___
 
@@ -425,7 +394,7 @@ Update multiple documents in a collection.
 
 #### Defined in
 
-[src/Base.ts:296](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L296)
+[src/Base.ts:269](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L269)
 
 ___
 
@@ -456,4 +425,4 @@ Update a single document in a collection.
 
 #### Defined in
 
-[src/Base.ts:314](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L314)
+[src/Base.ts:287](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L287)

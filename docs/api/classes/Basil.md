@@ -10,17 +10,17 @@
 
 ### Properties
 
-- [\_client](Basil.md#_client)
+- [\_mongoClient](Basil.md#_mongoclient)
 - [\_queue](Basil.md#_queue)
 - [\_settings](Basil.md#_settings)
 - [\_timeoutIds](Basil.md#_timeoutids)
 
 ### Accessors
 
-- [client](Basil.md#client)
 - [clientOptions](Basil.md#clientoptions)
 - [connectionUri](Basil.md#connectionuri)
 - [databaseName](Basil.md#databasename)
+- [mongoClient](Basil.md#mongoclient)
 - [settings](Basil.md#settings)
 
 ### Methods
@@ -28,11 +28,13 @@
 - [configure](Basil.md#configure)
 - [disconnect](Basil.md#disconnect)
 - [flushQueue](Basil.md#flushqueue)
+- [getCollection](Basil.md#getcollection)
 - [getDatabase](Basil.md#getdatabase)
 - [handleClose](Basil.md#handleclose)
 - [isConfigured](Basil.md#isconfigured)
 - [loadConfig](Basil.md#loadconfig)
 - [queue](Basil.md#queue)
+- [transaction](Basil.md#transaction)
 - [useCollection](Basil.md#usecollection)
 - [useDatabase](Basil.md#usedatabase)
 - [connect](Basil.md#connect)
@@ -50,13 +52,13 @@
 
 ## Properties
 
-### \_client
+### \_mongoClient
 
-• `Optional` **\_client**: `MongoClient`
+• `Optional` **\_mongoClient**: `MongoClient`
 
 #### Defined in
 
-[src/Basil.ts:8](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L8)
+[src/Basil.ts:8](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L8)
 
 ___
 
@@ -66,17 +68,17 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:11](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L11)
+[src/Basil.ts:11](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L11)
 
 ___
 
 ### \_settings
 
-• `Optional` **\_settings**: [`BasilSettings`](../interfaces/BasilSettings.md)
+• `Optional` **\_settings**: [`ResolvedConfig`](../interfaces/ResolvedConfig.md)
 
 #### Defined in
 
-[src/Basil.ts:9](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L9)
+[src/Basil.ts:9](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L9)
 
 ___
 
@@ -86,23 +88,9 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:12](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L12)
+[src/Basil.ts:12](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L12)
 
 ## Accessors
-
-### client
-
-• `get` **client**(): `MongoClient`
-
-#### Returns
-
-`MongoClient`
-
-#### Defined in
-
-[src/Basil.ts:49](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L49)
-
-___
 
 ### clientOptions
 
@@ -114,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:61](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L61)
+[src/Basil.ts:82](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L82)
 
 ___
 
@@ -128,7 +116,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:57](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L57)
+[src/Basil.ts:78](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L78)
 
 ___
 
@@ -142,21 +130,35 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:65](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L65)
+[src/Basil.ts:86](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L86)
+
+___
+
+### mongoClient
+
+• `get` **mongoClient**(): `MongoClient`
+
+#### Returns
+
+`MongoClient`
+
+#### Defined in
+
+[src/Basil.ts:70](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L70)
 
 ___
 
 ### settings
 
-• `get` **settings**(): [`BasilSettings`](../interfaces/BasilSettings.md)
+• `get` **settings**(): [`ResolvedConfig`](../interfaces/ResolvedConfig.md)
 
 #### Returns
 
-[`BasilSettings`](../interfaces/BasilSettings.md)
+[`ResolvedConfig`](../interfaces/ResolvedConfig.md)
 
 #### Defined in
 
-[src/Basil.ts:41](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L41)
+[src/Basil.ts:62](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L62)
 
 ## Methods
 
@@ -168,7 +170,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `settings` | [`BasilSettings`](../interfaces/BasilSettings.md) |
+| `settings` | [`ResolvedConfig`](../interfaces/ResolvedConfig.md) |
 
 #### Returns
 
@@ -176,7 +178,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:14](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L14)
+[src/Basil.ts:14](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L14)
 
 ___
 
@@ -190,7 +192,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:69](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L69)
+[src/Basil.ts:90](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L90)
 
 ___
 
@@ -204,7 +206,33 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:88](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L88)
+[src/Basil.ts:111](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L111)
+
+___
+
+### getCollection
+
+▸ **getCollection**\<`T`\>(`collectionName`): `Promise`\<`Collection`\<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `Document` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `collectionName` | `string` |
+
+#### Returns
+
+`Promise`\<`Collection`\<`T`\>\>
+
+#### Defined in
+
+[src/Basil.ts:156](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L156)
 
 ___
 
@@ -218,7 +246,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:120](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L120)
+[src/Basil.ts:143](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L143)
 
 ___
 
@@ -232,7 +260,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:29](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L29)
+[src/Basil.ts:50](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L50)
 
 ___
 
@@ -246,7 +274,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:37](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L37)
+[src/Basil.ts:58](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L58)
 
 ___
 
@@ -266,7 +294,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:33](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L33)
+[src/Basil.ts:54](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L54)
 
 ___
 
@@ -286,7 +314,30 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:73](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L73)
+[src/Basil.ts:94](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L94)
+
+___
+
+### transaction
+
+▸ **transaction**(`«destructured»`, `callback`): `Promise`\<`void`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `«destructured»` | `Object` |
+| › `sessionOptions?` | `ClientSessionOptions` |
+| › `transactionOptions?` | `TransactionOptions` |
+| `callback` | (`session`: `ClientSession`) => `void` \| `Promise`\<`void`\> |
+
+#### Returns
+
+`Promise`\<`void`\>
+
+#### Defined in
+
+[src/Basil.ts:29](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L29)
 
 ___
 
@@ -314,7 +365,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:133](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L133)
+[src/Basil.ts:163](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L163)
 
 ___
 
@@ -340,7 +391,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:106](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L106)
+[src/Basil.ts:129](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L129)
 
 ___
 
@@ -360,7 +411,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:159](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L159)
+[src/Basil.ts:192](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L192)
 
 ___
 
@@ -374,4 +425,4 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:155](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L155)
+[src/Basil.ts:188](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L188)

@@ -22,6 +22,7 @@
 
 ### Methods
 
+- [\_loadEdges](BasilCollection.md#_loadedges)
 - [aggregate](BasilCollection.md#aggregate)
 - [count](BasilCollection.md#count)
 - [deleteMany](BasilCollection.md#deletemany)
@@ -30,8 +31,9 @@
 - [findByIds](BasilCollection.md#findbyids)
 - [findMany](BasilCollection.md#findmany)
 - [findOne](BasilCollection.md#findone)
+- [getMongoCollection](BasilCollection.md#getmongocollection)
+- [insertMany](BasilCollection.md#insertmany)
 - [insertOne](BasilCollection.md#insertone)
-- [loadEdges](BasilCollection.md#loadedges)
 - [save](BasilCollection.md#save)
 - [updateMany](BasilCollection.md#updatemany)
 - [updateOne](BasilCollection.md#updateone)
@@ -61,7 +63,7 @@
 
 #### Defined in
 
-[src/BasilCollection.ts:17](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L17)
+[src/BasilCollection.ts:17](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L17)
 
 ## Properties
 
@@ -71,7 +73,7 @@
 
 #### Defined in
 
-[src/BasilCollection.ts:10](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L10)
+[src/BasilCollection.ts:10](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L10)
 
 ___
 
@@ -89,9 +91,36 @@ ___
 
 #### Defined in
 
-[src/BasilCollection.ts:15](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L15)
+[src/BasilCollection.ts:15](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L15)
 
 ## Methods
+
+### \_loadEdges
+
+▸ **_loadEdges**\<`Key`\>(`objects`, `options`): `Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Key` | extends `string` \| `number` \| `symbol` = `never` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `objects` | `Entity`[] |
+| `options` | [`EdgesOptions`](../README.md#edgesoptions)\<\{ [key in string \| number \| symbol]: Edges[key] }, `Entity`\> |
+
+#### Returns
+
+`Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
+
+#### Defined in
+
+[src/BasilCollection.ts:22](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L22)
+
+___
 
 ### aggregate
 
@@ -114,7 +143,7 @@ Since the execution result will be an array of unknown type, it is recommended t
 
 #### Defined in
 
-[src/BasilCollection.ts:157](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L157)
+[src/BasilCollection.ts:212](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L212)
 
 ___
 
@@ -137,7 +166,7 @@ Gets the number of documents matching the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:283](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L283)
+[src/BasilCollection.ts:397](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L397)
 
 ___
 
@@ -160,21 +189,15 @@ Delete documents that matches the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:255](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L255)
+[src/BasilCollection.ts:345](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L345)
 
 ___
 
 ### deleteOne
 
-▸ **deleteOne**\<`Entity`\>(`filter`, `options?`): `Promise`\<`DeleteResult`\>
+▸ **deleteOne**(`filter`, `options?`): `Promise`\<`DeleteResult`\>
 
 Delete the first document that matches the filter.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Entity` | extends `Object` |
 
 #### Parameters
 
@@ -189,60 +212,72 @@ Delete the first document that matches the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:242](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L242)
+[src/BasilCollection.ts:330](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L330)
 
 ___
 
 ### findById
 
-▸ **findById**(`id`, `options?`): `Promise`\<``null`` \| `Entity`\>
+▸ **findById**\<`Key`\>(`id`, `options?`): `Promise`\<``null`` \| `Entity` & \{ [key in string \| number \| symbol]: Edges[key] }\>
 
 Returns a document matching the passed id value. The id value is used to match the `_id` field.
 Returns null if the document is not found.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Key` | extends `string` \| `number` \| `symbol` = `never` |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `id` | `string` \| `ObjectId` |  |
-| `options` | `FindOptions`\<`Entity`\> | Same value as the option passed to `findOne()` |
+| `options` | `Partial`\<[`EdgesOptions`](../README.md#edgesoptions)\<\{ [key in string \| number \| symbol]: Edges[key] }, `Entity`\>\> & `FindOptions`\<`Entity`\> | Same value as the option passed to `findOne()` |
 
 #### Returns
 
-`Promise`\<``null`` \| `Entity`\>
+`Promise`\<``null`` \| `Entity` & \{ [key in string \| number \| symbol]: Edges[key] }\>
 
 #### Defined in
 
-[src/BasilCollection.ts:94](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L94)
+[src/BasilCollection.ts:128](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L128)
 
 ___
 
 ### findByIds
 
-▸ **findByIds**(`ids`, `options?`): `Promise`\<`Entity`[]\>
+▸ **findByIds**\<`Key`\>(`ids`, `options?`): `Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
 
 Finds documents matching an array of ids.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Key` | extends `string` \| `number` \| `symbol` = `never` |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `ids` | readonly (`string` \| `ObjectId`)[] | An array of ObjectId or string |
-| `options` | `FindByIdsOptions`\<`Entity`\> |  |
+| `options` | `Partial`\<[`EdgesOptions`](../README.md#edgesoptions)\<\{ [key in string \| number \| symbol]: Edges[key] }, `Entity`\>\> & `FindOptions`\<`Entity`\> & \{ `filter?`: `Filter`\<`Entity`\>  } |  |
 
 #### Returns
 
-`Promise`\<`Entity`[]\>
+`Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
 
 #### Defined in
 
-[src/BasilCollection.ts:122](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L122)
+[src/BasilCollection.ts:171](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L171)
 
 ___
 
 ### findMany
 
-▸ **findMany**\<`Entity`\>(`filter`, `options?`): `Promise`\<`Entity`[]\>
+▸ **findMany**\<`Key`\>(`filter`, `options?`): `Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
 
 Fetches documents that matches the filter.
 
@@ -250,51 +285,98 @@ Fetches documents that matches the filter.
 
 | Name | Type |
 | :------ | :------ |
-| `Entity` | extends `Document` |
+| `Key` | extends `string` \| `number` \| `symbol` = `never` |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `filter` | `Filter`\<`Entity`\> | The filter used to select the document |
-| `options` | `FindOptions`\<`Entity`\> |  |
+| `options` | `Partial`\<[`EdgesOptions`](../README.md#edgesoptions)\<\{ [key in string \| number \| symbol]: Edges[key] }, `Entity`\>\> & `FindOptions`\<`Entity`\> |  |
 
 #### Returns
 
-`Promise`\<`Entity`[]\>
+`Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
 
 #### Defined in
 
-[src/BasilCollection.ts:194](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L194)
+[src/BasilCollection.ts:265](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L265)
 
 ___
 
 ### findOne
 
-▸ **findOne**(`filter`, `options?`): `Promise`\<``null`` \| `Entity`\>
+▸ **findOne**\<`Key`\>(`filter`, `options?`): `Promise`\<``null`` \| `Entity` & \{ [key in string \| number \| symbol]: Edges[key] }\>
 
 Fetches the first document that matches the filter.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Key` | extends `string` \| `number` \| `symbol` = `never` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `filter` | `Filter`\<`Entity`\> |
-| `options` | `FindOptions`\<`Entity`\> |
+| `options` | `Partial`\<[`EdgesOptions`](../README.md#edgesoptions)\<\{ [key in string \| number \| symbol]: Edges[key] }, `Entity`\>\> & `FindOptions`\<`Entity`\> |
 
 #### Returns
 
-`Promise`\<``null`` \| `Entity`\>
+`Promise`\<``null`` \| `Entity` & \{ [key in string \| number \| symbol]: Edges[key] }\>
 
 #### Defined in
 
-[src/BasilCollection.ts:169](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L169)
+[src/BasilCollection.ts:226](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L226)
+
+___
+
+### getMongoCollection
+
+▸ **getMongoCollection**(): `Promise`\<`Collection`\<`Entity`\>\>
+
+Returns a collection object.
+
+#### Returns
+
+`Promise`\<`Collection`\<`Entity`\>\>
+
+MongoDB native driver's collection object
+
+#### Defined in
+
+[src/BasilCollection.ts:292](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L292)
+
+___
+
+### insertMany
+
+▸ **insertMany**(`entities`, `options?`): `Promise`\<`InsertManyResult`\<`Entity`\>\>
+
+Inserts passed entities into the collection.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `entities` | `Entity`[] |
+| `options` | `BulkWriteOptions` |
+
+#### Returns
+
+`Promise`\<`InsertManyResult`\<`Entity`\>\>
+
+#### Defined in
+
+[src/BasilCollection.ts:379](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L379)
 
 ___
 
 ### insertOne
 
-▸ **insertOne**(`entity`, `options?`): `Promise`\<`InsertOneResult`\<`WithId`\<`Entity`\>\>\>
+▸ **insertOne**(`entity`, `options?`): `Promise`\<`InsertOneResult`\<`Entity`\>\>
 
 Inserts a passed entity into the collection.
 
@@ -307,32 +389,11 @@ Inserts a passed entity into the collection.
 
 #### Returns
 
-`Promise`\<`InsertOneResult`\<`WithId`\<`Entity`\>\>\>
+`Promise`\<`InsertOneResult`\<`Entity`\>\>
 
 #### Defined in
 
-[src/BasilCollection.ts:267](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L267)
-
-___
-
-### loadEdges
-
-▸ **loadEdges**(`objects`, `edges`): `Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `objects` | `Entity`[] |
-| `edges` | \{ [key in string \| number \| symbol]: true } |
-
-#### Returns
-
-`Promise`\<`Entity` & \{ [key in string \| number \| symbol]: Edges[key] }[]\>
-
-#### Defined in
-
-[src/BasilCollection.ts:21](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L21)
+[src/BasilCollection.ts:359](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L359)
 
 ___
 
@@ -355,7 +416,7 @@ Save changes to a document persisted in the collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:217](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L217)
+[src/BasilCollection.ts:303](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L303)
 
 ___
 
@@ -379,7 +440,7 @@ Update multiple documents in a collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:296](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L296)
+[src/BasilCollection.ts:409](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L409)
 
 ___
 
@@ -403,4 +464,4 @@ Update a single document in a collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:309](https://github.com/anatoo/basil-odm/blob/5373178/src/BasilCollection.ts#L309)
+[src/BasilCollection.ts:425](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L425)

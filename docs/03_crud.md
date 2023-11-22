@@ -38,13 +38,19 @@ export class User extends basil.Base {
   email: string = '';
   createdAt: Date = new Date();
 }
+
+export default {
+  users: new basil.BasilCollection({
+    // ...
+  }),
+};
 ```
 
-You can access the `users` collection in MongoDB through this `User` class.
+This generated code export a `User` class and a `users` collection. These classes and objects are used to access the database.
 
 ## Create
 
-You can also create an entity of a collection by instantiating the `User` class.
+You can create an entity of a collection by instantiating the `User` class.
 
 ```typescript
 import { User } from './basil-gen'; // import generated models
@@ -70,7 +76,7 @@ const user = new User({
 To make the created entities persistent, insert data into the collection using the `insertOne()` method.
 
 ```typescript
-import { User } from './basil-gen'; // import generated models
+import db, { User } from './basil-gen'; // import generated models
 
 (async () => {
   const user = new User({
@@ -78,7 +84,7 @@ import { User } from './basil-gen'; // import generated models
     email: 'anatoo.jp@gmail.com'
   });
 
-  await User.insertOne(user);
+  await db.users.insertOne(user);
 })();
 ```
 
@@ -87,19 +93,19 @@ import { User } from './basil-gen'; // import generated models
 Entities can be retrieved by using the `findOne()` method, for example. To update an entity already in the collection, you can use the `save()` method.
 
 ```typescript
-import { User } from './basil-gen'; // import generated models
+import db, { User } from './basil-gen'; // import generated models
 
 (async () => {
-  const user = await User.findOne({
+  const user = await db.users.findOne({
     email: 'anatoo.jp@gmail.com',
   });
   
   user.name = "@anatoo";
 
-  await User.save(user);
+  await db.users.save(user);
 })();
 ```
 
 ## Other operations
 
-To find the available methods, see [`Base` class reference](./api/classes/Base.md).
+To find the available methods, see [`BasilCollection` class reference](./api/classes/BasilCollection.md).

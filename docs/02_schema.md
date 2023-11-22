@@ -169,7 +169,6 @@ These options are applied when the collection is created. The options available 
 
 For other options, see [CollectionOptions](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/CollectionOptions.html) in MongoDB's Node.js driver.
 
-
 ## Enums
 
 You can define an enum type in the schema with `enums()` function.

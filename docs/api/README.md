@@ -13,7 +13,7 @@ basil-odm
 
 ### Interfaces
 
-- [BasilSettings](interfaces/BasilSettings.md)
+- [ResolvedConfig](interfaces/ResolvedConfig.md)
 
 ### Type Aliases
 
@@ -21,6 +21,8 @@ basil-odm
 - [CollectionDef](README.md#collectiondef)
 - [CollectionOptions](README.md#collectionoptions)
 - [DefinedSchema](README.md#definedschema)
+- [EdgeOptions](README.md#edgeoptions)
+- [EdgesOptions](README.md#edgesoptions)
 - [FindByIdsOptions](README.md#findbyidsoptions)
 - [Index](README.md#index)
 - [IndexFields](README.md#indexfields)
@@ -30,12 +32,13 @@ basil-odm
 ### Variables
 
 - [basil](README.md#basil)
-- [getSchemaFragmentSymbol](README.md#getschemafragmentsymbol)
 - [optionalPropertyFlag](README.md#optionalpropertyflag)
 - [schemaFragmentFrag](README.md#schemafragmentfrag)
 
 ### Functions
 
+- [arrayOf](README.md#arrayof)
+- [arrayOfShape](README.md#arrayofshape)
 - [boolean](README.md#boolean)
 - [collection](README.md#collection)
 - [configure](README.md#configure)
@@ -45,18 +48,19 @@ basil-odm
 - [disconnect](README.md#disconnect)
 - [enums](README.md#enums)
 - [generateCode](README.md#generatecode)
-- [getSchemaFragment](README.md#getschemafragment)
+- [hasMany](README.md#hasmany)
 - [hasOne](README.md#hasone)
 - [index](README.md#index-1)
 - [literal](README.md#literal)
 - [loadConfig](README.md#loadconfig)
 - [nullable](README.md#nullable)
 - [number](README.md#number)
-- [object](README.md#object)
 - [objectId](README.md#objectid)
 - [prepareDb](README.md#preparedb)
 - [record](README.md#record)
+- [shape](README.md#shape)
 - [string](README.md#string)
+- [union](README.md#union)
 - [validateConfig](README.md#validateconfig)
 
 ## Type Aliases
@@ -74,7 +78,7 @@ basil-odm
 
 #### Defined in
 
-[src/Base.ts:11](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L11)
+[src/Base.ts:10](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Base.ts#L10)
 
 ___
 
@@ -86,16 +90,17 @@ ___
 
 | Name | Type |
 | :------ | :------ |
+| `[collectionDefSymbol]` | ``true`` |
 | `collectionName` | `string` |
 | `edges?` | `Record`\<`string`, `Edge`\> |
 | `entityName` | `string` |
-| `fields` | [`FieldsSchema`](classes/FieldsSchema.md) |
+| `fields` | [`FieldsSchema`](classes/FieldsSchema.md)\<`unknown`\> |
 | `indexes` | [`Index`](README.md#index)[] |
 | `options?` | [`CollectionOptions`](README.md#collectionoptions) |
 
 #### Defined in
 
-[src/types.ts:28](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L28)
+[src/types.ts:32](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L32)
 
 ___
 
@@ -105,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:26](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L26)
+[src/types.ts:25](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L25)
 
 ___
 
@@ -115,7 +120,46 @@ ___
 
 #### Defined in
 
-[src/types.ts:58](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L58)
+[src/types.ts:69](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L69)
+
+___
+
+### EdgeOptions
+
+Ƭ **EdgeOptions**\<`Entity`\>: ``true`` \| `mongodb.FindOptions`\<`Entity` extends `mongodb.Document` ? `mongodb.Document` : `Record`\<`string`, `never`\>\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Entity` |
+
+#### Defined in
+
+[src/types.ts:75](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L75)
+
+___
+
+### EdgesOptions
+
+Ƭ **EdgesOptions**\<`SubsetEdges`, `Entity`\>: `Object`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `SubsetEdges` |
+| `Entity` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `edges` | \{ [K in keyof SubsetEdges]: EdgeOptions\<Entity\> } |
+
+#### Defined in
+
+[src/types.ts:79](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L79)
 
 ___
 
@@ -131,7 +175,7 @@ ___
 
 #### Defined in
 
-[src/Base.ts:16](https://github.com/anatoo/basil-odm/blob/5373178/src/Base.ts#L16)
+[src/types.ts:71](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L71)
 
 ___
 
@@ -148,7 +192,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:21](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L21)
+[src/types.ts:20](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L20)
 
 ___
 
@@ -162,17 +206,17 @@ ___
 
 #### Defined in
 
-[src/types.ts:14](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L14)
+[src/types.ts:13](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L13)
 
 ___
 
 ### IndexOptions
 
-Ƭ **IndexOptions**: \{ `sparse?`: `boolean` ; `unique?`: `boolean`  } & `CreateIndexesOptions`
+Ƭ **IndexOptions**: \{ `sparse?`: `boolean` ; `unique?`: `boolean`  } & `mongodb.CreateIndexesOptions`
 
 #### Defined in
 
-[src/types.ts:16](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L16)
+[src/types.ts:15](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L15)
 
 ___
 
@@ -196,13 +240,13 @@ ___
 | `_type?` | `Entity` |
 | `collectionName` | `string` |
 | `edges?` | `Record`\<`string`, `RuntimeEdge`\> |
-| `fields` | [`FieldsSchema`](classes/FieldsSchema.md) |
+| `fields` | [`FieldsSchema`](classes/FieldsSchema.md)\<`unknown`\> |
 | `indexes` | [`Index`](README.md#index)[] |
 | `options?` | [`CollectionOptions`](README.md#collectionoptions) |
 
 #### Defined in
 
-[src/types.ts:37](https://github.com/anatoo/basil-odm/blob/5373178/src/types.ts#L37)
+[src/types.ts:42](https://github.com/anatoo/basil-odm/blob/15cf09f/src/types.ts#L42)
 
 ## Variables
 
@@ -212,17 +256,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:168](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L168)
-
-___
-
-### getSchemaFragmentSymbol
-
-• `Const` **getSchemaFragmentSymbol**: typeof [`getSchemaFragmentSymbol`](README.md#getschemafragmentsymbol)
-
-#### Defined in
-
-[src/schema/symbols.ts:3](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/symbols.ts#L3)
+[src/Basil.ts:201](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L201)
 
 ___
 
@@ -232,7 +266,7 @@ ___
 
 #### Defined in
 
-[src/schema/symbols.ts:1](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/symbols.ts#L1)
+[src/schema/symbols.ts:1](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/symbols.ts#L1)
 
 ___
 
@@ -242,21 +276,73 @@ ___
 
 #### Defined in
 
-[src/schema/symbols.ts:2](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/symbols.ts#L2)
+[src/schema/symbols.ts:2](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/symbols.ts#L2)
 
 ## Functions
 
-### boolean
+### arrayOf
 
-▸ **boolean**(): `SchemaFragment`
+▸ **arrayOf**\<`T`\>(`fragment`): `SchemaFragment`\<`T`[]\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `fragment` | `SchemaFragment`\<`T`\> |
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`T`[]\>
 
 #### Defined in
 
-[src/schema/boolean.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/boolean.ts#L4)
+[src/schema/FieldsSchema.ts:32](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L32)
+
+___
+
+### arrayOfShape
+
+▸ **arrayOfShape**\<`T`\>(`object`): `SchemaFragment`\<`T`[]\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `object` | `ObjectSchemaSource`\<`T`\> |
+
+#### Returns
+
+`SchemaFragment`\<`T`[]\>
+
+#### Defined in
+
+[src/schema/FieldsSchema.ts:82](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L82)
+
+___
+
+### boolean
+
+▸ **boolean**(): `SchemaFragment`\<`boolean`\>
+
+#### Returns
+
+`SchemaFragment`\<`boolean`\>
+
+#### Defined in
+
+[src/schema/boolean.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/boolean.ts#L4)
 
 ___
 
@@ -276,7 +362,7 @@ ___
 
 #### Defined in
 
-[src/schema/collection.ts:15](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/collection.ts#L15)
+[src/schema/collection.ts:15](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/collection.ts#L15)
 
 ___
 
@@ -290,7 +376,7 @@ Set connection information by code without using a configuration file.
 
 | Name | Type |
 | :------ | :------ |
-| `settings` | [`BasilSettings`](interfaces/BasilSettings.md) |
+| `settings` | [`ResolvedConfig`](interfaces/ResolvedConfig.md) |
 
 #### Returns
 
@@ -298,63 +384,67 @@ Set connection information by code without using a configuration file.
 
 #### Defined in
 
-[src/Basil.ts:175](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L175)
+[src/Basil.ts:208](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L208)
 
 ___
 
 ### createFieldsSchema
 
-▸ **createFieldsSchema**(`source`): [`FieldsSchema`](classes/FieldsSchema.md)
+▸ **createFieldsSchema**\<`T`\>(`source`): [`FieldsSchema`](classes/FieldsSchema.md)\<`T`\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `source` | `ObjectSchemaSource` |
+| `source` | `ObjectSchemaSource`\<`T`\> |
 
 #### Returns
 
-[`FieldsSchema`](classes/FieldsSchema.md)
+[`FieldsSchema`](classes/FieldsSchema.md)\<`T`\>
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:100](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/FieldsSchema.ts#L100)
+[src/schema/FieldsSchema.ts:45](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L45)
 
 ___
 
 ### createSettings
 
-▸ **createSettings**(`config`, `«destructured»`): `Promise`\<[`BasilSettings`](interfaces/BasilSettings.md)\>
+▸ **createSettings**(`config`): [`ResolvedConfig`](interfaces/ResolvedConfig.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `config` | `Config` |
-| `«destructured»` | `Object` |
-| › `configPath` | `string` |
 
 #### Returns
 
-`Promise`\<[`BasilSettings`](interfaces/BasilSettings.md)\>
+[`ResolvedConfig`](interfaces/ResolvedConfig.md)
 
 #### Defined in
 
-[src/Config.ts:62](https://github.com/anatoo/basil-odm/blob/5373178/src/Config.ts#L62)
+[src/Config.ts:66](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Config.ts#L66)
 
 ___
 
 ### date
 
-▸ **date**(): `SchemaFragment`
+▸ **date**(): `SchemaFragment`\<`Date`\>
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`Date`\>
 
 #### Defined in
 
-[src/schema/date.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/date.ts#L4)
+[src/schema/date.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/date.ts#L4)
 
 ___
 
@@ -372,13 +462,19 @@ Explicitly call this function when exiting the application, exiting a test, or e
 
 #### Defined in
 
-[src/Basil.ts:184](https://github.com/anatoo/basil-odm/blob/5373178/src/Basil.ts#L184)
+[src/Basil.ts:217](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Basil.ts#L217)
 
 ___
 
 ### enums
 
-▸ **enums**(`props`): `SchemaFragment`
+▸ **enums**\<`T`\>(`props`): `SchemaFragment`\<`T`[keyof `T`]\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
 
 #### Parameters
 
@@ -386,15 +482,15 @@ ___
 | :------ | :------ |
 | `props` | `Object` |
 | `props.name?` | `string` |
-| `props.values` | `Record`\<`string`, `Value`\> \| `Record`\<`number`, `Value`\> |
+| `props.values` | \{ [K in string \| number \| symbol]: T[K] } |
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`T`[keyof `T`]\>
 
 #### Defined in
 
-[src/schema/enums.ts:5](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/enums.ts#L5)
+[src/schema/enums.ts:5](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/enums.ts#L5)
 
 ___
 
@@ -414,27 +510,27 @@ ___
 
 #### Defined in
 
-[src/generator/codeGenerator.ts:204](https://github.com/anatoo/basil-odm/blob/5373178/src/generator/codeGenerator.ts#L204)
+[src/generator/codeGenerator.ts:266](https://github.com/anatoo/basil-odm/blob/15cf09f/src/generator/codeGenerator.ts#L266)
 
 ___
 
-### getSchemaFragment
+### hasMany
 
-▸ **getSchemaFragment**(`target`): `SchemaFragment`
+▸ **hasMany**(`props`): `HasMany`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `target` | `SchemaLike` |
+| `props` | `Omit`\<`HasMany`, ``"type"``\> |
 
 #### Returns
 
-`SchemaFragment`
+`HasMany`
 
 #### Defined in
 
-[src/schema/utils.ts:6](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/utils.ts#L6)
+[src/schema/edges.ts:10](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/edges.ts#L10)
 
 ___
 
@@ -454,7 +550,7 @@ ___
 
 #### Defined in
 
-[src/schema/edges.ts:3](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/edges.ts#L3)
+[src/schema/edges.ts:3](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/edges.ts#L3)
 
 ___
 
@@ -475,33 +571,39 @@ ___
 
 #### Defined in
 
-[src/schema/createIndex.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/createIndex.ts#L4)
+[src/schema/createIndex.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/createIndex.ts#L4)
 
 ___
 
 ### literal
 
-▸ **literal**(`value`): `SchemaFragment`
+▸ **literal**\<`T`\>(`value`): `SchemaFragment`\<`T`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends ``null`` \| `string` \| `number` \| `boolean` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `value` | ``null`` \| `string` \| `number` \| `boolean` |
+| `value` | `T` |
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`T`\>
 
 #### Defined in
 
-[src/schema/literal.ts:5](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/literal.ts#L5)
+[src/schema/literal.ts:5](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/literal.ts#L5)
 
 ___
 
 ### loadConfig
 
-▸ **loadConfig**(`configPath?`, `«destructured»?`): `Promise`\<[`BasilSettings`](interfaces/BasilSettings.md)\>
+▸ **loadConfig**(`configPath?`, `«destructured»?`): `Promise`\<[`ResolvedConfig`](interfaces/ResolvedConfig.md)\>
 
 #### Parameters
 
@@ -513,91 +615,78 @@ ___
 
 #### Returns
 
-`Promise`\<[`BasilSettings`](interfaces/BasilSettings.md)\>
+`Promise`\<[`ResolvedConfig`](interfaces/ResolvedConfig.md)\>
 
 #### Defined in
 
-[src/Config.ts:42](https://github.com/anatoo/basil-odm/blob/5373178/src/Config.ts#L42)
+[src/Config.ts:42](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Config.ts#L42)
 
 ___
 
 ### nullable
 
-▸ **nullable**\<`T`\>(`schemaLike`): `SchemaFragment`
+▸ **nullable**\<`T`\>(`fragment`): `SchemaFragment`\<``null`` \| `T`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `SchemaLike` |
+| Name |
+| :------ |
+| `T` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `schemaLike` | `T` |
+| `fragment` | `SchemaFragment`\<`T`\> |
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<``null`` \| `T`\>
 
 #### Defined in
 
-[src/schema/nullable.ts:5](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/nullable.ts#L5)
+[src/schema/nullable.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/nullable.ts#L4)
 
 ___
 
 ### number
 
-▸ **number**(): `SchemaFragment`
+▸ **number**(): `SchemaFragment`\<`number`\>
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`number`\>
 
 #### Defined in
 
-[src/schema/number.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/number.ts#L4)
-
-___
-
-### object
-
-▸ **object**(): `SchemaFragment`
-
-#### Returns
-
-`SchemaFragment`
-
-#### Defined in
-
-[src/schema/object.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/object.ts#L4)
+[src/schema/number.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/number.ts#L4)
 
 ___
 
 ### objectId
 
-▸ **objectId**(): `SchemaFragment`
+▸ **objectId**(): `SchemaFragment`\<`ObjectId`\>
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`ObjectId`\>
 
 #### Defined in
 
-[src/schema/objectId.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/objectId.ts#L4)
+[src/schema/objectId.ts:5](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/objectId.ts#L5)
 
 ___
 
 ### prepareDb
 
-▸ **prepareDb**(`schema`): `Promise`\<`void`\>
+▸ **prepareDb**(`schema`, `config?`): `Promise`\<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `schema` | [`DefinedSchema`](README.md#definedschema) |
+| `config?` | [`ResolvedConfig`](interfaces/ResolvedConfig.md) |
 
 #### Returns
 
@@ -605,39 +694,65 @@ ___
 
 #### Defined in
 
-[src/utils.ts:45](https://github.com/anatoo/basil-odm/blob/5373178/src/utils.ts#L45)
+[src/utils.ts:60](https://github.com/anatoo/basil-odm/blob/15cf09f/src/utils.ts#L60)
 
 ___
 
 ### record
 
-▸ **record**\<`T`\>(`schemaLike`): `SchemaFragment`
+▸ **record**\<`T`\>(`fragment`): `SchemaFragment`\<`Record`\<`string`, `T`\>\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `SchemaLike` |
+| Name |
+| :------ |
+| `T` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `schemaLike` | `T` |
+| `fragment` | `SchemaFragment`\<`T`\> |
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`Record`\<`string`, `T`\>\>
 
 #### Defined in
 
-[src/schema/record.ts:5](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/record.ts#L5)
+[src/schema/record.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/record.ts#L4)
+
+___
+
+### shape
+
+▸ **shape**\<`T`\>(`object`): `SchemaFragment`\<`T`\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `object` | `ObjectSchemaSource`\<`T`\> |
+
+#### Returns
+
+`SchemaFragment`\<`T`\>
+
+#### Defined in
+
+[src/schema/FieldsSchema.ts:8](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L8)
 
 ___
 
 ### string
 
-▸ **string**(`options?`): `SchemaFragment`
+▸ **string**(`options?`): `SchemaFragment`\<`string`\>
 
 #### Parameters
 
@@ -648,11 +763,37 @@ ___
 
 #### Returns
 
-`SchemaFragment`
+`SchemaFragment`\<`string`\>
 
 #### Defined in
 
-[src/schema/string.ts:4](https://github.com/anatoo/basil-odm/blob/5373178/src/schema/string.ts#L4)
+[src/schema/string.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/string.ts#L4)
+
+___
+
+### union
+
+▸ **union**\<`T`\>(`...schemas`): `SchemaFragment`\<`InferSchemaFragmentType`\<`T`[`number`]\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `SchemaFragment`\<`unknown`\>[] |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...schemas` | `T` |
+
+#### Returns
+
+`SchemaFragment`\<`InferSchemaFragmentType`\<`T`[`number`]\>\>
+
+#### Defined in
+
+[src/schema/union.ts:4](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/union.ts#L4)
 
 ___
 
@@ -672,4 +813,4 @@ asserts config is Config
 
 #### Defined in
 
-[src/Config.ts:25](https://github.com/anatoo/basil-odm/blob/5373178/src/Config.ts#L25)
+[src/Config.ts:25](https://github.com/anatoo/basil-odm/blob/15cf09f/src/Config.ts#L25)

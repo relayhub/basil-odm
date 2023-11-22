@@ -35,7 +35,7 @@ export const blogEntries = b.collection({
     createdAt: b.date(),
   },
   indexes: [
-    b.index({createdAt: -1}),
+    b.index({ createdAt: -1 }),
   ],
 });
 ```
@@ -65,7 +65,7 @@ Through the generated code, you can query and store data in MongoDB collections.
 ### `insertOne()`
 
 ```typescript
-import { BlogEntry } from './basil-gen'; // import from generated code
+import db, { BlogEntry } from './basil-gen'; // import from generated code
 
 (async () => {
   const entry = new BlogEntry({
@@ -74,17 +74,17 @@ import { BlogEntry } from './basil-gen'; // import from generated code
     createdAt: new Date(),
   });
   
-  await BlogEntry.insertOne(entry);
+  await db.blogEntries.insertOne(entry);
 })();
 ```
 
 ### `findMany()`
 
 ```typescript
-import { BlogEntry } from './basil-gen'; // import from generated code
+import db from './basil-gen'; // import from generated code
 
 (async () => {
-  const entreis = await BlogEntry.findMany({}, { limit: 10 });
+  const entreis = await db.blogEntries.findMany({}, { limit: 10 });
   
   console.log(entries);
 })();
