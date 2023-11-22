@@ -23,7 +23,7 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
   ): Promise<(Entity & { [key in Key]: Edges[key] })[]> {
     const promises: Promise<unknown>[] = [];
 
-    for (const [edgeField, edgeOptions] of Object.entries(options.edges)) {
+    for (const [edgeField, edgeOptions] of Object.entries(options.edges ?? {})) {
       if (!edgeOptions) {
         throw Error(
           `Invalid edges field value: edges[${JSON.stringify(edgeField)}] => ${JSON.stringify(
@@ -166,10 +166,11 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
    * @param options.filter - Filter to query documents
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async findByIds(
+  async findByIds<Key extends keyof Edges = never>(
     ids: readonly (string | mongodb.ObjectId)[],
-    options: FindByIdsOptions<Entity> = {}
-  ): Promise<Entity[]> {
+    options: Partial<EdgesOptions<{ [key in Key]: Edges[key] }, Entity>> &
+      FindByIdsOptions<Entity> = {}
+  ): Promise<(Entity & { [key in Key]: Edges[key] })[]> {
     const runtimeSchema = this.getRuntimeSchema();
 
     const hasObjectId = runtimeSchema.fields.getSchemaAST().props['_id']?.node.kind === 'objectId';
@@ -182,14 +183,20 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cursor = await collection.find(filter as any, options);
-    const documents = await cursor.toArray();
+    const entities = await cursor
+      .map((document) => {
+        if (!runtimeSchema.Entity) {
+          throw Error('This should not happen.');
+        }
+        return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(document, {}));
+      })
+      .toArray();
 
-    return documents.map((document) => {
-      if (!runtimeSchema.Entity) {
-        throw Error('This should not happen.');
-      }
-      return Object.assign(new runtimeSchema.Entity(), runtimeSchema.fields.encode(document, {}));
-    });
+    if (!options.edges) {
+      return entities as (Entity & { [key in Key]: Edges[key] })[]; /* FIXME */
+    }
+
+    return await this._loadEdges(entities, { edges: options.edges });
   }
 
   /**

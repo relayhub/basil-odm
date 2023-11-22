@@ -167,6 +167,53 @@ describe('BasilCollection', () => {
       const users = await Users.findMany({});
       expect(users.length).toBe(2);
     });
+
+    it('should works with edges options', async () => {
+      class User {
+        _id: ObjectId = new ObjectId();
+        name: string = '';
+        parentId: ObjectId = new ObjectId();
+
+        constructor(source?: Partial<User>) {
+          Object.assign(this, source);
+        }
+      }
+      const Users: BasilCollection<User, { parent: User }> = new BasilCollection(() => ({
+        collectionName: 'users',
+        indexes: [],
+        Entity: User,
+        fields: createFieldsSchema({
+          _id: objectId,
+          name: string,
+          parentId: objectId,
+        }),
+        edges: {
+          parent: {
+            type: 'hasOne' as const,
+            collection: Users,
+            referenceField: 'parentId',
+          },
+        },
+      }));
+      const parent = new User({
+        name: 'parent',
+      });
+      const child = new User({
+        name: 'child',
+        parentId: parent._id,
+      });
+      await Users.insertOne(parent, {
+        writeConcern: { w: 'majority' },
+      });
+      await Users.insertOne(child, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const users = await Users.findById(child._id, {
+        edges: { parent: true },
+      });
+      expect(users?.parent).toBeTruthy();
+    });
   });
 
   describe('loadEdges()', () => {

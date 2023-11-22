@@ -81,5 +81,62 @@ describe('e2e/01', () => {
       const [loaded] = await db.users._loadEdges([user], { edges: { blogEntries: true } });
       expect(loaded.blogEntries).toBeTruthy();
     });
+
+    describe('findMany()', () => {
+      it('should works with edge loading', async () => {
+        const user = new User();
+        const blogEntry = new BlogEntry({
+          userId: user._id,
+        });
+
+        await db.users.insertOne(user, {
+          writeConcern: { w: 'majority' },
+        });
+        await db.blogEntries.insertOne(blogEntry, {
+          writeConcern: { w: 'majority' },
+        });
+
+        const users = await db.users.findMany({ _id: user._id }, { edges: { blogEntries: true } });
+        expect(blogEntry._id.equals(users[0].blogEntries[0]._id)).toBe(true);
+      });
+    });
+
+    describe('findByIds()', () => {
+      it('should works with edge loading', async () => {
+        const user = new User();
+        const blogEntry = new BlogEntry({
+          userId: user._id,
+        });
+
+        await db.users.insertOne(user, {
+          writeConcern: { w: 'majority' },
+        });
+        await db.blogEntries.insertOne(blogEntry, {
+          writeConcern: { w: 'majority' },
+        });
+
+        const users = await db.users.findByIds([user._id], { edges: { blogEntries: true } });
+        expect(blogEntry._id.equals(users[0].blogEntries[0]._id)).toBe(true);
+      });
+    });
+
+    describe('findOne()', () => {
+      it('should works with edge loading', async () => {
+        const user = new User();
+        const blogEntry = new BlogEntry({
+          userId: user._id,
+        });
+
+        await db.users.insertOne(user, {
+          writeConcern: { w: 'majority' },
+        });
+        await db.blogEntries.insertOne(blogEntry, {
+          writeConcern: { w: 'majority' },
+        });
+
+        const loaded = await db.users.findOne({ _id: user._id }, { edges: { blogEntries: true } });
+        expect(blogEntry._id.equals(loaded?.blogEntries[0]._id)).toBe(true);
+      });
+    });
   });
 });
