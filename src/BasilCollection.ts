@@ -3,6 +3,8 @@ import { RuntimeCollectionSchema, EdgesOptions, FindByIdsOptions } from './types
 import * as mongodb from 'mongodb';
 import { ObjectId, Filter, CountDocumentsOptions } from 'mongodb';
 import { isObjectId } from './utils';
+import { Document } from './schema/types';
+import { BaseClass } from './Base';
 
 export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
   basil = basil;
@@ -365,6 +367,25 @@ export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
       entity
     ) as mongodb.OptionalUnlessRequiredId<Entity>;
     return collection.insertOne(serializedDocument, options);
+  }
+
+  /**
+   * Inserts passed entities into the collection.
+   *
+   * @param entities
+   * @param options
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async insertMany(
+    entities: Entity[],
+    options: mongodb.BulkWriteOptions = {}
+  ): Promise<mongodb.InsertManyResult<Entity>> {
+    const runtimeSchema = this.getRuntimeSchema();
+    const collection = await this.getMongoCollection();
+    const docs = entities.map(
+      (entity) => runtimeSchema.fields.decode(entity) as mongodb.OptionalUnlessRequiredId<Entity>
+    );
+    return collection.insertMany(docs, { ...options });
   }
 
   /**

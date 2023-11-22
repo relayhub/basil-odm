@@ -66,6 +66,40 @@ const user2Schema: RuntimeCollectionSchema<{ _id: string; name: string }, object
 };
 
 describe('BasilCollection', () => {
+  describe('insertMany()', () => {
+    it('should works normally', async () => {
+      const usersCol = new BasilCollection(() => userSchema);
+      const users = [
+        new User({
+          _id: new ObjectId(),
+          name: 'Mitsunori Kubota',
+        }),
+        new User({
+          _id: new ObjectId(),
+          name: 'Mitsunori Kubota',
+        }),
+        new User({
+          _id: new ObjectId(),
+          name: 'Mitsunori Kubota',
+        }),
+        new User({
+          _id: new ObjectId(),
+          name: 'Mitsunori Kubota',
+        }),
+        new User({
+          _id: new ObjectId(),
+          name: 'Mitsunori Kubota',
+        }),
+      ];
+
+      await usersCol.insertMany(users, {
+        writeConcern: { w: 'majority' },
+      });
+
+      const first = await usersCol.findById(users[0]._id);
+      expect(first).toBeTruthy();
+    });
+  });
   describe('findById()', () => {
     it('should works normally', async () => {
       const user = new User({
