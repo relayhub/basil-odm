@@ -102,7 +102,7 @@ export function generateCollectionAccessObjects(collections: CollectionDef[]): s
           '  '
         )}),
         Entity: ${collection.entityName},
-        indexes: ${JSON.stringify(collection.indexes, null, '  ')},
+        indexes: ${JSON.stringify(collection.indexes, null, '  ')} as const,
         options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
         edges: ${generateRuntimeEdgesInfoForCAOs(collection, collectionMap)},
       })),
@@ -142,7 +142,7 @@ export function generateDocumentTypes(collections: CollectionDef[]): string {
               null,
               '  '
             )}),
-            indexes: ${JSON.stringify(collection.indexes, null, '  ')},
+            indexes: ${JSON.stringify(collection.indexes, null, '  ')} as const,
             options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
             edges: ${generateRuntimeEdgesInfo(collection, collectionMap)},
           };

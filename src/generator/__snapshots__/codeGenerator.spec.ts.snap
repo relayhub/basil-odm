@@ -81,7 +81,7 @@ exports[`generateDocumentTypes() #0 1`] = `
                 },
                 "allowAdditionalProps": false
             }),
-            indexes: [],
+            indexes: [] as const,
             options: {},
             edges: {},
         };
@@ -132,7 +132,7 @@ exports[`generateDocumentTypes() #1 1`] = `
                 },
                 "allowAdditionalProps": false
             }),
-            indexes: [],
+            indexes: [] as const,
             options: {},
             edges: { "user": {
                     type: "hasOne" as const,
@@ -165,7 +165,7 @@ export class User extends $$basil.Base {
                 },
                 "allowAdditionalProps": false
             }),
-            indexes: [],
+            indexes: [] as const,
             options: {},
             edges: {},
         };
@@ -204,7 +204,7 @@ exports[`generateDocumentTypes() #2 1`] = `
                 },
                 "allowAdditionalProps": false
             }),
-            indexes: [],
+            indexes: [] as const,
             options: {},
             edges: {},
         };
@@ -235,7 +235,7 @@ export class User extends $$basil.Base {
                 },
                 "allowAdditionalProps": false
             }),
-            indexes: [],
+            indexes: [] as const,
             options: {},
             edges: { "docs": {
                     type: "hasMany" as const,

@@ -65,7 +65,7 @@ export class BlogEntry extends $$basil.Base {
           },
           options: {},
         },
-      ],
+      ] as const,
       options: {},
       edges: {
         user: {
@@ -126,7 +126,7 @@ export class User extends $$basil.Base {
         },
         allowAdditionalProps: false,
       }),
-      indexes: [],
+      indexes: [] as const,
       options: {},
       edges: {
         blogEntries: {
@@ -200,7 +200,7 @@ const $$db: {
         },
         options: {},
       },
-    ],
+    ] as const,
     options: {},
     edges: {
       user: {
@@ -247,7 +247,7 @@ const $$db: {
         allowAdditionalProps: false,
       }),
       Entity: User,
-      indexes: [],
+      indexes: [] as const,
       options: {},
       edges: {
         blogEntries: {
