@@ -21,19 +21,19 @@ afterAll(async () => {
 describe('e2e/01', () => {
   it('should works normally', async () => {
     const user = new User();
-    await User.insertOne(user, {
+    await db.users.insertOne(user, {
       writeConcern: { w: 'majority' },
     });
 
     const blogEntry = new BlogEntry({
       userId: user._id,
     });
-    await BlogEntry.insertOne(blogEntry, {
+    await db.blogEntries.insertOne(blogEntry, {
       writeConcern: { w: 'majority' },
     });
 
-    expect(await User.findById(user._id)).toBeTruthy();
-    expect(await BlogEntry.findById(blogEntry._id)).toBeTruthy();
+    expect(await db.users.findById(user._id)).toBeTruthy();
+    expect(await db.blogEntries.findById(blogEntry._id)).toBeTruthy();
   });
 
   it('should exports collection accessor objects as default export', () => {

@@ -11,7 +11,7 @@ export class Basil {
   _queue: ClientCallbackQueue = [];
   _timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
-  configure(settings: ResolvedConfig) {
+  async configure(settings: ResolvedConfig) {
     if (this._settings) {
       console.warn('This instance is already configured.');
       return;
@@ -22,6 +22,7 @@ export class Basil {
 
     this._mongoClient = new mongodb.MongoClient(settings.connectionUri, settings.clientOptions);
     this._mongoClient.addListener('close', this.handleClose);
+    await this._mongoClient.connect();
 
     this.flushQueue();
   }
@@ -52,7 +53,7 @@ export class Basil {
   };
 
   async loadConfig(configPath?: string) {
-    this.configure(await loadConfig(configPath));
+    await this.configure(await loadConfig(configPath));
   }
 
   isConfigured(): boolean {
@@ -205,8 +206,8 @@ export const basil: Basil = new Basil();
  *
  * @param settings
  */
-export function configure(settings: ResolvedConfig): void {
-  basil.configure(settings);
+export async function configure(settings: ResolvedConfig): Promise<void> {
+  await basil.configure(settings);
 }
 
 /**

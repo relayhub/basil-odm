@@ -3,8 +3,6 @@ import { RuntimeCollectionSchema, EdgesOptions, FindByIdsOptions } from './types
 import * as mongodb from 'mongodb';
 import { ObjectId, Filter, CountDocumentsOptions } from 'mongodb';
 import { isObjectId } from './utils';
-import { Document } from './schema/types';
-import { BaseClass } from './Base';
 
 export class BasilCollection<Entity extends { _id: ObjectId | string }, Edges> {
   basil = basil;
