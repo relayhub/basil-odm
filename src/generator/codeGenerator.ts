@@ -132,21 +132,6 @@ export function generateDocumentTypes(collections: CollectionDef[]): string {
           super();
           Object.assign(this, params);
         }
-        static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<${
-          collection.entityName
-        }, ${generateEdgesType(collection, collectionMap)}> {
-          return {
-            collectionName: ${JSON.stringify(collection.collectionName)},
-            fields: new $$basil.FieldsSchema(${JSON.stringify(
-              collection.fields.getSchemaAST(),
-              null,
-              '  '
-            )}),
-            indexes: ${JSON.stringify(collection.indexes, null, '  ')} as const,
-            options: ${JSON.stringify(collection.options ?? {}, null, '  ')},
-            edges: ${generateRuntimeEdgesInfo(collection, collectionMap)},
-          };
-        }
     `;
 
     for (const [name, field] of Object.entries(ast.props)) {

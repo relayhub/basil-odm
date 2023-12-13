@@ -6,86 +6,6 @@ exports[`generateDocumentTypes() #0 1`] = `
         super();
         Object.assign(this, params);
     }
-    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {}> {
-        return {
-            collectionName: "docs",
-            fields: new $$basil.FieldsSchema({
-                "kind": "object",
-                "props": {
-                    "_id": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    },
-                    "createdAt": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "date"
-                        }
-                    },
-                    "flag": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "boolean"
-                        }
-                    },
-                    "status": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "enum",
-                            "values": {
-                                "0": "created",
-                                "1": "deleted"
-                            }
-                        }
-                    },
-                    "name": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "string"
-                        }
-                    },
-                    "sub": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "object",
-                            "props": {
-                                "name": {
-                                    "kind": "field",
-                                    "isOptional": false,
-                                    "node": {
-                                        "kind": "string"
-                                    }
-                                }
-                            },
-                            "allowAdditionalProps": false
-                        }
-                    },
-                    "record": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "record",
-                            "item": {
-                                "kind": "string"
-                            }
-                        }
-                    }
-                },
-                "allowAdditionalProps": false
-            }),
-            indexes: [] as const,
-            options: {},
-            edges: {},
-        };
-    }
     _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
     createdAt: Date = new Date();
     flag: boolean = false;
@@ -107,40 +27,6 @@ exports[`generateDocumentTypes() #1 1`] = `
         super();
         Object.assign(this, params);
     }
-    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {
-        "user": User;
-    }> {
-        return {
-            collectionName: "docs",
-            fields: new $$basil.FieldsSchema({
-                "kind": "object",
-                "props": {
-                    "_id": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    },
-                    "userId": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    }
-                },
-                "allowAdditionalProps": false
-            }),
-            indexes: [] as const,
-            options: {},
-            edges: { "user": {
-                    type: "hasOne" as const,
-                    collection: User,
-                    referenceField: "userId"
-                }, },
-        };
-    }
     _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
     userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
@@ -148,27 +34,6 @@ export class User extends $$basil.Base {
     constructor(params?: Partial<User>) {
         super();
         Object.assign(this, params);
-    }
-    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {}> {
-        return {
-            collectionName: "users",
-            fields: new $$basil.FieldsSchema({
-                "kind": "object",
-                "props": {
-                    "_id": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    }
-                },
-                "allowAdditionalProps": false
-            }),
-            indexes: [] as const,
-            options: {},
-            edges: {},
-        };
     }
     _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
@@ -181,34 +46,6 @@ exports[`generateDocumentTypes() #2 1`] = `
         super();
         Object.assign(this, params);
     }
-    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {}> {
-        return {
-            collectionName: "docs",
-            fields: new $$basil.FieldsSchema({
-                "kind": "object",
-                "props": {
-                    "_id": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    },
-                    "userId": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    }
-                },
-                "allowAdditionalProps": false
-            }),
-            indexes: [] as const,
-            options: {},
-            edges: {},
-        };
-    }
     _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
     userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
@@ -216,33 +53,6 @@ export class User extends $$basil.Base {
     constructor(params?: Partial<User>) {
         super();
         Object.assign(this, params);
-    }
-    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<User, {
-        "docs": Doc[];
-    }> {
-        return {
-            collectionName: "users",
-            fields: new $$basil.FieldsSchema({
-                "kind": "object",
-                "props": {
-                    "_id": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    }
-                },
-                "allowAdditionalProps": false
-            }),
-            indexes: [] as const,
-            options: {},
-            edges: { "docs": {
-                    type: "hasMany" as const,
-                    collection: Doc,
-                    referenceField: "userId"
-                }, },
-        };
     }
     _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
 }
@@ -254,53 +64,6 @@ exports[`generateDocumentTypes() #3 1`] = `
     constructor(params?: Partial<Doc>) {
         super();
         Object.assign(this, params);
-    }
-    static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<Doc, {}> {
-        return {
-            collectionName: "docs",
-            fields: new $$basil.FieldsSchema({
-                "kind": "object",
-                "props": {
-                    "_id": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    },
-                    "userId": {
-                        "kind": "field",
-                        "isOptional": false,
-                        "node": {
-                            "kind": "objectId"
-                        }
-                    },
-                    "status": {
-                        "kind": "field",
-                        "isOptional": true,
-                        "node": {
-                            "kind": "union",
-                            "items": [
-                                {
-                                    "kind": "null"
-                                },
-                                {
-                                    "kind": "enum",
-                                    "values": {
-                                        "0": "created",
-                                        "1": "deleted"
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
-                "allowAdditionalProps": false
-            }),
-            indexes: [] as const,
-            options: {},
-            edges: {},
-        };
     }
     _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
     userId: $$mongodb.ObjectId = new $$mongodb.ObjectId();

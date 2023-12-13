@@ -11,71 +11,6 @@ export class BlogEntry extends $$basil.Base {
     super();
     Object.assign(this, params);
   }
-  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<
-    BlogEntry,
-    { user: User }
-  > {
-    return {
-      collectionName: "blogEntries",
-      fields: new $$basil.FieldsSchema({
-        kind: "object",
-        props: {
-          _id: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "objectId",
-            },
-          },
-          title: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "string",
-            },
-          },
-          content: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "string",
-            },
-          },
-          createdAt: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "date",
-            },
-          },
-          userId: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "objectId",
-            },
-          },
-        },
-        allowAdditionalProps: false,
-      }),
-      indexes: [
-        {
-          fields: {
-            createdAt: -1,
-          },
-          options: {},
-        },
-      ] as const,
-      options: {},
-      edges: {
-        user: {
-          type: "hasOne" as const,
-          collection: User,
-          referenceField: "userId",
-        },
-      },
-    };
-  }
   _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
   title: string = "";
   content: string = "";
@@ -87,55 +22,6 @@ export class User extends $$basil.Base {
   constructor(params?: Partial<User>) {
     super();
     Object.assign(this, params);
-  }
-  static getRuntimeSchema(): $$basil.RuntimeCollectionSchema<
-    User,
-    { blogEntries: BlogEntry[] }
-  > {
-    return {
-      collectionName: "users",
-      fields: new $$basil.FieldsSchema({
-        kind: "object",
-        props: {
-          _id: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "objectId",
-            },
-          },
-          name: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "string",
-            },
-          },
-          status: {
-            kind: "field",
-            isOptional: false,
-            node: {
-              kind: "enum",
-              values: {
-                ACTIVE: "active",
-                INACTIVE: "inactive",
-              },
-              name: "UserStatus",
-            },
-          },
-        },
-        allowAdditionalProps: false,
-      }),
-      indexes: [] as const,
-      options: {},
-      edges: {
-        blogEntries: {
-          type: "hasMany" as const,
-          collection: BlogEntry,
-          referenceField: "userId",
-        },
-      },
-    };
   }
   _id: $$mongodb.ObjectId = new $$mongodb.ObjectId();
   name: string = "";
