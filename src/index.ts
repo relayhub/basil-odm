@@ -1,7 +1,7 @@
 export { Basil, basil, configure, disconnect } from './Basil';
 export { prepareDb } from './utils';
 export { loadConfig, validateConfig, createSettings } from './Config';
-export { Base, BaseClass } from './Base';
+export { Base } from './Base';
 export { BasilCollection } from './BasilCollection';
 export {
   ResolvedConfig,

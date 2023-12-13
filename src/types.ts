@@ -1,7 +1,6 @@
 import type * as mongodb from 'mongodb';
 import { FieldsSchema } from './schema/FieldsSchema';
 import { Edge } from './schema/edgeTypes';
-import type { BaseClass } from './Base';
 import type { BasilCollection } from './BasilCollection';
 
 export interface ResolvedConfig {
@@ -55,14 +54,14 @@ export type RuntimeEdge = RuntimeHasOne | RuntimeHasMany;
 export type RuntimeHasOne = {
   type: 'hasOne';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: BaseClass<unknown> | BasilCollection<any, unknown>;
+  collection: BasilCollection<any, unknown>;
   referenceField: string;
 };
 
 export type RuntimeHasMany = {
   type: 'hasMany';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  collection: BaseClass<unknown> | BasilCollection<any, unknown>;
+  collection: BasilCollection<any, unknown>;
   referenceField: string;
 };
 
