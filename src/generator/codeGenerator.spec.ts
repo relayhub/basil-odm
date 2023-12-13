@@ -10,6 +10,7 @@ import { hasOne, hasMany } from '../schema/edges';
 import { CollectionDef } from '../types';
 import { format } from '../testUtils';
 import { shape } from '../schema/FieldsSchema';
+import { nullable } from '../schema/nullable';
 
 const table: {
   collections: CollectionDef[];
@@ -74,6 +75,18 @@ const table: {
             collection: 'docs',
             referenceField: 'userId',
           }),
+        },
+      }),
+    ],
+  },
+  {
+    collections: [
+      collection({
+        collectionName: 'docs',
+        fields: {
+          _id: objectId(),
+          userId: objectId(),
+          status: nullable(enums({ values: ['created', 'deleted'] })),
         },
       }),
     ],

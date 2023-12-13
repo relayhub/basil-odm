@@ -86,7 +86,7 @@ null
     createFieldsSchema({
       enumsField: enums({ values: ['foo', 'bar'] }),
     }),
-    `{\n"enumsField": \n| "foo"| "bar"\n;\n}`,
+    `{\n"enumsField": \n"foo" | "bar"\n;\n}`,
   ],
 
   [
@@ -94,7 +94,7 @@ null
     createFieldsSchema({
       enumsField: enums({ values: [0, 1, 2, 3] }),
     }),
-    `{\n"enumsField": \n| 0| 1| 2| 3\n;\n}`,
+    `{\n"enumsField": \n0 | 1 | 2 | 3\n;\n}`,
   ],
 ];
 

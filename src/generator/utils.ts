@@ -122,9 +122,9 @@ export function generateType(node: SchemaNode): string {
     case 'enum': {
       const lines: string[] = [];
       for (const value of Object.values(node.values)) {
-        lines.push('| ' + generateLiteralType(value));
+        lines.push(generateLiteralType(value));
       }
-      return lines.join('');
+      return lines.join(' | ');
     }
 
     case 'timestamp':
