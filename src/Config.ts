@@ -40,18 +40,9 @@ export function validateConfig(config: unknown): asserts config is Config {
 }
 
 export async function loadConfig(
-  configPath: string = findConfig('basil.config.cjs'),
-  {
-    silent,
-  }: {
-    silent?: boolean;
-  } = {}
+  configPath: string = findConfig('basil.config.cjs')
 ): Promise<ResolvedConfig> {
   invariant(configPath, 'Couldn\'t find "basil.config.cjs" file.');
-
-  if (!silent) {
-    console.log('Load config file:', configPath);
-  }
 
   try {
     const config = await import(configPath);
