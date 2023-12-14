@@ -118,11 +118,6 @@ export function generateCollectionAccessObjects(collections: CollectionDef[]): s
 export function generateDocumentTypes(collections: CollectionDef[]): string {
   let code = ``;
 
-  const collectionMap = collections.reduce((map, collection) => {
-    map.set(collection.collectionName, collection);
-    return map;
-  }, new Map<string, CollectionDef>());
-
   for (const collection of collections) {
     const ast = collection.fields.getSchemaAST();
 
@@ -194,41 +189,6 @@ function generateRuntimeEdgesInfoForCAOs(
           return `${JSON.stringify(key)}: {
   type: 'hasMany' as const,
   collection: $$db[${JSON.stringify(referencedCollectionDef.collectionName)}],
-  referenceField: ${JSON.stringify(edge.referenceField)}
-},`;
-      }
-
-      throw Error('Unknown edge type: ' + JSON.stringify(edge));
-    })
-    .join('\n')}}`;
-}
-
-function generateRuntimeEdgesInfo(
-  collection: CollectionDef,
-  collectionMap: Map<string, CollectionDef>
-) {
-  if (!collection.edges) {
-    return `{}`;
-  }
-
-  return `{${Object.entries(collection.edges)
-    .map(([key, edge]) => {
-      const referencedCollectionDef = collectionMap.get(edge.collection)!;
-      if (!referencedCollectionDef) {
-        throw Error(`Not defined collection: ${edge.collection}`);
-      }
-
-      switch (edge.type) {
-        case 'hasOne':
-          return `${JSON.stringify(key)}: {
-  type: 'hasOne' as const,
-  collection: ${referencedCollectionDef.entityName},
-  referenceField: ${JSON.stringify(edge.referenceField)}
-},`;
-        case 'hasMany':
-          return `${JSON.stringify(key)}: {
-  type: 'hasMany' as const,
-  collection: ${referencedCollectionDef.entityName},
   referenceField: ${JSON.stringify(edge.referenceField)}
 },`;
       }
