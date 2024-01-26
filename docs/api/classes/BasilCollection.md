@@ -63,7 +63,7 @@
 
 #### Defined in
 
-[src/BasilCollection.ts:17](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L17)
+[src/BasilCollection.ts:15](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L15)
 
 ## Properties
 
@@ -73,7 +73,7 @@
 
 #### Defined in
 
-[src/BasilCollection.ts:10](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L10)
+[src/BasilCollection.ts:8](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L8)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[src/BasilCollection.ts:15](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L15)
+[src/BasilCollection.ts:13](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L13)
 
 ## Methods
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/BasilCollection.ts:22](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L22)
+[src/BasilCollection.ts:20](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L20)
 
 ___
 
@@ -143,7 +143,7 @@ Since the execution result will be an array of unknown type, it is recommended t
 
 #### Defined in
 
-[src/BasilCollection.ts:212](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L212)
+[src/BasilCollection.ts:210](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L210)
 
 ___
 
@@ -166,7 +166,7 @@ Gets the number of documents matching the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:397](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L397)
+[src/BasilCollection.ts:395](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L395)
 
 ___
 
@@ -189,7 +189,7 @@ Delete documents that matches the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:345](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L345)
+[src/BasilCollection.ts:343](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L343)
 
 ___
 
@@ -212,7 +212,7 @@ Delete the first document that matches the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:330](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L330)
+[src/BasilCollection.ts:328](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L328)
 
 ___
 
@@ -242,7 +242,7 @@ Returns null if the document is not found.
 
 #### Defined in
 
-[src/BasilCollection.ts:128](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L128)
+[src/BasilCollection.ts:126](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L126)
 
 ___
 
@@ -271,7 +271,7 @@ Finds documents matching an array of ids.
 
 #### Defined in
 
-[src/BasilCollection.ts:171](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L171)
+[src/BasilCollection.ts:169](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L169)
 
 ___
 
@@ -300,7 +300,7 @@ Fetches documents that matches the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:265](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L265)
+[src/BasilCollection.ts:263](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L263)
 
 ___
 
@@ -329,7 +329,7 @@ Fetches the first document that matches the filter.
 
 #### Defined in
 
-[src/BasilCollection.ts:226](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L226)
+[src/BasilCollection.ts:224](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L224)
 
 ___
 
@@ -347,7 +347,7 @@ MongoDB native driver's collection object
 
 #### Defined in
 
-[src/BasilCollection.ts:292](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L292)
+[src/BasilCollection.ts:290](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L290)
 
 ___
 
@@ -370,7 +370,7 @@ Inserts passed entities into the collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:379](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L379)
+[src/BasilCollection.ts:377](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L377)
 
 ___
 
@@ -393,7 +393,7 @@ Inserts a passed entity into the collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:359](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L359)
+[src/BasilCollection.ts:357](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L357)
 
 ___
 
@@ -416,7 +416,7 @@ Save changes to a document persisted in the collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:303](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L303)
+[src/BasilCollection.ts:301](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L301)
 
 ___
 
@@ -440,7 +440,7 @@ Update multiple documents in a collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:409](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L409)
+[src/BasilCollection.ts:407](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L407)
 
 ___
 
@@ -464,4 +464,4 @@ Update a single document in a collection.
 
 #### Defined in
 
-[src/BasilCollection.ts:425](https://github.com/anatoo/basil-odm/blob/15cf09f/src/BasilCollection.ts#L425)
+[src/BasilCollection.ts:423](https://github.com/anatoo/basil-odm/blob/5f88219/src/BasilCollection.ts#L423)

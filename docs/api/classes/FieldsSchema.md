@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:61](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L61)
+[src/schema/FieldsSchema.ts:61](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L61)
 
 ## Properties
 
@@ -60,7 +60,7 @@
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:59](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L59)
+[src/schema/FieldsSchema.ts:59](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L59)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:57](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L57)
+[src/schema/FieldsSchema.ts:57](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L57)
 
 ## Methods
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:69](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L69)
+[src/schema/FieldsSchema.ts:69](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L69)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:73](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L73)
+[src/schema/FieldsSchema.ts:73](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L73)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:77](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L77)
+[src/schema/FieldsSchema.ts:77](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L77)
 
 ___
 
@@ -139,4 +139,4 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:65](https://github.com/anatoo/basil-odm/blob/15cf09f/src/schema/FieldsSchema.ts#L65)
+[src/schema/FieldsSchema.ts:65](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L65)
