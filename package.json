@@ -49,7 +49,7 @@
     "prettier": "prettier --write \"{test,e2e,src}/**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit --project tsconfig.typecheck.json",
     "clean": "rm -rf build dist",
-    "prepare": "husky install",
+    "prepare": "husky",
     "publish-yalc": "npm run clean && npm run build && yalc publish --push --private",
     "gen-typedoc": "npx typedoc src --out docs/api --readme none --basePath . --plugin typedoc-plugin-markdown"
   },
