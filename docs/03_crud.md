@@ -56,8 +56,8 @@ You can create an entity of a collection by instantiating the `User` class.
 import { User } from './basil-gen'; // import generated models
 
 const user = new User();
-user.name = "Kubota Mitsunori";
-user.email = "anatoo.jp@gmail.com";
+user.name = "John Doe";
+user.email = "johndoe@example.com";
 ```
 
 The constructor of an entity accepts a partial of that entity. This may be used to initialize properties one at a time.
@@ -66,8 +66,8 @@ The constructor of an entity accepts a partial of that entity. This may be used 
 import { User } from './basil-gen'; // import generated models
 
 const user = new User({
-  name: 'Kubota Mitsunori',
-  email: 'anatoo.jp@gmail.com'
+  name: 'John Doe',
+  email: 'johndoe@example.com'
 });
 ```
 
@@ -80,8 +80,8 @@ import db, { User } from './basil-gen'; // import generated models
 
 (async () => {
   const user = new User({
-    name: 'Kubota Mitsunori',
-    email: 'anatoo.jp@gmail.com'
+    name: 'John Doe',
+    email: 'johndoe@example.com'
   });
 
   await db.users.insertOne(user);
@@ -97,15 +97,40 @@ import db, { User } from './basil-gen'; // import generated models
 
 (async () => {
   const user = await db.users.findOne({
-    email: 'anatoo.jp@gmail.com',
+    email: 'johndoe@example.com',
   });
   
-  user.name = "@anatoo";
+  user.name = "@johndoe";
 
   await db.users.save(user);
 })();
 ```
 
+## Transaction
+
+You can perform multiple operations in a transaction. The transaction is started by calling the `transaction()` method. If an error occurs during the transaction, the transaction is rolled back.
+
+```typescript
+import db, { User } from './basil-gen'; // import generated models
+import { basil } from 'basil-odm';
+
+(async () => {
+  await basil.transaction({}, (session) => {
+    db.users.insertOne(new User({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+    }), { session }); // pass session to run in this transaction
+  });
+})();
+```
+
+> NOTE: Be sure to pass the `session` object passed to each operation as an argument when performing operations in a transaction.
+
+See [`Basil` class reference](./api/classes/Basil.md#transaction) for `transaction()` method details.
+
+See [Transactions](https://docs.mongodb.com/manual/core/transactions/) for details on MongoDB transactions.
+
 ## Other operations
+
 
 To find the available methods, see [`BasilCollection` class reference](./api/classes/BasilCollection.md).
