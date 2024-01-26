@@ -10,7 +10,7 @@
 
 ## ✨ Features
 
- - Designed for Node.js+TypeScript and MongoDB
+ - Designed for TypeScript and MongoDB
  - Provides full type safety
  - Define schema in TypeScript
  - Set schema validation and index in MongoDB from the defined schema
