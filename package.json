@@ -20,6 +20,7 @@
     "merge": "2.1.1",
     "mongodb": "6.3.0",
     "mongodb-memory-server": "9.1.6",
+    "release-it": "^17.0.3",
     "ts-jest": "29.1.2",
     "typedoc": "0.25.7",
     "typedoc-plugin-markdown": "3.17.1",
@@ -42,6 +43,7 @@
   },
   "scripts": {
     "test": "jest",
+    "release": "release-it",
     "prepare-test": "npx tsx ./src/cli.ts gen --schema e2e/01/schema.ts --output e2e/01/basil-gen.ts --import-source ../../src",
     "build": "tsc",
     "lint": "eslint \"{test,e2e,src}/**/*.ts\"",
