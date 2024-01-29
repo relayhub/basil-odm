@@ -1,4 +1,4 @@
-[basil-odm](../README.md) / ResolvedConfig
+[@relayhub/basil-odm](../README.md) / ResolvedConfig
 
 # Interface: ResolvedConfig
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types.ts:9](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L9)
+[src/types.ts:9](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L9)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:7](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L7)
+[src/types.ts:7](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L7)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/types.ts:8](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L8)
+[src/types.ts:8](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L8)

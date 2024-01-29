@@ -1,4 +1,4 @@
-[basil-odm](../README.md) / Base
+[@relayhub/basil-odm](../README.md) / Base
 
 # Class: Base
 

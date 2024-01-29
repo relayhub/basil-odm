@@ -1,6 +1,6 @@
-basil-odm
+@relayhub/basil-odm
 
-# basil-odm
+# @relayhub/basil-odm
 
 ## Table of contents
 
@@ -82,7 +82,7 @@ basil-odm
 
 #### Defined in
 
-[src/types.ts:31](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L31)
+[src/types.ts:31](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L31)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:24](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L24)
+[src/types.ts:24](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L24)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:68](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L68)
+[src/types.ts:68](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L68)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:74](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L74)
+[src/types.ts:74](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L74)
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:78](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L78)
+[src/types.ts:78](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L78)
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:70](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L70)
+[src/types.ts:70](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L70)
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:19](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L19)
+[src/types.ts:19](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L19)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:12](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L12)
+[src/types.ts:12](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L12)
 
 ___
 
@@ -198,7 +198,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:14](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L14)
+[src/types.ts:14](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L14)
 
 ___
 
@@ -228,7 +228,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:41](https://github.com/anatoo/basil-odm/blob/5f88219/src/types.ts#L41)
+[src/types.ts:41](https://github.com/relayhub/basil-odm/blob/23aa37c/src/types.ts#L41)
 
 ## Variables
 
@@ -238,7 +238,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:202](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L202)
+[src/Basil.ts:202](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L202)
 
 ___
 
@@ -248,7 +248,7 @@ ___
 
 #### Defined in
 
-[src/schema/symbols.ts:1](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/symbols.ts#L1)
+[src/schema/symbols.ts:1](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/symbols.ts#L1)
 
 ___
 
@@ -258,7 +258,7 @@ ___
 
 #### Defined in
 
-[src/schema/symbols.ts:2](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/symbols.ts#L2)
+[src/schema/symbols.ts:2](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/symbols.ts#L2)
 
 ## Functions
 
@@ -284,7 +284,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:32](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L32)
+[src/schema/FieldsSchema.ts:32](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/FieldsSchema.ts#L32)
 
 ___
 
@@ -310,7 +310,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:82](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L82)
+[src/schema/FieldsSchema.ts:82](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/FieldsSchema.ts#L82)
 
 ___
 
@@ -324,7 +324,7 @@ ___
 
 #### Defined in
 
-[src/schema/boolean.ts:16](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/boolean.ts#L16)
+[src/schema/boolean.ts:16](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/boolean.ts#L16)
 
 ___
 
@@ -344,7 +344,7 @@ ___
 
 #### Defined in
 
-[src/schema/collection.ts:15](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/collection.ts#L15)
+[src/schema/collection.ts:15](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/collection.ts#L15)
 
 ___
 
@@ -366,7 +366,7 @@ Set connection information by code without using a configuration file.
 
 #### Defined in
 
-[src/Basil.ts:209](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L209)
+[src/Basil.ts:209](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L209)
 
 ___
 
@@ -392,7 +392,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:45](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L45)
+[src/schema/FieldsSchema.ts:45](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/FieldsSchema.ts#L45)
 
 ___
 
@@ -412,7 +412,7 @@ ___
 
 #### Defined in
 
-[src/Config.ts:57](https://github.com/anatoo/basil-odm/blob/5f88219/src/Config.ts#L57)
+[src/Config.ts:57](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Config.ts#L57)
 
 ___
 
@@ -426,7 +426,7 @@ ___
 
 #### Defined in
 
-[src/schema/date.ts:14](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/date.ts#L14)
+[src/schema/date.ts:14](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/date.ts#L14)
 
 ___
 
@@ -444,7 +444,7 @@ Explicitly call this function when exiting the application, exiting a test, or e
 
 #### Defined in
 
-[src/Basil.ts:218](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L218)
+[src/Basil.ts:218](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L218)
 
 ___
 
@@ -472,7 +472,7 @@ ___
 
 #### Defined in
 
-[src/schema/enums.ts:5](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/enums.ts#L5)
+[src/schema/enums.ts:5](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/enums.ts#L5)
 
 ___
 
@@ -492,7 +492,7 @@ ___
 
 #### Defined in
 
-[src/generator/codeGenerator.ts:211](https://github.com/anatoo/basil-odm/blob/5f88219/src/generator/codeGenerator.ts#L211)
+[src/generator/codeGenerator.ts:211](https://github.com/relayhub/basil-odm/blob/23aa37c/src/generator/codeGenerator.ts#L211)
 
 ___
 
@@ -512,7 +512,7 @@ ___
 
 #### Defined in
 
-[src/schema/edges.ts:10](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/edges.ts#L10)
+[src/schema/edges.ts:10](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/edges.ts#L10)
 
 ___
 
@@ -532,7 +532,7 @@ ___
 
 #### Defined in
 
-[src/schema/edges.ts:3](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/edges.ts#L3)
+[src/schema/edges.ts:3](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/edges.ts#L3)
 
 ___
 
@@ -553,7 +553,7 @@ ___
 
 #### Defined in
 
-[src/schema/createIndex.ts:4](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/createIndex.ts#L4)
+[src/schema/createIndex.ts:4](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/createIndex.ts#L4)
 
 ___
 
@@ -579,7 +579,7 @@ ___
 
 #### Defined in
 
-[src/schema/literal.ts:5](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/literal.ts#L5)
+[src/schema/literal.ts:5](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/literal.ts#L5)
 
 ___
 
@@ -599,7 +599,7 @@ ___
 
 #### Defined in
 
-[src/Config.ts:42](https://github.com/anatoo/basil-odm/blob/5f88219/src/Config.ts#L42)
+[src/Config.ts:42](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Config.ts#L42)
 
 ___
 
@@ -625,7 +625,7 @@ ___
 
 #### Defined in
 
-[src/schema/nullable.ts:4](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/nullable.ts#L4)
+[src/schema/nullable.ts:4](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/nullable.ts#L4)
 
 ___
 
@@ -639,7 +639,7 @@ ___
 
 #### Defined in
 
-[src/schema/number.ts:14](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/number.ts#L14)
+[src/schema/number.ts:14](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/number.ts#L14)
 
 ___
 
@@ -653,7 +653,7 @@ ___
 
 #### Defined in
 
-[src/schema/objectId.ts:17](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/objectId.ts#L17)
+[src/schema/objectId.ts:17](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/objectId.ts#L17)
 
 ___
 
@@ -674,7 +674,7 @@ ___
 
 #### Defined in
 
-[src/utils.ts:60](https://github.com/anatoo/basil-odm/blob/5f88219/src/utils.ts#L60)
+[src/utils.ts:60](https://github.com/relayhub/basil-odm/blob/23aa37c/src/utils.ts#L60)
 
 ___
 
@@ -700,7 +700,7 @@ ___
 
 #### Defined in
 
-[src/schema/record.ts:4](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/record.ts#L4)
+[src/schema/record.ts:4](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/record.ts#L4)
 
 ___
 
@@ -726,7 +726,7 @@ ___
 
 #### Defined in
 
-[src/schema/FieldsSchema.ts:8](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/FieldsSchema.ts#L8)
+[src/schema/FieldsSchema.ts:8](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/FieldsSchema.ts#L8)
 
 ___
 
@@ -747,7 +747,7 @@ ___
 
 #### Defined in
 
-[src/schema/string.ts:17](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/string.ts#L17)
+[src/schema/string.ts:17](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/string.ts#L17)
 
 ___
 
@@ -773,7 +773,7 @@ ___
 
 #### Defined in
 
-[src/schema/union.ts:4](https://github.com/anatoo/basil-odm/blob/5f88219/src/schema/union.ts#L4)
+[src/schema/union.ts:4](https://github.com/relayhub/basil-odm/blob/23aa37c/src/schema/union.ts#L4)
 
 ___
 
@@ -793,4 +793,4 @@ asserts config is Config
 
 #### Defined in
 
-[src/Config.ts:25](https://github.com/anatoo/basil-odm/blob/5f88219/src/Config.ts#L25)
+[src/Config.ts:25](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Config.ts#L25)

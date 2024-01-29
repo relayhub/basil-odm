@@ -6,7 +6,7 @@
   </p>
 </div>
 
-[![CI](https://github.com/anatoo/basil-odm/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/anatoo/basil-odm/actions/workflows/ci.yaml)
+[![CI](https://github.com/relayhub/basil-odm/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/relayhub/basil-odm/actions/workflows/ci.yaml)
 
 ## ✨ Features
 

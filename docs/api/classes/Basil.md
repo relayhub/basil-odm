@@ -1,4 +1,4 @@
-[basil-odm](../README.md) / Basil
+[@relayhub/basil-odm](../README.md) / Basil
 
 # Class: Basil
 
@@ -58,7 +58,7 @@
 
 #### Defined in
 
-[src/Basil.ts:8](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L8)
+[src/Basil.ts:8](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L8)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:11](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L11)
+[src/Basil.ts:11](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L11)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:9](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L9)
+[src/Basil.ts:9](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L9)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:12](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L12)
+[src/Basil.ts:12](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L12)
 
 ## Accessors
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:83](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L83)
+[src/Basil.ts:83](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L83)
 
 ___
 
@@ -116,7 +116,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:79](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L79)
+[src/Basil.ts:79](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L79)
 
 ___
 
@@ -130,7 +130,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:87](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L87)
+[src/Basil.ts:87](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L87)
 
 ___
 
@@ -144,7 +144,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:71](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L71)
+[src/Basil.ts:71](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L71)
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:63](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L63)
+[src/Basil.ts:63](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L63)
 
 ## Methods
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:14](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L14)
+[src/Basil.ts:14](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L14)
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:91](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L91)
+[src/Basil.ts:91](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L91)
 
 ___
 
@@ -206,7 +206,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:112](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L112)
+[src/Basil.ts:112](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L112)
 
 ___
 
@@ -232,7 +232,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:157](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L157)
+[src/Basil.ts:157](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L157)
 
 ___
 
@@ -246,7 +246,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:144](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L144)
+[src/Basil.ts:144](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L144)
 
 ___
 
@@ -260,7 +260,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:51](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L51)
+[src/Basil.ts:51](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L51)
 
 ___
 
@@ -274,7 +274,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:59](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L59)
+[src/Basil.ts:59](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L59)
 
 ___
 
@@ -294,7 +294,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:55](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L55)
+[src/Basil.ts:55](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L55)
 
 ___
 
@@ -314,7 +314,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:95](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L95)
+[src/Basil.ts:95](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L95)
 
 ___
 
@@ -337,7 +337,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:30](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L30)
+[src/Basil.ts:30](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L30)
 
 ___
 
@@ -365,7 +365,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:164](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L164)
+[src/Basil.ts:164](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L164)
 
 ___
 
@@ -391,7 +391,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:130](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L130)
+[src/Basil.ts:130](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L130)
 
 ___
 
@@ -411,7 +411,7 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:193](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L193)
+[src/Basil.ts:193](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L193)
 
 ___
 
@@ -425,4 +425,4 @@ ___
 
 #### Defined in
 
-[src/Basil.ts:189](https://github.com/anatoo/basil-odm/blob/5f88219/src/Basil.ts#L189)
+[src/Basil.ts:189](https://github.com/relayhub/basil-odm/blob/23aa37c/src/Basil.ts#L189)
