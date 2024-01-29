@@ -1,6 +1,6 @@
 {
-  "name": "basil-odm",
-  "version": "0.0.0",
+  "name": "@relayhub/basil-odm",
+  "version": "0.0.0-dev",
   "license": "MIT",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
