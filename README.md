@@ -6,7 +6,7 @@
   </p>
 </div>
 
-[![CI](https://github.com/relayhub/basil-odm/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/relayhub/basil-odm/actions/workflows/ci.yaml)
+[![npm version](https://badge.fury.io/js/@relayhub%2Fbasil-odm.svg)](https://badge.fury.io/js/@relayhub%2Fbasil-odm) [![CI](https://github.com/relayhub/basil-odm/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/relayhub/basil-odm/actions/workflows/ci.yaml)
 
 ## ✨ Features
 
