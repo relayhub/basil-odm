@@ -16,13 +16,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules/**/*",
-    "dist/**/*"
   ]
 }
